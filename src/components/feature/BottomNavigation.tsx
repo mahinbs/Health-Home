@@ -22,14 +22,14 @@ export default function BottomNavigation() {
               key={item.path}
               onClick={() => navigate(item.path)}
               className={`flex flex-col items-center justify-center transition-all duration-300 relative ${
-                isActive ? 'text-pink-600' : 'text-gray-500 hover:text-pink-400'
+                isActive ? '' : 'text-gray-500 hover:text-pink-400'
               }`}
             >
               {isActive && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-pink-500 to-rose-500 rounded-b-full"></div>
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-[#FFE9E4] to-[#E4F7E9] rounded-b-full shadow-sm"></div>
               )}
-              <i className={`${item.icon} text-lg sm:text-xl mb-0.5 sm:mb-1 ${isActive ? 'scale-110' : ''} transition-transform duration-300`}></i>
-              <span className={`text-[10px] sm:text-xs font-semibold ${isActive ? 'text-pink-600' : 'text-gray-500'}`}>{item.label}</span>
+              <i className={`${item.icon} text-lg sm:text-xl mb-0.5 sm:mb-1 ${isActive ? 'scale-110 text-[#FF8C42]' : ''} transition-transform duration-300`}></i>
+              <span className={`text-[10px] sm:text-xs font-semibold ${isActive ? 'bg-gradient-to-r from-[#FF8C42] to-[#4ECB71] bg-clip-text text-transparent' : 'text-gray-500'}`}>{item.label}</span>
             </button>
           );
         })}

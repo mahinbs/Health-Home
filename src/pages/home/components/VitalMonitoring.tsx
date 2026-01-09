@@ -155,24 +155,24 @@ export default function VitalMonitoring() {
 
       {/* Health Locker Modal */}
       {showHealthLocker && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-end animate-fade-in">
-          <div className="bg-white rounded-t-3xl w-full max-h-[85vh] overflow-y-auto pb-24 animate-slide-up">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between z-10">
-              <h2 className="text-xl font-bold text-gray-900">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[85vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 truncate pr-2">
                 {selectedVital === 'bp' ? 'Blood Pressure' : 'Blood Sugar'} History
               </h2>
               <button 
                 onClick={closeHealthLocker}
-                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
               >
-                <i className="ri-close-line text-gray-600"></i>
+                <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
             </div>
 
-            <div className="p-4">
-              <div className="space-y-3">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 pb-20 sm:pb-24">
+              <div className="space-y-2 sm:space-y-3">
                 {selectedVital === 'bp' && bpData.history.map((entry, index) => (
-                  <Card key={index} className="p-4">
+                  <Card key={index} className="p-3 sm:p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
@@ -199,7 +199,7 @@ export default function VitalMonitoring() {
                 ))}
 
                 {selectedVital === 'sugar' && sugarData.history.map((entry, index) => (
-                  <Card key={index} className="p-4">
+                  <Card key={index} className="p-3 sm:p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
@@ -229,7 +229,7 @@ export default function VitalMonitoring() {
             </div>
 
             {/* Fixed Bottom Button */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+            <div className="sticky bottom-0 bg-white border-t border-gray-200 p-3 sm:p-4 z-10" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 3.5rem)' }}>
               <Button onClick={closeHealthLocker} variant="outline" className="w-full">
                 Close
               </Button>

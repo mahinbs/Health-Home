@@ -473,19 +473,18 @@ export default function Homecare() {
 
       {/* Booking Modal */}
       {showBookingModal && selectedCaregiverData && (
-        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in">
-          <div className="bg-white rounded-t-3xl w-full max-h-[90vh] overflow-y-auto pb-24 animate-slide-up">
-            <div className="p-6">
-              {/* Modal Header */}
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-800">Caregiver Profile & Booking</h2>
-                <button
-                  onClick={handleCloseModal}
-                  className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-                >
-                  <i className="ri-close-line text-gray-600"></i>
-                </button>
-              </div>
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 truncate pr-2">Caregiver Profile & Booking</h2>
+              <button
+                onClick={handleCloseModal}
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+              >
+                <i className="ri-close-line text-gray-600 text-lg"></i>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
 
               {/* Caregiver Profile Section */}
               <div className="bg-gray-50 rounded-xl p-5 mb-6">

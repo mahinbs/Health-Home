@@ -195,21 +195,21 @@ export default function HealthMetrics() {
 
       {/* BMI Detail Modal */}
       {showBMIDetail && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-end animate-fade-in">
-          <div className="bg-white rounded-t-3xl w-full max-h-[85vh] overflow-y-auto pb-24 animate-slide-up">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between z-10">
-              <h2 className="text-xl font-bold text-gray-900">BMI Details</h2>
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[85vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900">BMI Details</h2>
               <button 
                 onClick={closeBMIDetail}
-                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
               >
-                <i className="ri-close-line text-gray-600"></i>
+                <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
             </div>
 
-            <div className="p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 pb-20 sm:pb-24">
               {/* BMI Info */}
-              <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50">
+              <Card className="p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-pink-50">
                 <div className="text-center">
                   <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
                     <i className="ri-body-scan-fill text-4xl text-white"></i>
@@ -326,7 +326,7 @@ export default function HealthMetrics() {
             </div>
 
             {/* Fixed Bottom Buttons */}
-            <div className="sticky bottom-[-40px] left-0 right-0 bg-white border-t border-gray-200 p-4">
+            <div className="sticky bottom-0 bg-white border-t border-gray-200 p-3 sm:p-4 z-10" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 3.5rem)' }}>
               {!showAIAdvice && selectedComplaints.length > 0 && (
                 <Button onClick={handleNext} className="w-full">
                   Next
@@ -344,23 +344,23 @@ export default function HealthMetrics() {
 
       {/* Health Metric Detail Modals */}
       {selectedMetric && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-end animate-fade-in">
-          <div className="bg-white rounded-t-3xl w-full max-h-[85vh] overflow-y-auto pb-24 animate-slide-up">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between z-10">
-              <h2 className="text-xl font-bold text-gray-900">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[85vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 truncate pr-2">
                 {metrics.find(m => m.id === selectedMetric)?.label} Details
               </h2>
               <button 
                 onClick={() => setSelectedMetric(null)}
-                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
               >
-                <i className="ri-close-line text-gray-600"></i>
+                <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
             </div>
 
-            <div className="p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 pb-20 sm:pb-24">
               {selectedMetric === 'heart-rate' && (
-                <Card className="p-6 bg-gradient-to-br from-red-50 to-pink-50">
+                <Card className="p-4 sm:p-6 bg-gradient-to-br from-red-50 to-pink-50">
                   <div className="text-center mb-6">
                     <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg">
                       <i className="ri-heart-pulse-fill text-4xl text-white"></i>
@@ -390,7 +390,7 @@ export default function HealthMetrics() {
               )}
 
               {selectedMetric === 'blood-pressure' && (
-                <Card className="p-6 bg-gradient-to-br from-emerald-50 to-teal-50">
+                <Card className="p-4 sm:p-6 bg-gradient-to-br from-emerald-50 to-teal-50">
                   <div className="text-center mb-6">
                     <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
                       <i className="ri-pulse-fill text-4xl text-white"></i>
@@ -420,7 +420,7 @@ export default function HealthMetrics() {
               )}
 
               {selectedMetric === 'weight' && (
-                <Card className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50">
+                <Card className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-cyan-50">
                   <div className="text-center mb-6">
                     <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
                       <i className="ri-scales-3-fill text-4xl text-white"></i>

@@ -712,89 +712,90 @@ export default function PharmacyPage() {
 
       {/* Order Modal */}
       {showOrderModal && (selectedMedication || selectedEquipment) && (
-        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in">
-          <div className="bg-white rounded-t-3xl w-full max-w-md p-6 transform transition-transform duration-300 pb-24 animate-slide-up">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-w-md max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h3 className="text-base sm:text-lg font-semibold truncate pr-2">
                 {selectedMedication ? 'Order Medication' : 'Order Equipment'}
               </h3>
               <button
                 onClick={() => setShowOrderModal(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 flex-shrink-0"
               >
-                <i className="ri-close-line text-gray-600"></i>
+                <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
             </div>
-            
-            <div className="flex items-center space-x-4 mb-4">
-              <img
-                src={selectedMedication ? selectedMedication.image : selectedEquipment!.image}
-                alt={selectedMedication ? selectedMedication.name : selectedEquipment!.name}
-                className="w-16 h-16 rounded-lg object-cover"
-              />
-              <div>
-                <h4 className="font-semibold">
-                  {selectedMedication ? selectedMedication.name : selectedEquipment!.name}
-                </h4>
-                <p className="text-sm text-gray-600">
-                  {selectedMedication ? selectedMedication.genericName : selectedEquipment!.description}
-                </p>
-                {selectedMedication && (
-                  <p className="text-sm text-gray-500">{selectedMedication.dosage}</p>
-                )}
-                {selectedEquipment && (
-                  <p className="text-xs text-gray-500">Brand: {selectedEquipment.brand}</p>
-                )}
-                <p className="text-lg font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
-                  ${selectedMedication ? selectedMedication.price : selectedEquipment!.price}
-                </p>
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
+              <div className="flex items-center space-x-4 mb-4">
+                <img
+                  src={selectedMedication ? selectedMedication.image : selectedEquipment!.image}
+                  alt={selectedMedication ? selectedMedication.name : selectedEquipment!.name}
+                  className="w-16 h-16 rounded-lg object-cover"
+                />
+                <div>
+                  <h4 className="font-semibold">
+                    {selectedMedication ? selectedMedication.name : selectedEquipment!.name}
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    {selectedMedication ? selectedMedication.genericName : selectedEquipment!.description}
+                  </p>
+                  {selectedMedication && (
+                    <p className="text-sm text-gray-500">{selectedMedication.dosage}</p>
+                  )}
+                  {selectedEquipment && (
+                    <p className="text-xs text-gray-500">Brand: {selectedEquipment.brand}</p>
+                  )}
+                  <p className="text-lg font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+                    ${selectedMedication ? selectedMedication.price : selectedEquipment!.price}
+                  </p>
+                </div>
               </div>
-            </div>
-            
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-              <div className="flex items-center space-x-3">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
-                >
-                  <i className="ri-subtract-line"></i>
-                </button>
-                <span className="text-lg font-semibold w-12 text-center">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
-                >
-                  <i className="ri-add-line"></i>
-                </button>
+              
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
+                  >
+                    <i className="ri-subtract-line"></i>
+                  </button>
+                  <span className="text-lg font-semibold w-12 text-center">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
+                  >
+                    <i className="ri-add-line"></i>
+                  </button>
+                </div>
               </div>
-            </div>
-            
-            <div className="border-t border-pink-100 pt-4 mb-4">
-              <div className="flex justify-between items-center">
-                <span className="font-semibold">Total Amount:</span>
-                <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
-                  ${((selectedMedication ? selectedMedication.price : selectedEquipment!.price) * quantity).toFixed(2)}
-                </span>
+              
+              <div className="border-t border-pink-100 pt-4 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold">Total Amount:</span>
+                  <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+                    ${((selectedMedication ? selectedMedication.price : selectedEquipment!.price) * quantity).toFixed(2)}
+                  </span>
+                </div>
               </div>
+              
+              <Button
+                onClick={handlePlaceOrder}
+                className="w-full"
+              >
+                Place Order
+              </Button>
             </div>
-            
-            <Button
-              onClick={handlePlaceOrder}
-              className="w-full"
-            >
-              Place Order
-            </Button>
           </div>
         </div>
       )}
 
       {/* Refill Prescription Modal */}
       {showRefillModal && selectedPrescription && (
-        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in">
-          <div className="bg-white rounded-t-3xl w-full max-w-md p-6 pb-24 animate-slide-up overflow-y-auto max-h-[90vh]">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">Order Refill</h3>
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-w-md max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h3 className="text-base sm:text-lg font-semibold truncate pr-2">Order Refill</h3>
               <button
                 onClick={() => {
                   setShowRefillModal(false);
@@ -805,8 +806,8 @@ export default function PharmacyPage() {
                 <i className="ri-close-line text-gray-600"></i>
               </button>
             </div>
-            
-            <div className="space-y-4">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
+              <div className="space-y-4">
               <Card className="p-4 bg-gradient-to-br from-pink-50 to-rose-50">
                 <h4 className="font-semibold text-gray-900 mb-2">{selectedPrescription.medicationName}</h4>
                 <p className="text-sm text-gray-600 mb-1">Prescribed by {selectedPrescription.doctorName}</p>
@@ -815,44 +816,45 @@ export default function PharmacyPage() {
                 <div className="mt-3 pt-3 border-t border-pink-200">
                   <p className="text-xs text-gray-500">Refills Left: <span className="font-semibold text-pink-600">{selectedPrescription.refillsLeft}</span></p>
                 </div>
-              </Card>
+                </Card>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Delivery Address</label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Delivery Address</label>
                 <textarea
                   placeholder="Enter your delivery address..."
                   rows={3}
                   className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300 resize-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Delivery Date</label>
-                <input
-                  type="date"
-                  min={new Date().toISOString().split('T')[0]}
-                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
-                />
-              </div>
-
-              <div className="bg-pink-50 rounded-xl p-4 border border-pink-200">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-600">Estimated Cost</span>
-                  <span className="font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">$24.50</span>
+                  />
                 </div>
-                <p className="text-xs text-gray-500">Price may vary based on pharmacy</p>
-              </div>
 
-              <Button
-                onClick={() => {
-                  alert('Refill order placed successfully!');
-                  setShowRefillModal(false);
-                  setSelectedPrescription(null);
-                }}
-                className="w-full"
-              >
-                Confirm Refill Order
-              </Button>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Delivery Date</label>
+                  <input
+                    type="date"
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
+                  />
+                </div>
+
+                <div className="bg-pink-50 rounded-xl p-4 border border-pink-200">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-gray-600">Estimated Cost</span>
+                    <span className="font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">$24.50</span>
+                  </div>
+                  <p className="text-xs text-gray-500">Price may vary based on pharmacy</p>
+                </div>
+
+                <Button
+                  onClick={() => {
+                    alert('Refill order placed successfully!');
+                    setShowRefillModal(false);
+                    setSelectedPrescription(null);
+                  }}
+                  className="w-full"
+                >
+                  Confirm Refill Order
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -860,10 +862,10 @@ export default function PharmacyPage() {
 
       {/* Track Order Modal */}
       {showTrackOrderModal && selectedOrder && (
-        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in">
-          <div className="bg-white rounded-t-3xl w-full max-w-md p-6 pb-24 animate-slide-up overflow-y-auto max-h-[90vh]">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">Track Order</h3>
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-w-md max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h3 className="text-base sm:text-lg font-semibold truncate pr-2">Track Order</h3>
               <button
                 onClick={() => {
                   setShowTrackOrderModal(false);
@@ -874,10 +876,10 @@ export default function PharmacyPage() {
                 <i className="ri-close-line text-gray-600"></i>
               </button>
             </div>
-            
-            <div className="space-y-4">
-              <Card className="p-4 bg-gradient-to-br from-pink-50 to-rose-50">
-                <div className="flex items-center justify-between mb-3">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
+              <div className="space-y-4">
+                <Card className="p-4 bg-gradient-to-br from-pink-50 to-rose-50">
+                  <div className="flex items-center justify-between mb-3">
                   <h4 className="font-semibold text-gray-900">Order {selectedOrder.id}</h4>
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                     selectedOrder.status === 'delivered' ? 'bg-emerald-100 text-emerald-700' :
@@ -886,27 +888,27 @@ export default function PharmacyPage() {
                   }`}>
                     {selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}
                   </span>
-                </div>
-                <p className="text-sm text-gray-600 mb-3">Ordered on {selectedOrder.orderDate}</p>
-                <div className="space-y-2">
-                  {selectedOrder.items.map((item, idx) => (
-                    <div key={idx} className="flex items-center space-x-2 text-sm text-gray-700">
-                      <i className="ri-checkbox-circle-fill text-pink-500"></i>
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 pt-4 border-t border-pink-200">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Total Amount</span>
-                    <span className="font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">${selectedOrder.total}</span>
                   </div>
-                </div>
-              </Card>
+                  <p className="text-sm text-gray-600 mb-3">Ordered on {selectedOrder.orderDate}</p>
+                  <div className="space-y-2">
+                    {selectedOrder.items.map((item, idx) => (
+                      <div key={idx} className="flex items-center space-x-2 text-sm text-gray-700">
+                        <i className="ri-checkbox-circle-fill text-pink-500"></i>
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-pink-200">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600">Total Amount</span>
+                      <span className="font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">${selectedOrder.total}</span>
+                    </div>
+                  </div>
+                </Card>
 
-              {/* Tracking Timeline */}
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Order Status</h4>
+                {/* Tracking Timeline */}
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3">Order Status</h4>
                 <div className="space-y-4">
                   {selectedOrder.status === 'delivered' && (
                     <>
@@ -963,18 +965,19 @@ export default function PharmacyPage() {
                       </div>
                     </div>
                   )}
+                  </div>
                 </div>
-              </div>
 
-              <Button
-                onClick={() => {
-                  setShowTrackOrderModal(false);
-                  setSelectedOrder(null);
-                }}
-                className="w-full"
-              >
-                Close
-              </Button>
+                <Button
+                  onClick={() => {
+                    setShowTrackOrderModal(false);
+                    setSelectedOrder(null);
+                  }}
+                  className="w-full"
+                >
+                  Close
+                </Button>
+              </div>
             </div>
           </div>
         </div>
