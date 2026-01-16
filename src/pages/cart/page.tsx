@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
 import { useCart } from '../../contexts/CartContext';
@@ -49,9 +50,10 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="Shopping Cart" showBack={true} onBack={() => navigate(-1)} showCart={false} />
+      <AdsBanner />
+      <TopNavigation title="Shopping Cart" showCart={false} />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {items.length === 0 ? (
           <Card className="p-8 text-center animate-scale-in">
             <div className="w-20 h-20 bg-gradient-to-br from-pink-100 to-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">

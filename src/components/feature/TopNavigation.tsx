@@ -1,11 +1,10 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
+import ProfileAvatar from './ProfileAvatar';
 
 interface TopNavigationProps {
   title?: string;
-  showBack?: boolean;
-  onBack?: () => void;
   rightAction?: React.ReactNode;
   showCart?: boolean;
 }
@@ -30,19 +29,12 @@ function CartIcon() {
   );
 }
 
-export default function TopNavigation({ title, showBack = false, onBack, rightAction, showCart = true }: TopNavigationProps) {
+export default function TopNavigation({ title, rightAction, showCart = true }: TopNavigationProps) {
   return (
-    <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md border-b border-pink-200/50 px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 z-50 shadow-lg safe-area-top">
-      <div className="flex items-center justify-between h-12 sm:h-14 min-h-[48px]">
-        <div className="flex items-center space-x-4">
-          {showBack && (
-            <button 
-              onClick={onBack} 
-              className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-pink-100 to-rose-100 rounded-full flex items-center justify-center shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 border border-pink-200/50 flex-shrink-0"
-            >
-              <i className="ri-arrow-left-line text-lg sm:text-xl text-pink-600"></i>
-            </button>
-          )}
+    <div className="fixed top-[40px] left-0 right-0 bg-white/90 backdrop-blur-md border-b border-pink-200/50 px-3 sm:px-4 md:px-6 z-50 shadow-lg h-[64px] sm:h-[72px] flex items-center">
+      <div className="flex items-center justify-between w-full">
+        {/* Left side - Logo and Title */}
+        <div className="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
           {title && (
             <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
               <div className="relative w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-pink-100 to-rose-100 rounded-xl shadow-md flex items-center justify-center p-1.5 sm:p-2 border border-pink-200/50 flex-shrink-0">
@@ -61,6 +53,8 @@ export default function TopNavigation({ title, showBack = false, onBack, rightAc
             </div>
           )}
         </div>
+
+        {/* Right side - Cart, Actions, Profile */}
         <div className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
           {showCart && <CartIcon />}
           {rightAction && (
@@ -68,6 +62,7 @@ export default function TopNavigation({ title, showBack = false, onBack, rightAc
               {rightAction}
             </div>
           )}
+          <ProfileAvatar />
         </div>
       </div>
     </div>

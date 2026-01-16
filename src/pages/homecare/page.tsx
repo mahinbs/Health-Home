@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
+import ProactiveBookingDialog from '../../components/feature/ProactiveBookingDialog';
 import { useNavigate } from 'react-router-dom';
 
 interface Caregiver {
@@ -43,6 +45,13 @@ export default function Homecare() {
     notes: '',
     address: ''
   });
+  const [proactiveServices, setProactiveServices] = useState({
+    doctorConsultation: false,
+    diagnosticXray: false,
+    medicineDelivery: false
+  });
+  const [showProactiveDialog, setShowProactiveDialog] = useState(false);
+  const [pendingBooking, setPendingBooking] = useState<{caregiverId: string} | null>(null);
 
   const services: Service[] = [
     {
@@ -65,11 +74,29 @@ export default function Homecare() {
     },
     {
       id: '3',
-      name: 'Laboratory Blood Collection',
-      description: 'Home blood sample collection service',
-      icon: 'ri-test-tube-line',
+      name: 'IV Infusion',
+      description: 'Intravenous infusion therapy at home',
+      icon: 'ri-medicine-bottle-line',
+      duration: '1-2 hours',
+      price: '$60/visit',
+      popular: true
+    },
+    {
+      id: '7',
+      name: 'Wound Dressing',
+      description: 'Professional wound care and dressing',
+      icon: 'ri-first-aid-kit-line',
       duration: '30 min - 1 hour',
-      price: '$25/visit',
+      price: '$40/visit',
+      popular: true
+    },
+    {
+      id: '8',
+      name: 'Catheter Care',
+      description: 'Catheter insertion, maintenance, and care',
+      icon: 'ri-hospital-line',
+      duration: '30 min - 1 hour',
+      price: '$50/visit',
       popular: false
     },
     {
@@ -184,17 +211,81 @@ export default function Homecare() {
     }
   };
 
+  const proactiveServicesList = [
+    {
+      id: 'consultation',
+      name: 'Doctor Consultation',
+      description: 'Get expert medical advice at the same time',
+      icon: 'ri-stethoscope-line',
+      price: '$100',
+      category: 'consultation' as const
+    },
+    {
+      id: 'xray',
+      name: 'X-Ray at Home',
+      description: 'Diagnostic imaging at your doorstep',
+      icon: 'ri-scanner-line',
+      price: '₹800',
+      category: 'diagnostic' as const
+    },
+    {
+      id: 'medicine',
+      name: 'Medicine Delivery',
+      description: 'Get prescribed medicines delivered to your address',
+      icon: 'ri-medicine-bottle-line',
+      price: 'Free',
+      category: 'medicine' as const
+    }
+  ];
+
+  const handleProactiveYes = (service: typeof proactiveServicesList[0]) => {
+    setShowProactiveDialog(false);
+    
+    // Update proactive services state
+    if (service.category === 'consultation') {
+      setProactiveServices({...proactiveServices, doctorConsultation: true});
+    } else if (service.category === 'diagnostic') {
+      setProactiveServices({...proactiveServices, diagnosticXray: true});
+    } else if (service.category === 'medicine') {
+      setProactiveServices({...proactiveServices, medicineDelivery: true});
+    }
+    
+    // Continue with original booking
+    if (pendingBooking) {
+      const caregiver = caregivers.find(c => c.id === pendingBooking.caregiverId);
+      if (caregiver) {
+        setSelectedCaregiverData(caregiver);
+        setShowBookingModal(true);
+      }
+    }
+    setPendingBooking(null);
+  };
+
+  const handleProactiveNo = () => {
+    setShowProactiveDialog(false);
+    // Continue with original booking - dialog already closed, booking modal should remain open
+    setPendingBooking(null);
+  };
+
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!selectedCaregiverData) return;
+    
+    // Calculate total cost including proactive services
+    const baseCost = parseInt(selectedCaregiverData.hourlyRate.replace('$', '')) * parseInt(bookingForm.duration);
+    const doctorCost = proactiveServices.doctorConsultation ? 100 : 0;
+    const xrayCost = proactiveServices.diagnosticXray ? 800 : 0;
+    const totalCost = baseCost + doctorCost;
     
     // Navigate to booking confirmation page
     navigate('/homecare-booking-success', {
       state: {
         caregiver: selectedCaregiverData,
         bookingDetails: bookingForm,
-        totalCost: parseInt(selectedCaregiverData.hourlyRate.replace('$', '')) * parseInt(bookingForm.duration)
+        proactiveServices: proactiveServices,
+        totalCost: totalCost,
+        xrayCost: xrayCost
       }
     });
     
@@ -208,11 +299,21 @@ export default function Homecare() {
       notes: '',
       address: ''
     });
+    setProactiveServices({
+      doctorConsultation: false,
+      diagnosticXray: false,
+      medicineDelivery: false
+    });
   };
 
   const handleCloseModal = () => {
     setShowBookingModal(false);
     setSelectedCaregiverData(null);
+    setProactiveServices({
+      doctorConsultation: false,
+      diagnosticXray: false,
+      medicineDelivery: false
+    });
   };
 
   const timeSlots = [
@@ -225,13 +326,12 @@ export default function Homecare() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
+      <AdsBanner />
       <TopNavigation 
         title="Home Care Services" 
-        showBack={true} 
-        onBack={() => navigate('/')}
       />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4 sm:px-6">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4 sm:px-6">
         {/* Hero Section */}
         <div className="mb-8">
           <div className="bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 rounded-2xl p-6 relative overflow-hidden border border-pink-200/50 shadow-lg">
@@ -471,6 +571,20 @@ export default function Homecare() {
         </div>
       </div>
 
+      {/* Proactive Booking Dialog */}
+      <ProactiveBookingDialog
+        isOpen={showProactiveDialog}
+        onClose={() => {
+          setShowProactiveDialog(false);
+          setPendingBooking(null);
+        }}
+        onYes={handleProactiveYes}
+        onNo={handleProactiveNo}
+        services={proactiveServicesList}
+        title="Recommended Services"
+        message="We recommend these additional services for better care. Would you like to book any of them?"
+      />
+
       {/* Booking Modal */}
       {showBookingModal && selectedCaregiverData && (
         <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
@@ -484,7 +598,7 @@ export default function Homecare() {
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-28 sm:pb-32">
 
               {/* Caregiver Profile Section */}
               <div className="bg-gray-50 rounded-xl p-5 mb-6">
@@ -584,7 +698,16 @@ export default function Homecare() {
                   <label className="block text-sm font-medium text-gray-700 mb-3">Select Service</label>
                   <select
                     value={bookingForm.serviceType}
-                    onChange={(e) => setBookingForm({...bookingForm, serviceType: e.target.value})}
+                    onChange={(e) => {
+                      const serviceType = e.target.value;
+                      setBookingForm({...bookingForm, serviceType});
+                      
+                      // Show proactive dialog for Wound Dressing
+                      if (serviceType === 'Wound Dressing' || serviceType.includes('Dressing')) {
+                        setPendingBooking({ caregiverId: selectedCaregiverData.id });
+                        setShowProactiveDialog(true);
+                      }
+                    }}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
                     required
                   >
@@ -675,16 +798,118 @@ export default function Homecare() {
                   />
                 </div>
 
+                {/* Proactive Booking Suggestions */}
+                {bookingForm.serviceType && (
+                  <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-4 border border-pink-200">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <i className="ri-lightbulb-flash-line text-pink-600 text-lg"></i>
+                      <h4 className="font-semibold text-gray-900">Recommended Services</h4>
+                    </div>
+                    <p className="text-xs text-gray-600 mb-4">We recommend these additional services for better care:</p>
+                    
+                    <div className="space-y-3">
+                      {/* Doctor Consultation */}
+                      <label className="flex items-start space-x-3 p-3 bg-white rounded-lg border border-pink-200 cursor-pointer hover:border-pink-400 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={proactiveServices.doctorConsultation}
+                          onChange={(e) => setProactiveServices({...proactiveServices, doctorConsultation: e.target.checked})}
+                          className="mt-1 w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <i className="ri-stethoscope-line text-pink-600"></i>
+                              <span className="font-medium text-gray-900 text-sm">Doctor Consultation</span>
+                            </div>
+                            <span className="text-xs text-gray-600">$100</span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">Get expert medical advice at the same time</p>
+                        </div>
+                      </label>
+
+                      {/* Diagnostic X-Ray */}
+                      <label className="flex items-start space-x-3 p-3 bg-white rounded-lg border border-pink-200 cursor-pointer hover:border-pink-400 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={proactiveServices.diagnosticXray}
+                          onChange={(e) => setProactiveServices({...proactiveServices, diagnosticXray: e.target.checked})}
+                          className="mt-1 w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <i className="ri-scanner-line text-pink-600"></i>
+                              <span className="font-medium text-gray-900 text-sm">X-Ray at Home</span>
+                            </div>
+                            <span className="text-xs text-gray-600">₹800</span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">Diagnostic imaging at your doorstep</p>
+                        </div>
+                      </label>
+
+                      {/* Medicine Delivery */}
+                      <label className="flex items-start space-x-3 p-3 bg-white rounded-lg border border-pink-200 cursor-pointer hover:border-pink-400 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={proactiveServices.medicineDelivery}
+                          onChange={(e) => setProactiveServices({...proactiveServices, medicineDelivery: e.target.checked})}
+                          className="mt-1 w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <i className="ri-medicine-bottle-line text-pink-600"></i>
+                              <span className="font-medium text-gray-900 text-sm">Medicine Delivery</span>
+                            </div>
+                            <span className="text-xs text-gray-600">Free</span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">Get prescribed medicines delivered to your address</p>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                )}
+
                 {/* Cost Summary */}
                 <div className="bg-blue-50 rounded-xl p-4">
                   <h4 className="font-medium text-gray-800 mb-2">Cost Summary</h4>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">
-                      {bookingForm.duration} hours × {selectedCaregiverData.hourlyRate}
-                    </span>
-                    <span className="font-semibold text-gray-800">
-                      ${parseInt(selectedCaregiverData.hourlyRate.replace('$', '')) * parseInt(bookingForm.duration)}
-                    </span>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">
+                        {bookingForm.duration} hours × {selectedCaregiverData.hourlyRate}
+                      </span>
+                      <span className="font-semibold text-gray-800">
+                        ${parseInt(selectedCaregiverData.hourlyRate.replace('$', '')) * parseInt(bookingForm.duration)}
+                      </span>
+                    </div>
+                    {proactiveServices.doctorConsultation && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-600">Doctor Consultation</span>
+                        <span className="font-semibold text-gray-800">$100</span>
+                      </div>
+                    )}
+                    {proactiveServices.diagnosticXray && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-600">X-Ray at Home</span>
+                        <span className="font-semibold text-gray-800">₹800</span>
+                      </div>
+                    )}
+                    {proactiveServices.medicineDelivery && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-600">Medicine Delivery</span>
+                        <span className="font-semibold text-emerald-600">Free</span>
+                      </div>
+                    )}
+                    <div className="border-t border-gray-300 pt-2 mt-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-semibold text-gray-900">Total</span>
+                        <span className="font-bold text-lg text-gray-900">
+                          ${parseInt(selectedCaregiverData.hourlyRate.replace('$', '')) * parseInt(bookingForm.duration) + (proactiveServices.doctorConsultation ? 100 : 0)}
+                          {proactiveServices.diagnosticXray && ' + ₹800'}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -695,7 +920,8 @@ export default function Homecare() {
                     disabled={!bookingForm.date || !bookingForm.time || !bookingForm.serviceType || !bookingForm.address}
                     className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-xl font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:scale-100 active:scale-95"
                   >
-                    Confirm Booking - ${parseInt(selectedCaregiverData.hourlyRate.replace('$', '')) * parseInt(bookingForm.duration)}
+                    Confirm Booking - ${parseInt(selectedCaregiverData.hourlyRate.replace('$', '')) * parseInt(bookingForm.duration) + (proactiveServices.doctorConsultation ? 100 : 0)}
+                    {proactiveServices.diagnosticXray && ' + ₹800'}
                   </button>
                 </div>
               </form>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface CarouselSlide {
   id: number;
@@ -6,41 +7,47 @@ interface CarouselSlide {
   title: string;
   description: string;
   ctaText?: string;
-  ctaAction?: () => void;
+  navigationPath?: string;
 }
 
-const carouselSlides: CarouselSlide[] = [
-  {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80',
-    title: 'Expert Medical Care',
-    description: 'Connect with certified healthcare professionals from the comfort of your home',
-    ctaText: 'Book Consultation',
-  },
-  {
-    id: 2,
-    image: 'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=1200&q=80',
-    title: 'Home Care Services',
-    description: 'Professional caregivers ready to assist you with daily health needs',
-    ctaText: 'Explore Services',
-  },
-  {
-    id: 3,
-    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&q=80',
-    title: 'Pharmacy at Your Doorstep',
-    description: 'Get your medications and health supplies delivered quickly and safely',
-    ctaText: 'Shop Now',
-  },
-  {
-    id: 4,
-    image: 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=1200&q=80',
-    title: 'Track Your Health',
-    description: 'Monitor your vital signs and health metrics with our advanced tools',
-    ctaText: 'View Metrics',
-  },
-];
-
 export default function HealthCarousel() {
+  const navigate = useNavigate();
+  
+  const carouselSlides: CarouselSlide[] = [
+    {
+      id: 1,
+      image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80',
+      title: 'Expert Medical Care',
+      description: 'Connect with certified healthcare professionals from the comfort of your home',
+      ctaText: 'Book Consultation',
+      navigationPath: '/consult',
+    },
+    {
+      id: 2,
+      image: 'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=1200&q=80',
+      title: 'Home Care Services',
+      description: 'Professional caregivers ready to assist you with daily health needs',
+      ctaText: 'Explore Services',
+      navigationPath: '/homecare',
+    },
+    {
+      id: 3,
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&q=80',
+      title: 'Pharmacy at Your Doorstep',
+      description: 'Get your medications and health supplies delivered quickly and safely',
+      ctaText: 'Shop Now',
+      navigationPath: '/pharmacy',
+    },
+    {
+      id: 4,
+      image: 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=1200&q=80',
+      title: 'Track Your Health',
+      description: 'Monitor your vital signs and health metrics with our advanced tools',
+      ctaText: 'View Metrics',
+      navigationPath: '/records',
+    },
+  ];
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -52,13 +59,19 @@ export default function HealthCarousel() {
     }, 4000); // Change slide every 4 seconds
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, carouselSlides.length]);
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
     setIsAutoPlaying(false);
     // Resume auto-play after 8 seconds
     setTimeout(() => setIsAutoPlaying(true), 8000);
+  };
+
+  const handleCTAClick = (slide: CarouselSlide) => {
+    if (slide.navigationPath) {
+      navigate(slide.navigationPath);
+    }
   };
 
   return (
@@ -91,8 +104,8 @@ export default function HealthCarousel() {
               </p>
               {slide.ctaText && (
                 <button
-                  onClick={slide.ctaAction}
-                  className="self-start px-4 sm:px-6 py-2 sm:py-2.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full text-white text-xs sm:text-sm font-semibold hover:bg-white/30 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  onClick={() => handleCTAClick(slide)}
+                  className="self-start px-4 sm:px-6 py-2 sm:py-2.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full text-white text-xs sm:text-sm font-semibold hover:bg-white/30 transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95"
                 >
                   {slide.ctaText}
                 </button>

@@ -1,6 +1,7 @@
 
 import BottomNavigation from '../../components/feature/BottomNavigation';
 import TopNavigation from '../../components/feature/TopNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import { useState } from 'react';
 
@@ -57,9 +58,10 @@ export default function Records() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="Health Records" showBack={true} onBack={() => window.history.back()} />
+      <AdsBanner />
+      <TopNavigation title="Health Records" />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Categories */}
         <div className="mb-6">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">

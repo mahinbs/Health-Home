@@ -2,6 +2,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
 
@@ -13,8 +14,9 @@ export default function HomecareBookingSuccess() {
   if (!caregiver || !bookingDetails) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-        <TopNavigation title="Booking" showBack={true} onBack={() => navigate('/homecare')} />
-        <div className="pt-24 pb-24 px-4 flex items-center justify-center min-h-[calc(100vh-120px)]">
+        <AdsBanner />
+        <TopNavigation title="Booking" />
+        <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-24 px-4 flex items-center justify-center min-h-[calc(100vh-120px)]">
           <Card className="p-8 text-center">
             <p className="text-gray-600">No booking details found</p>
             <Button onClick={() => navigate('/homecare')} className="mt-4">
@@ -29,9 +31,10 @@ export default function HomecareBookingSuccess() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="Booking Confirmed" showBack={false} showCart={true} />
+      <AdsBanner />
+      <TopNavigation title="Booking Confirmed" showCart={true} />
       
-      <div className="pt-24 pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-24 px-4">
         <Card className="p-6 text-center mb-6 animate-scale-in">
           <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce-subtle">
             <i className="ri-check-line text-4xl text-white"></i>

@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '../../components/feature/BottomNavigation';
 import TopNavigation from '../../components/feature/TopNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
+import ConnectingFeature from '../../components/feature/ConnectingFeature';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -14,8 +16,36 @@ export default function Profile() {
     phone: '+91 98765 43210',
     address: '123 Health Street, Mumbai, India',
     dateOfBirth: '1995-05-15',
-    gender: 'Female'
+    gender: 'Female',
+    height: 165, // cm
+    weight: 65.2, // kg
+    bmi: 24.8,
+    lifestyle: 'active', // sedentary or active
+    dailyActivities: ['Walking', 'Yoga', 'Meditation'],
+    healthIssues: ['Vitamin D Deficiency', 'Mild Anemia'],
+    googleLinked: true
   });
+
+  const [healthRecords, setHealthRecords] = useState([
+    {
+      id: '1',
+      type: 'Lab Report',
+      name: 'Vitamin D Test',
+      date: '2024-01-15',
+      result: 'Deficient',
+      value: '15 ng/mL',
+      recommendation: 'Requires Vitamin D supplements and diet rich in Vitamin D'
+    },
+    {
+      id: '2',
+      type: 'Lab Report',
+      name: 'Complete Blood Count',
+      date: '2024-01-15',
+      result: 'Mild Anemia',
+      value: 'Hemoglobin: 11.2 g/dL',
+      recommendation: 'Iron supplements and iron-rich diet recommended'
+    }
+  ]);
   const profileOptions = [
     {
       id: 'consultations',
@@ -52,14 +82,21 @@ export default function Profile() {
       title: 'Help & Support',
       icon: 'ri-customer-service-line',
       description: 'Get assistance and FAQs'
+    },
+    {
+      id: 'connections',
+      title: 'Professional Connections',
+      icon: 'ri-team-line',
+      description: 'Connect with healthcare professionals'
     }
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
+      <AdsBanner />
       <TopNavigation title="Profile" />
       
-      <div className="pt-24 pb-24">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-24">
         {/* Profile Header */}
         <div className="px-4 pb-6">
           <Card className="p-6 text-center bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 border-pink-200/50">
@@ -76,6 +113,12 @@ export default function Profile() {
             <h2 className="text-xl font-bold text-gray-900 mb-1">Riya Sharma</h2>
             <p className="text-gray-600 mb-2">riya.sharma@email.com</p>
             <p className="text-sm text-gray-500">+91 98765 43210</p>
+            {profileData.googleLinked && (
+              <div className="flex items-center justify-center mt-2">
+                <i className="ri-google-fill text-blue-500 mr-1"></i>
+                <span className="text-xs text-gray-600">Linked with Google</span>
+              </div>
+            )}
             <Button 
               className="mt-4" 
               size="sm" 
@@ -87,19 +130,120 @@ export default function Profile() {
           </Card>
         </div>
 
+        {/* Health Metrics Summary */}
+        <div className="px-4 pb-6">
+          <Card className="p-4">
+            <h3 className="font-semibold text-gray-900 mb-3">Health Overview</h3>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-blue-50 rounded-lg p-3">
+                <p className="text-xs text-gray-600 mb-1">BMI</p>
+                <p className="text-lg font-bold text-gray-900">{profileData.bmi}</p>
+                <p className="text-xs text-emerald-600">Normal</p>
+              </div>
+              <div className="bg-pink-50 rounded-lg p-3">
+                <p className="text-xs text-gray-600 mb-1">Lifestyle</p>
+                <p className="text-lg font-bold text-gray-900 capitalize">{profileData.lifestyle}</p>
+                <p className="text-xs text-pink-600">
+                  {profileData.dailyActivities.length} activities
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 pt-3 border-t border-gray-100">
+              <p className="text-xs text-gray-600 mb-2">Daily Activities</p>
+              <div className="flex flex-wrap gap-2">
+                {profileData.dailyActivities.map((activity, index) => (
+                  <span key={index} className="bg-green-50 text-green-700 px-2 py-1 rounded-full text-xs">
+                    {activity}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Health Issues */}
+        <div className="px-4 pb-6">
+          <Card className="p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold text-gray-900">Health Issues</h3>
+              <button className="text-pink-600 text-xs font-medium">Add Issue</button>
+            </div>
+            {profileData.healthIssues.length > 0 ? (
+              <div className="space-y-2">
+                {profileData.healthIssues.map((issue, index) => (
+                  <div key={index} className="bg-red-50 border border-red-200 rounded-lg p-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium text-sm text-gray-900">{issue}</p>
+                        {healthRecords.find(r => r.name.includes(issue.split(' ')[0])) && (
+                          <p className="text-xs text-gray-600 mt-1">
+                            <i className="ri-file-text-line mr-1"></i>
+                            Report available
+                          </p>
+                        )}
+                      </div>
+                      <button className="text-red-600 text-xs">
+                        <i className="ri-close-line"></i>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500 text-center py-4">No health issues recorded</p>
+            )}
+          </Card>
+        </div>
+
+        {/* Connected Health Records */}
+        <div className="px-4 pb-6">
+          <Card className="p-4">
+            <h3 className="font-semibold text-gray-900 mb-3">Connected Health Records</h3>
+            <div className="space-y-3">
+              {healthRecords.map((record) => (
+                <div key={record.id} className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <p className="font-medium text-sm text-gray-900">{record.name}</p>
+                      <p className="text-xs text-gray-600">{record.date}</p>
+                    </div>
+                    <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs">
+                      {record.result}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-700 mb-2">Value: {record.value}</p>
+                  <div className="bg-white rounded p-2 mt-2">
+                    <p className="text-xs font-medium text-gray-900 mb-1">Recommendation:</p>
+                    <p className="text-xs text-gray-700">{record.recommendation}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+
+        {/* Professional Connections Section */}
+        <div className="px-4 pb-6">
+          <ConnectingFeature />
+        </div>
+
         {/* Profile Options */}
         <div className="px-4 space-y-3">
-          {profileOptions.map((option, index) => (
+          {profileOptions.filter(opt => opt.id !== 'connections').map((option, index) => (
             <Card 
               key={option.id} 
               className="p-4 hover:border-pink-200 cursor-pointer animate-scale-in" 
               onClick={() => {
+                if (option.id === 'connections') {
+                  // Show connections feature in modal or separate view
+                  return;
+                }
                 const routes: Record<string, string> = {
                   'consultations': '/my-consultations',
                   'homecare': '/my-homecare-requests',
                   'rewards': '/my-rewards',
                   'health-locker': '/records',
-                  'payment-history': '/payment-history',
+                  'payment-history': '/payment',
                   'help-support': '/help-support'
                 };
                 navigate(routes[option.id] || '/profile');
@@ -211,6 +355,124 @@ export default function Profile() {
                   <option value="Male">Male</option>
                   <option value="Other">Other</option>
                 </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Height (cm)</label>
+                  <input
+                    type="number"
+                    value={profileData.height}
+                    onChange={(e) => {
+                      const height = parseFloat(e.target.value);
+                      const weight = profileData.weight;
+                      const bmi = weight / ((height / 100) ** 2);
+                      setProfileData({...profileData, height, bmi: parseFloat(bmi.toFixed(1))});
+                    }}
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Weight (kg)</label>
+                  <input
+                    type="number"
+                    value={profileData.weight}
+                    onChange={(e) => {
+                      const weight = parseFloat(e.target.value);
+                      const height = profileData.height;
+                      const bmi = weight / ((height / 100) ** 2);
+                      setProfileData({...profileData, weight, bmi: parseFloat(bmi.toFixed(1))});
+                    }}
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">BMI: {profileData.bmi}</label>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className={`h-2 rounded-full ${
+                      profileData.bmi < 18.5 ? 'bg-blue-500' :
+                      profileData.bmi < 25 ? 'bg-green-500' :
+                      profileData.bmi < 30 ? 'bg-yellow-500' : 'bg-red-500'
+                    }`}
+                    style={{ width: `${Math.min((profileData.bmi / 40) * 100, 100)}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Lifestyle</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setProfileData({...profileData, lifestyle: 'sedentary'})}
+                    className={`p-3 rounded-xl border ${
+                      profileData.lifestyle === 'sedentary'
+                        ? 'bg-pink-500 text-white border-pink-500'
+                        : 'bg-white border-gray-200'
+                    }`}
+                  >
+                    Sedentary
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setProfileData({...profileData, lifestyle: 'active'})}
+                    className={`p-3 rounded-xl border ${
+                      profileData.lifestyle === 'active'
+                        ? 'bg-pink-500 text-white border-pink-500'
+                        : 'bg-white border-gray-200'
+                    }`}
+                  >
+                    Active
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Daily Activities</label>
+                <div className="space-y-2">
+                  {['Walking', 'Running', 'Yoga', 'Gym', 'Swimming', 'Cycling', 'Meditation'].map((activity) => (
+                    <label key={activity} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={profileData.dailyActivities.includes(activity)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setProfileData({
+                              ...profileData,
+                              dailyActivities: [...profileData.dailyActivities, activity]
+                            });
+                          } else {
+                            setProfileData({
+                              ...profileData,
+                              dailyActivities: profileData.dailyActivities.filter(a => a !== activity)
+                            });
+                          }
+                        }}
+                        className="w-4 h-4 text-pink-600 border-gray-300 rounded"
+                      />
+                      <span className="text-sm text-gray-700">{activity}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Link Google Account</label>
+                <button
+                  type="button"
+                  onClick={() => setProfileData({...profileData, googleLinked: !profileData.googleLinked})}
+                  className={`w-full p-3 rounded-xl border ${
+                    profileData.googleLinked
+                      ? 'bg-blue-50 border-blue-300 text-blue-700'
+                      : 'bg-white border-gray-200 text-gray-700'
+                  }`}
+                >
+                  <i className="ri-google-fill mr-2"></i>
+                  {profileData.googleLinked ? 'Linked with Google' : 'Link Google Account'}
+                </button>
               </div>
 
               <Button

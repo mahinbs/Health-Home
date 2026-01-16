@@ -1,9 +1,27 @@
 import { useState } from 'react';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
 import { useCart } from '../../contexts/CartContext';
+
+interface PharmacyStore {
+  id: string;
+  name: string;
+  address: string;
+  distance: string;
+  rating: number;
+  availability: {
+    medicationId: string;
+    inStock: boolean;
+    quantity: number;
+    lastUpdated: string;
+  }[];
+  deliveryCharge: number;
+  platformCharge: number;
+  gstRate: number;
+}
 
 interface Medication {
   id: string;
@@ -15,6 +33,8 @@ interface Medication {
   image: string;
   category: string;
   prescription: boolean;
+  availableStores: string[]; // Store IDs where available
+  availabilityCharge: number; // Charge for availability check
 }
 
 interface MedicalEquipment {
@@ -61,6 +81,56 @@ export default function PharmacyPage() {
   const [selectedPrescription, setSelectedPrescription] = useState<Prescription | null>(null);
   const [showTrackOrderModal, setShowTrackOrderModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [selectedStore, setSelectedStore] = useState<PharmacyStore | null>(null);
+  const [showStoreModal, setShowStoreModal] = useState(false);
+
+  const pharmacyStores: PharmacyStore[] = [
+    {
+      id: 'store1',
+      name: 'Apollo Pharmacy',
+      address: '123 Medical Street, Mumbai',
+      distance: '1.2 km',
+      rating: 4.8,
+      availability: [
+        { medicationId: '1', inStock: true, quantity: 50, lastUpdated: '2024-01-21 10:30 AM' },
+        { medicationId: '2', inStock: true, quantity: 30, lastUpdated: '2024-01-21 09:15 AM' },
+        { medicationId: '3', inStock: true, quantity: 25, lastUpdated: '2024-01-21 11:00 AM' },
+      ],
+      deliveryCharge: 30,
+      platformCharge: 10,
+      gstRate: 5
+    },
+    {
+      id: 'store2',
+      name: 'Fortis Pharmacy',
+      address: '456 Health Avenue, Mumbai',
+      distance: '2.5 km',
+      rating: 4.7,
+      availability: [
+        { medicationId: '1', inStock: true, quantity: 40, lastUpdated: '2024-01-21 09:45 AM' },
+        { medicationId: '4', inStock: true, quantity: 35, lastUpdated: '2024-01-21 10:20 AM' },
+        { medicationId: '5', inStock: false, quantity: 0, lastUpdated: '2024-01-21 08:00 AM' },
+      ],
+      deliveryCharge: 40,
+      platformCharge: 12,
+      gstRate: 5
+    },
+    {
+      id: 'store3',
+      name: 'Max Healthcare Pharmacy',
+      address: '789 Care Boulevard, Mumbai',
+      distance: '3.1 km',
+      rating: 4.9,
+      availability: [
+        { medicationId: '2', inStock: true, quantity: 45, lastUpdated: '2024-01-21 11:30 AM' },
+        { medicationId: '3', inStock: true, quantity: 60, lastUpdated: '2024-01-21 10:45 AM' },
+        { medicationId: '6', inStock: true, quantity: 20, lastUpdated: '2024-01-21 09:30 AM' },
+      ],
+      deliveryCharge: 35,
+      platformCharge: 15,
+      gstRate: 5
+    }
+  ];
 
   const categories = [
     { id: 'all', name: 'All', icon: 'ri-medicine-bottle-line' },
@@ -90,7 +160,9 @@ export default function PharmacyPage() {
       inStock: true,
       image: 'https://readdy.ai/api/search-image?query=Paracetamol%20tablets%20medication%20bottle%2C%20white%20pills%20in%20clear%20bottle%2C%20pharmaceutical%20product%20photography%2C%20clean%20white%20background%2C%20professional%20medical%20photography%2C%20high%20detail%2C%20centered%20composition&width=200&height=200&seq=med1&orientation=squarish',
       category: 'otc',
-      prescription: false
+      prescription: false,
+      availableStores: ['store1', 'store2'],
+      availabilityCharge: 5
     },
     {
       id: '2',
@@ -363,9 +435,10 @@ export default function PharmacyPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
+      <AdsBanner />
       <TopNavigation title="Pharmacy & Medical Equipment" />
       
-      <div className="pt-16 sm:pt-20 pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Hero Section */}
         <div className="bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 text-white p-6 rounded-2xl mb-4 shadow-2xl animate-scale-in">
           <div className="text-center">
@@ -389,25 +462,26 @@ export default function PharmacyPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-white/95 backdrop-blur-sm border-b border-pink-100/50 shadow-md">
-          <div className="flex">
+        <div className="bg-white/95 backdrop-blur-sm border-b border-pink-100/50 shadow-md overflow-x-auto">
+          <div className="flex flex-nowrap min-w-max sm:min-w-0">
             {[
               { id: 'browse', label: 'Medicines', icon: 'ri-medicine-bottle-line' },
               { id: 'equipment', label: 'Equipment', icon: 'ri-stethoscope-line' },
+              { id: 'stores', label: 'Stores', icon: 'ri-store-line' },
               { id: 'prescriptions', label: 'Prescriptions', icon: 'ri-file-text-line' },
               { id: 'orders', label: 'Orders', icon: 'ri-shopping-bag-line' }
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 flex flex-col items-center justify-center py-3 px-2 border-b-2 transition-all duration-300 ${
+                className={`flex flex-col items-center justify-center py-3 px-3 sm:px-2 border-b-2 transition-all duration-300 flex-shrink-0 min-w-[90px] sm:flex-1 ${
                   activeTab === tab.id
                     ? 'border-pink-500 text-pink-600 bg-pink-50/50'
                     : 'border-transparent text-gray-500 hover:text-pink-400'
                 }`}
               >
                 <i className={`${tab.icon} text-lg ${activeTab === tab.id ? 'scale-110' : ''} transition-transform duration-300`}></i>
-                <span className="font-semibold text-xs mt-1">{tab.label}</span>
+                <span className="font-semibold text-xs mt-1 whitespace-nowrap">{tab.label}</span>
               </button>
             ))}
           </div>
@@ -484,6 +558,22 @@ export default function PharmacyPage() {
                               <span className="inline-block mt-1 px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">
                                 Prescription Required
                               </span>
+                            )}
+                            {medication.availableStores && medication.availableStores.length > 0 && (
+                              <div className="mt-2">
+                                <button
+                                  onClick={() => {
+                                    const store = pharmacyStores.find(s => medication.availableStores?.includes(s.id));
+                                    if (store) {
+                                      setSelectedStore(store);
+                                      setShowStoreModal(true);
+                                    }
+                                  }}
+                                  className="text-xs text-blue-600 font-medium hover:underline"
+                                >
+                                  Available at {medication.availableStores.length} store(s)
+                                </button>
+                              </div>
                             )}
                           </div>
                           <div className="text-right">
@@ -596,6 +686,61 @@ export default function PharmacyPage() {
                   </Card>
                 ))}
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Pharmacy Stores Tab */}
+        {activeTab === 'stores' && (
+          <div className="p-4">
+            <div className="mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 mb-2">Pharmacy Store Network</h2>
+              <p className="text-sm text-gray-600">Find medicines and check availability at nearby stores</p>
+            </div>
+            
+            <div className="space-y-3">
+              {pharmacyStores.map((store) => (
+                <Card key={store.id} className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900">{store.name}</h3>
+                      <div className="flex items-center space-x-2 mt-1">
+                        <i className="ri-map-pin-line text-gray-400 text-xs"></i>
+                        <span className="text-xs text-gray-600">{store.address}</span>
+                      </div>
+                      <div className="flex items-center space-x-3 mt-2">
+                        <span className="text-xs text-gray-500">{store.distance}</span>
+                        <div className="flex items-center space-x-1">
+                          <i className="ri-star-fill text-yellow-400 text-xs"></i>
+                          <span className="text-xs text-gray-600">{store.rating}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setSelectedStore(store);
+                        setShowStoreModal(true);
+                      }}
+                      className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-4 py-2 rounded-lg text-xs font-semibold"
+                    >
+                      View Details
+                    </button>
+                  </div>
+                  
+                  <div className="border-t border-gray-100 pt-3 mt-3">
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <p className="text-gray-500">Delivery Charge</p>
+                        <p className="font-semibold text-gray-900">₹{store.deliveryCharge}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Platform Charge</p>
+                        <p className="font-semibold text-gray-900">₹{store.platformCharge}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
             </div>
           </div>
         )}
@@ -806,7 +951,7 @@ export default function PharmacyPage() {
                 <i className="ri-close-line text-gray-600"></i>
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-28 sm:pb-32">
               <div className="space-y-4">
               <Card className="p-4 bg-gradient-to-br from-pink-50 to-rose-50">
                 <h4 className="font-semibold text-gray-900 mb-2">{selectedPrescription.medicationName}</h4>
@@ -876,7 +1021,7 @@ export default function PharmacyPage() {
                 <i className="ri-close-line text-gray-600"></i>
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-28 sm:pb-32">
               <div className="space-y-4">
                 <Card className="p-4 bg-gradient-to-br from-pink-50 to-rose-50">
                   <div className="flex items-center justify-between mb-3">
@@ -977,6 +1122,91 @@ export default function PharmacyPage() {
                 >
                   Close
                 </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Store Details Modal */}
+      {showStoreModal && selectedStore && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end animate-fade-in">
+          <div className="bg-white rounded-t-3xl w-full max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 border-b border-gray-200 px-4 py-4 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">{selectedStore.name}</h2>
+              <button
+                onClick={() => {
+                  setShowStoreModal(false);
+                  setSelectedStore(null);
+                }}
+                className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center"
+              >
+                <i className="ri-close-line"></i>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 pb-28 sm:pb-32">
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">Address</p>
+                  <p className="font-medium">{selectedStore.address}</p>
+                  <div className="flex items-center space-x-3 mt-2">
+                    <span className="text-xs text-gray-500">{selectedStore.distance}</span>
+                    <div className="flex items-center space-x-1">
+                      <i className="ri-star-fill text-yellow-400 text-xs"></i>
+                      <span className="text-xs text-gray-600">{selectedStore.rating}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Drug Availability</h3>
+                  <div className="space-y-2">
+                    {selectedStore.availability.map((item) => {
+                      const med = medications.find(m => m.id === item.medicationId);
+                      if (!med) return null;
+                      return (
+                        <div key={item.medicationId} className="bg-gray-50 rounded-lg p-3">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium text-sm">{med.name}</p>
+                              <p className="text-xs text-gray-500">{med.dosage}</p>
+                            </div>
+                            <div className="text-right">
+                              <p className={`text-xs font-semibold ${item.inStock ? 'text-emerald-600' : 'text-red-600'}`}>
+                                {item.inStock ? `In Stock (${item.quantity})` : 'Out of Stock'}
+                              </p>
+                              <p className="text-xs text-gray-500">Updated: {item.lastUpdated}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 rounded-xl p-4">
+                  <h3 className="font-semibold mb-3">Charges Breakdown</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Delivery Charge</span>
+                      <span className="font-semibold">₹{selectedStore.deliveryCharge}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Platform Charge</span>
+                      <span className="font-semibold">₹{selectedStore.platformCharge}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">GST ({selectedStore.gstRate}%)</span>
+                      <span className="font-semibold">Calculated on order</span>
+                    </div>
+                    <div className="border-t border-gray-200 pt-2 mt-2">
+                      <div className="flex justify-between font-semibold">
+                        <span>Total (approx.)</span>
+                        <span>₹{selectedStore.deliveryCharge + selectedStore.platformCharge} + GST</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

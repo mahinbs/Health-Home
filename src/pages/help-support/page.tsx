@@ -131,9 +131,10 @@ export default function HelpSupport() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="Help & Support" showBack={true} onBack={() => navigate('/profile')} showCart={true} />
+      <AdsBanner />
+      <TopNavigation title="Help & Support" showCart={true} />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Support Options */}
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-3">Get Help</h2>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
 
@@ -17,10 +18,45 @@ interface Payment {
   transactionId: string;
 }
 
+interface PaymentMethod {
+  id: string;
+  type: 'upi' | 'card' | 'wallet';
+  name: string;
+  details: string;
+  isDefault: boolean;
+}
+
 export default function PaymentHistory() {
   const navigate = useNavigate();
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [filter, setFilter] = useState<'all' | 'consultation' | 'pharmacy' | 'homecare' | 'subscription'>('all');
+  const [showAddPaymentModal, setShowAddPaymentModal] = useState(false);
+  const [paymentMethodType, setPaymentMethodType] = useState<'upi' | 'card' | null>(null);
+  const [walletBalance] = useState(125.50);
+
+  const paymentMethods: PaymentMethod[] = [
+    {
+      id: '1',
+      type: 'upi',
+      name: 'UPI',
+      details: 'riya.sharma@paytm',
+      isDefault: true
+    },
+    {
+      id: '2',
+      type: 'card',
+      name: 'Credit Card',
+      details: '**** **** **** 4567',
+      isDefault: false
+    },
+    {
+      id: '3',
+      type: 'card',
+      name: 'Debit Card',
+      details: '**** **** **** 1234',
+      isDefault: false
+    }
+  ];
 
   const payments: Payment[] = [
     {
@@ -125,33 +161,100 @@ export default function PaymentHistory() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="Payment History" showBack={true} onBack={() => navigate('/profile')} showCart={true} />
+      <AdsBanner />
+      <TopNavigation title="Payment & Wallet" showCart={true} />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4">
-        {/* Summary Card */}
-        <Card className="p-6 bg-gradient-to-br from-pink-50 to-rose-50 border-pink-200/50 mb-6 animate-scale-in">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
+        {/* Wallet Balance Card */}
+        <Card className="p-6 bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 text-white mb-6 animate-scale-in shadow-2xl">
           <div className="text-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
-              <i className="ri-wallet-3-fill text-3xl text-white"></i>
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg backdrop-blur-sm">
+              <i className="ri-wallet-3-fill text-3xl"></i>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">${totalSpent.toFixed(2)}</h2>
-            <p className="text-gray-600">Total Spent</p>
+            <h2 className="text-3xl font-bold mb-1">₹{walletBalance.toFixed(2)}</h2>
+            <p className="text-pink-100">Wallet Balance</p>
           </div>
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <div>
-              <p className="text-xs text-gray-600 mb-1">This Month</p>
-              <p className="font-semibold text-gray-900">${payments.filter(p => p.status === 'completed' && new Date(p.date).getMonth() === new Date().getMonth()).reduce((sum, p) => sum + p.amount, 0).toFixed(2)}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-600 mb-1">Transactions</p>
-              <p className="font-semibold text-gray-900">{payments.length}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-600 mb-1">Pending</p>
-              <p className="font-semibold text-orange-600">{payments.filter(p => p.status === 'pending').length}</p>
-            </div>
+          <div className="grid grid-cols-2 gap-3">
+            <button className="bg-white/20 backdrop-blur-sm rounded-xl p-3 hover:bg-white/30 transition-colors">
+              <i className="ri-add-circle-line text-xl mb-1"></i>
+              <p className="text-xs">Add Money</p>
+            </button>
+            <button className="bg-white/20 backdrop-blur-sm rounded-xl p-3 hover:bg-white/30 transition-colors">
+              <i className="ri-exchange-line text-xl mb-1"></i>
+              <p className="text-xs">Transfer</p>
+            </button>
           </div>
         </Card>
+
+        {/* Payment Methods Section */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold text-gray-900">Payment Methods</h2>
+            <button
+              onClick={() => setShowAddPaymentModal(true)}
+              className="text-pink-600 text-sm font-medium flex items-center"
+            >
+              <i className="ri-add-line mr-1"></i>
+              Add New
+            </button>
+          </div>
+          <div className="space-y-2">
+            {paymentMethods.map((method) => (
+              <Card key={method.id} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                      method.type === 'upi' ? 'bg-blue-50' :
+                      method.type === 'card' ? 'bg-purple-50' :
+                      'bg-pink-50'
+                    }`}>
+                      <i className={`${
+                        method.type === 'upi' ? 'ri-phone-line text-blue-600' :
+                        method.type === 'card' ? 'ri-bank-card-line text-purple-600' :
+                        'ri-wallet-line text-pink-600'
+                      } text-xl`}></i>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">{method.name}</p>
+                      <p className="text-xs text-gray-600">{method.details}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {method.isDefault && (
+                      <span className="bg-pink-100 text-pink-700 px-2 py-1 rounded-full text-xs font-medium">
+                        Default
+                      </span>
+                    )}
+                    <button className="text-gray-400 hover:text-gray-600">
+                      <i className="ri-more-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Transaction History Section */}
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-3">Transaction History</h2>
+          <Card className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200/50 mb-4">
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div>
+                <p className="text-xs text-gray-600 mb-1">This Month</p>
+                <p className="font-semibold text-gray-900">₹{payments.filter(p => p.status === 'completed' && new Date(p.date).getMonth() === new Date().getMonth()).reduce((sum, p) => sum + p.amount, 0).toFixed(2)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-600 mb-1">Transactions</p>
+                <p className="font-semibold text-gray-900">{payments.length}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-600 mb-1">Pending</p>
+                <p className="font-semibold text-orange-600">{payments.filter(p => p.status === 'pending').length}</p>
+              </div>
+            </div>
+          </Card>
+        </div>
 
         {/* Filter Tabs */}
         <div className="mb-6">
@@ -299,6 +402,133 @@ export default function PaymentHistory() {
                   <i className="ri-time-line mr-2"></i>
                   Check Payment Status
                 </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Payment Method Modal */}
+      {showAddPaymentModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end animate-fade-in">
+          <div className="bg-white rounded-t-3xl w-full max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 border-b border-gray-200 px-4 py-4 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Add Payment Method</h2>
+              <button
+                onClick={() => {
+                  setShowAddPaymentModal(false);
+                  setPaymentMethodType(null);
+                }}
+                className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center"
+              >
+                <i className="ri-close-line"></i>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 pb-24">
+              {!paymentMethodType ? (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => setPaymentMethodType('upi')}
+                    className="w-full p-4 bg-blue-50 border-2 border-blue-200 rounded-xl hover:border-blue-400 transition-all"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
+                        <i className="ri-phone-line text-white text-xl"></i>
+                      </div>
+                      <div className="text-left">
+                        <p className="font-semibold text-gray-900">Add UPI</p>
+                        <p className="text-xs text-gray-600">Google Pay, PhonePe, Paytm, etc.</p>
+                      </div>
+                      <i className="ri-arrow-right-s-line text-gray-400 ml-auto"></i>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setPaymentMethodType('card')}
+                    className="w-full p-4 bg-purple-50 border-2 border-purple-200 rounded-xl hover:border-purple-400 transition-all"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center">
+                        <i className="ri-bank-card-line text-white text-xl"></i>
+                      </div>
+                      <div className="text-left">
+                        <p className="font-semibold text-gray-900">Add Card</p>
+                        <p className="text-xs text-gray-600">Credit or Debit Card</p>
+                      </div>
+                      <i className="ri-arrow-right-s-line text-gray-400 ml-auto"></i>
+                    </div>
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <button
+                    onClick={() => setPaymentMethodType(null)}
+                    className="flex items-center text-gray-600 mb-4"
+                  >
+                    <i className="ri-arrow-left-line mr-2"></i>
+                    <span className="text-sm">Back</span>
+                  </button>
+                  
+                  {paymentMethodType === 'upi' && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">UPI ID</label>
+                        <input
+                          type="text"
+                          placeholder="yourname@paytm"
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm"
+                        />
+                      </div>
+                      <Button className="w-full">
+                        Verify & Add UPI
+                      </Button>
+                    </div>
+                  )}
+
+                  {paymentMethodType === 'card' && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Card Number</label>
+                        <input
+                          type="text"
+                          placeholder="1234 5678 9012 3456"
+                          maxLength={19}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Expiry</label>
+                          <input
+                            type="text"
+                            placeholder="MM/YY"
+                            maxLength={5}
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">CVV</label>
+                          <input
+                            type="text"
+                            placeholder="123"
+                            maxLength={3}
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Cardholder Name</label>
+                        <input
+                          type="text"
+                          placeholder="John Doe"
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm"
+                        />
+                      </div>
+                      <Button className="w-full">
+                        Add Card
+                      </Button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>

@@ -37,6 +37,16 @@ export default function QuickAccessCards() {
       path: '/pharmacy'
     },
     {
+      id: 'diagnostic',
+      title: 'Diagnostic Tests',
+      description: 'Book tests',
+      icon: 'ri-test-tube-line',
+      color: 'from-green-50 to-emerald-50',
+      iconColor: 'text-green-600',
+      borderColor: 'border-green-100',
+      path: '/diagnostic'
+    },
+    {
       id: 'records',
       title: 'Health Records',
       description: 'Digital locker',

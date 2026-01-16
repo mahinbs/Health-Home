@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
+import ProactiveBookingDialog from '../../components/feature/ProactiveBookingDialog';
 import { useNavigate } from 'react-router-dom';
 
 interface Doctor {
@@ -19,6 +21,17 @@ interface Doctor {
   totalReviews: number;
   successRate: string;
   responseTime: string;
+  hospitalName: string;
+  hospitalAddress: string;
+  hospitalPhone: string;
+  hospitalRating: number;
+  services: string[];
+  freelancingCities: string[];
+  weeklyOPD: {
+    day: string;
+    time: string;
+    location: string;
+  }[];
 }
 
 interface ChatMessage {
@@ -35,6 +48,12 @@ export default function Consult() {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showChatModal, setShowChatModal] = useState(false);
   const [selectedDoctorData, setSelectedDoctorData] = useState<Doctor | null>(null);
+  const [showProactiveDialog, setShowProactiveDialog] = useState(false);
+  const [proactiveServices, setProactiveServices] = useState({
+    homecareDressing: false,
+    diagnosticXray: false,
+    medicineDelivery: false
+  });
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       id: '1',
@@ -63,8 +82,23 @@ export default function Consult() {
     time: '',
     consultationType: 'video',
     symptoms: '',
-    notes: ''
+    notes: '',
+    clinicalPictures: [] as File[],
+    isSecondOpinion: false,
+    basicData: {
+      age: '',
+      gender: '',
+      height: '',
+      weight: '',
+      bloodPressure: '',
+      allergies: '',
+      currentMedications: ''
+    },
+    doctorQuestions: [] as { question: string; answer: string }[]
   });
+  const [showDoctorQuestions, setShowDoctorQuestions] = useState(false);
+  const [showEditDoctorProfile, setShowEditDoctorProfile] = useState(false);
+  const [editableDoctorData, setEditableDoctorData] = useState<Doctor | null>(null);
 
   // AI Diagnostic Assistant States
   const [showAIAssistant, setShowAIAssistant] = useState(false);
@@ -98,7 +132,18 @@ export default function Consult() {
       languages: ['English', 'Spanish', 'French'],
       totalReviews: 1247,
       successRate: '98%',
-      responseTime: '< 5 minutes'
+      responseTime: '< 5 minutes',
+      hospitalName: 'Apollo Hospitals',
+      hospitalAddress: '123 Medical Street, Mumbai, Maharashtra 400001',
+      hospitalPhone: '+91 22 1234 5678',
+      hospitalRating: 4.8,
+      services: ['Cardiac Consultation', 'ECG', 'Echocardiography', 'Stress Test', 'Second Opinion'],
+      freelancingCities: ['Mumbai', 'Pune', 'Delhi'],
+      weeklyOPD: [
+        { day: 'Monday', time: '9:00 AM - 1:00 PM', location: 'Apollo Hospitals, Mumbai' },
+        { day: 'Wednesday', time: '2:00 PM - 6:00 PM', location: 'Apollo Hospitals, Mumbai' },
+        { day: 'Friday', time: '10:00 AM - 2:00 PM', location: 'Apollo Hospitals, Pune' }
+      ]
     },
     {
       id: '2',
@@ -115,7 +160,18 @@ export default function Consult() {
       languages: ['English', 'Mandarin', 'Cantonese'],
       totalReviews: 892,
       successRate: '96%',
-      responseTime: '< 10 minutes'
+      responseTime: '< 10 minutes',
+      hospitalName: 'Fortis Healthcare',
+      hospitalAddress: '456 Health Avenue, Mumbai, Maharashtra 400052',
+      hospitalPhone: '+91 22 2345 6789',
+      hospitalRating: 4.7,
+      services: ['Skin Consultation', 'Acne Treatment', 'Cosmetic Procedures', 'Second Opinion'],
+      freelancingCities: ['Mumbai', 'Bangalore'],
+      weeklyOPD: [
+        { day: 'Tuesday', time: '10:00 AM - 2:00 PM', location: 'Fortis Healthcare, Mumbai' },
+        { day: 'Thursday', time: '3:00 PM - 7:00 PM', location: 'Fortis Healthcare, Mumbai' },
+        { day: 'Saturday', time: '11:00 AM - 3:00 PM', location: 'Fortis Healthcare, Bangalore' }
+      ]
     },
     {
       id: '3',
@@ -132,7 +188,18 @@ export default function Consult() {
       languages: ['English', 'Spanish', 'Portuguese'],
       totalReviews: 1156,
       successRate: '99%',
-      responseTime: '< 3 minutes'
+      responseTime: '< 3 minutes',
+      hospitalName: 'Max Super Specialty Hospital',
+      hospitalAddress: '789 Children\'s Care Boulevard, Mumbai, Maharashtra 400070',
+      hospitalPhone: '+91 22 3456 7890',
+      hospitalRating: 4.9,
+      services: ['Pediatric Consultation', 'Child Development Assessment', 'Nutrition Counseling', 'Second Opinion'],
+      freelancingCities: ['Mumbai', 'Pune'],
+      weeklyOPD: [
+        { day: 'Monday', time: '10:00 AM - 2:00 PM', location: 'Max Super Specialty Hospital, Mumbai' },
+        { day: 'Wednesday', time: '2:00 PM - 6:00 PM', location: 'Max Super Specialty Hospital, Mumbai' },
+        { day: 'Friday', time: '11:00 AM - 3:00 PM', location: 'Max Super Specialty Hospital, Pune' }
+      ]
     },
     {
       id: '4',
@@ -149,7 +216,18 @@ export default function Consult() {
       languages: ['English', 'German'],
       totalReviews: 743,
       successRate: '97%',
-      responseTime: '< 15 minutes'
+      responseTime: '< 15 minutes',
+      hospitalName: 'Wockhardt Hospitals',
+      hospitalAddress: '321 Orthopedic Center Road, Mumbai, Maharashtra 400018',
+      hospitalPhone: '+91 22 4567 8901',
+      hospitalRating: 4.6,
+      services: ['Orthopedic Consultation', 'Sports Medicine', 'Joint Replacement', 'Trauma Surgery', 'Second Opinion'],
+      freelancingCities: ['Mumbai', 'Delhi', 'Bangalore'],
+      weeklyOPD: [
+        { day: 'Tuesday', time: '9:00 AM - 1:00 PM', location: 'Wockhardt Hospitals, Mumbai' },
+        { day: 'Thursday', time: '2:00 PM - 6:00 PM', location: 'Wockhardt Hospitals, Mumbai' },
+        { day: 'Saturday', time: '10:00 AM - 2:00 PM', location: 'Wockhardt Hospitals, Delhi' }
+      ]
     }
   ];
 
@@ -161,6 +239,60 @@ export default function Consult() {
     const doctor = doctors.find(d => d.id === doctorId);
     if (doctor) {
       setSelectedDoctorData(doctor);
+      // Show proactive dialog for consultation booking
+      setShowProactiveDialog(true);
+    }
+  };
+
+  const proactiveServicesList = [
+    {
+      id: 'homecare',
+      name: 'Wound Dressing at Home',
+      description: 'Professional wound care and dressing service',
+      icon: 'ri-first-aid-kit-line',
+      price: '$40/visit',
+      category: 'homecare' as const
+    },
+    {
+      id: 'xray',
+      name: 'X-Ray at Home',
+      description: 'Diagnostic imaging at your doorstep',
+      icon: 'ri-scanner-line',
+      price: '₹800',
+      category: 'diagnostic' as const
+    },
+    {
+      id: 'medicine',
+      name: 'Medicine Delivery',
+      description: 'Get prescribed medicines delivered to your address',
+      icon: 'ri-medicine-bottle-line',
+      price: 'Free',
+      category: 'medicine' as const
+    }
+  ];
+
+  const handleProactiveYes = (service: typeof proactiveServicesList[0]) => {
+    setShowProactiveDialog(false);
+    
+    // Update proactive services state
+    if (service.category === 'homecare') {
+      setProactiveServices({...proactiveServices, homecareDressing: true});
+    } else if (service.category === 'diagnostic') {
+      setProactiveServices({...proactiveServices, diagnosticXray: true});
+    } else if (service.category === 'medicine') {
+      setProactiveServices({...proactiveServices, medicineDelivery: true});
+    }
+    
+    // Continue with consultation booking
+    if (selectedDoctorData) {
+      setShowBookingModal(true);
+    }
+  };
+
+  const handleProactiveNo = () => {
+    setShowProactiveDialog(false);
+    // Continue with consultation booking
+    if (selectedDoctorData) {
       setShowBookingModal(true);
     }
   };
@@ -206,7 +338,19 @@ export default function Consult() {
       time: '',
       consultationType: 'video',
       symptoms: '',
-      notes: ''
+      notes: '',
+      clinicalPictures: [],
+      isSecondOpinion: false,
+      basicData: {
+        age: '',
+        gender: '',
+        height: '',
+        weight: '',
+        bloodPressure: '',
+        allergies: '',
+        currentMedications: ''
+      },
+      doctorQuestions: []
     });
     
     // Show success message
@@ -261,12 +405,28 @@ export default function Consult() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
+      <AdsBanner />
       <TopNavigation 
         title="Consult Doctor" 
-        showBack={false}
       />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
+        {/* Proactive Booking Dialog */}
+        <ProactiveBookingDialog
+          isOpen={showProactiveDialog}
+          onClose={() => {
+            setShowProactiveDialog(false);
+            if (selectedDoctorData) {
+              setShowBookingModal(true);
+            }
+          }}
+          onYes={handleProactiveYes}
+          onNo={handleProactiveNo}
+          services={proactiveServicesList}
+          title="Recommended Services"
+          message="We recommend these additional services for comprehensive care. Would you like to book any of them?"
+        />
+
         {/* AI Assistant Modal */}
         {showAIAssistant && (
           <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in">
@@ -671,9 +831,18 @@ export default function Consult() {
           
           <div className="space-y-3">
             {filteredDoctors.map((doctor) => (
-              <div key={doctor.id} className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-pink-100/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+              <div 
+                key={doctor.id} 
+                className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-pink-100/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+              >
                 <div className="flex items-start space-x-3">
-                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
+                  <div 
+                    className="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0 cursor-pointer"
+                    onClick={() => {
+                      setSelectedDoctorData(doctor);
+                      setShowBookingModal(true);
+                    }}
+                  >
                     <img 
                       src={doctor.image} 
                       alt={doctor.name}
@@ -681,7 +850,13 @@ export default function Consult() {
                     />
                   </div>
                   
-                  <div className="flex-1 min-w-0">
+                  <div 
+                    className="flex-1 min-w-0 cursor-pointer"
+                    onClick={() => {
+                      setSelectedDoctorData(doctor);
+                      setShowBookingModal(true);
+                    }}
+                  >
                     <div className="flex items-start justify-between mb-2">
                       <div>
                         <h3 className="font-semibold text-gray-800 text-sm">{doctor.name}</h3>
@@ -711,7 +886,10 @@ export default function Consult() {
                       </div>
                       
                       <button
-                        onClick={() => handleBookConsultation(doctor.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBookConsultation(doctor.id);
+                        }}
                         className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-5 py-2 rounded-xl text-xs font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
                       >
                         Book Now
@@ -828,20 +1006,211 @@ export default function Consult() {
         </div>
       )}
 
+      {/* Edit Doctor Profile Modal */}
+      {showEditDoctorProfile && editableDoctorData && (
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-800">Edit Doctor Profile</h2>
+              <button
+                onClick={() => {
+                  setShowEditDoctorProfile(false);
+                  setEditableDoctorData(null);
+                }}
+                className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+              >
+                <i className="ri-close-line text-gray-600"></i>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 pb-24 space-y-4">
+              {/* Services */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Services Offered</label>
+                <div className="space-y-2">
+                  {['Cardiac Consultation', 'ECG', 'Echocardiography', 'Stress Test', 'Second Opinion', 'General Consultation'].map((service) => (
+                    <label key={service} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={editableDoctorData.services.includes(service)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setEditableDoctorData({
+                              ...editableDoctorData,
+                              services: [...editableDoctorData.services, service]
+                            });
+                          } else {
+                            setEditableDoctorData({
+                              ...editableDoctorData,
+                              services: editableDoctorData.services.filter(s => s !== service)
+                            });
+                          }
+                        }}
+                        className="w-4 h-4 text-pink-600 border-gray-300 rounded"
+                      />
+                      <span className="text-sm text-gray-700">{service}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Freelancing Cities */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Freelancing Cities</label>
+                <div className="space-y-2">
+                  {['Mumbai', 'Pune', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'].map((city) => (
+                    <label key={city} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={editableDoctorData.freelancingCities.includes(city)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setEditableDoctorData({
+                              ...editableDoctorData,
+                              freelancingCities: [...editableDoctorData.freelancingCities, city]
+                            });
+                          } else {
+                            setEditableDoctorData({
+                              ...editableDoctorData,
+                              freelancingCities: editableDoctorData.freelancingCities.filter(c => c !== city)
+                            });
+                          }
+                        }}
+                        className="w-4 h-4 text-pink-600 border-gray-300 rounded"
+                      />
+                      <span className="text-sm text-gray-700">{city}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Weekly OPD Schedule */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Weekly OPD Schedule</label>
+                <div className="space-y-3">
+                  {editableDoctorData.weeklyOPD.map((opd, index) => (
+                    <div key={index} className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                      <div className="grid grid-cols-3 gap-2 mb-2">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Day</label>
+                          <select
+                            value={opd.day}
+                            onChange={(e) => {
+                              const newOPD = [...editableDoctorData.weeklyOPD];
+                              newOPD[index].day = e.target.value;
+                              setEditableDoctorData({...editableDoctorData, weeklyOPD: newOPD});
+                            }}
+                            className="w-full bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs"
+                          >
+                            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+                              <option key={day} value={day}>{day}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Time</label>
+                          <input
+                            type="text"
+                            value={opd.time}
+                            onChange={(e) => {
+                              const newOPD = [...editableDoctorData.weeklyOPD];
+                              newOPD[index].time = e.target.value;
+                              setEditableDoctorData({...editableDoctorData, weeklyOPD: newOPD});
+                            }}
+                            placeholder="9:00 AM - 1:00 PM"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Location</label>
+                          <input
+                            type="text"
+                            value={opd.location}
+                            onChange={(e) => {
+                              const newOPD = [...editableDoctorData.weeklyOPD];
+                              newOPD[index].location = e.target.value;
+                              setEditableDoctorData({...editableDoctorData, weeklyOPD: newOPD});
+                            }}
+                            placeholder="Hospital name"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newOPD = editableDoctorData.weeklyOPD.filter((_, i) => i !== index);
+                          setEditableDoctorData({...editableDoctorData, weeklyOPD: newOPD});
+                        }}
+                        className="text-xs text-red-600 hover:text-red-700"
+                      >
+                        <i className="ri-delete-bin-line mr-1"></i>
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditableDoctorData({
+                        ...editableDoctorData,
+                        weeklyOPD: [...editableDoctorData.weeklyOPD, { day: 'Monday', time: '', location: '' }]
+                      });
+                    }}
+                    className="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-sm text-gray-600 hover:border-pink-300 hover:text-pink-600 transition-colors"
+                  >
+                    <i className="ri-add-line mr-1"></i>
+                    Add OPD Slot
+                  </button>
+                </div>
+              </div>
+
+              <button
+                onClick={() => {
+                  // Update the selected doctor data
+                  const updatedDoctor = doctors.find(d => d.id === editableDoctorData.id);
+                  if (updatedDoctor) {
+                    // In real app, this would update the backend
+                    alert('Profile updated successfully!');
+                    setSelectedDoctorData(editableDoctorData);
+                  }
+                  setShowEditDoctorProfile(false);
+                  setEditableDoctorData(null);
+                }}
+                className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 active:scale-95"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Booking Modal */}
       {showBookingModal && selectedDoctorData && (
         <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
           <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
             <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 md:px-5 py-3 sm:py-4 flex items-center justify-between z-10">
               <h2 className="text-base sm:text-lg font-semibold text-gray-800 truncate pr-2">Doctor Profile & Booking</h2>
-              <button
-                onClick={handleCloseModal}
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
-              >
-                <i className="ri-close-line text-gray-600 text-lg"></i>
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => {
+                    setEditableDoctorData(selectedDoctorData);
+                    setShowEditDoctorProfile(true);
+                  }}
+                  className="w-8 h-8 sm:w-9 sm:h-9 bg-blue-100 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors flex-shrink-0"
+                  title="Edit Profile"
+                >
+                  <i className="ri-edit-line text-blue-600 text-sm"></i>
+                </button>
+                <button
+                  onClick={handleCloseModal}
+                  className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                >
+                  <i className="ri-close-line text-gray-600 text-lg"></i>
+                </button>
+              </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 pb-20 sm:pb-24">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 pb-24 sm:pb-28">
 
               {/* Doctor Profile Section */}
               <div className="bg-gray-50 rounded-2xl p-4 mb-5">
@@ -927,7 +1296,7 @@ export default function Consult() {
                 </div>
 
                 {/* Languages */}
-                <div>
+                <div className="mb-4">
                   <h4 className="font-medium text-gray-800 mb-2 text-sm">Languages</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedDoctorData.languages.map((lang, index) => (
@@ -937,6 +1306,176 @@ export default function Consult() {
                     ))}
                   </div>
                 </div>
+
+                {/* Hospital Details */}
+                {selectedDoctorData.hospitalName && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <h4 className="font-medium text-gray-800 mb-3 text-sm flex items-center">
+                      <i className="ri-hospital-line text-pink-600 mr-2"></i>
+                      Hospital & Consultation Details
+                    </h4>
+                    <div className="bg-white rounded-xl p-4 space-y-4 border border-gray-100 shadow-sm">
+                      {/* Hospital Name & Rating */}
+                      <div className="pb-3 border-b border-gray-100">
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1">
+                            <p className="font-semibold text-gray-900 text-base mb-1">{selectedDoctorData.hospitalName}</p>
+                            <div className="flex items-center space-x-2">
+                              <div className="flex items-center space-x-1">
+                                <i className="ri-star-fill text-yellow-400 text-sm"></i>
+                                <span className="text-sm text-gray-700 font-medium">{selectedDoctorData.hospitalRating || 'N/A'}</span>
+                              </div>
+                              <span className="text-xs text-gray-500">•</span>
+                              <span className="text-xs text-gray-600">Multi-specialty Hospital</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Address */}
+                      {selectedDoctorData.hospitalAddress && (
+                        <div className="flex items-start space-x-3">
+                          <div className="w-10 h-10 bg-pink-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i className="ri-map-pin-line text-pink-600"></i>
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-xs text-gray-500 mb-1 font-medium">Address</p>
+                            <p className="text-sm text-gray-900 leading-relaxed mb-2">{selectedDoctorData.hospitalAddress}</p>
+                            <a 
+                              href={`https://maps.google.com/?q=${encodeURIComponent(selectedDoctorData.hospitalAddress)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-pink-600 font-medium flex items-center hover:text-pink-700"
+                            >
+                              <i className="ri-navigation-line mr-1"></i>
+                              Get Directions
+                            </a>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Contact */}
+                      {selectedDoctorData.hospitalPhone && (
+                        <div className="flex items-start space-x-3">
+                          <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i className="ri-phone-line text-blue-600"></i>
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-xs text-gray-500 mb-1 font-medium">Contact Number</p>
+                            <a 
+                              href={`tel:${selectedDoctorData.hospitalPhone.replace(/\s/g, '')}`} 
+                              className="text-sm text-gray-900 font-medium hover:text-pink-600 flex items-center"
+                            >
+                              {selectedDoctorData.hospitalPhone}
+                              <i className="ri-phone-fill ml-2 text-pink-600"></i>
+                            </a>
+                          </div>
+                        </div>
+                      )}
+
+                    {/* Hospital Facilities */}
+                    <div className="pt-3 border-t border-gray-100">
+                      <p className="text-xs text-gray-500 mb-2">Hospital Facilities</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {['Emergency Services', 'ICU', 'Pharmacy', 'Lab Services', 'Ambulance', 'Parking'].map((facility, index) => (
+                          <div key={index} className="flex items-center space-x-2">
+                            <i className="ri-checkbox-circle-fill text-emerald-500 text-xs"></i>
+                            <span className="text-xs text-gray-700">{facility}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Consultation Charges */}
+                    <div className="pt-3 border-t border-gray-100 bg-pink-50 rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-xs text-gray-600">Consultation Fee</p>
+                        <p className="text-base font-bold text-pink-600">{selectedDoctorData.price}</p>
+                      </div>
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-600">Follow-up Consultation</span>
+                        <span className="text-gray-900 font-medium">50% off</span>
+                      </div>
+                    </div>
+
+                    {/* Hospital Timings */}
+                    <div className="pt-3 border-t border-gray-100">
+                      <p className="text-xs text-gray-500 mb-2">Hospital Timings</p>
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-gray-600">Monday - Friday</span>
+                          <span className="text-gray-900 font-medium">8:00 AM - 8:00 PM</span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-gray-600">Saturday</span>
+                          <span className="text-gray-900 font-medium">9:00 AM - 6:00 PM</span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-gray-600">Sunday</span>
+                          <span className="text-gray-900 font-medium">Emergency Only</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Emergency Contact */}
+                    <div className="pt-3 border-t border-gray-100 bg-red-50 rounded-lg p-3">
+                      <div className="flex items-center space-x-2 mb-1">
+                        <i className="ri-alarm-warning-line text-red-600"></i>
+                        <p className="text-xs font-semibold text-red-900">Emergency Contact</p>
+                      </div>
+                      <a href="tel:108" className="text-sm font-bold text-red-700">108 / +91 22 1234 5678</a>
+                      <p className="text-xs text-red-600 mt-1">Available 24/7</p>
+                    </div>
+                  </div>
+                  </div>
+                )}
+
+                {/* Services */}
+                {selectedDoctorData.services && selectedDoctorData.services.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <h4 className="font-medium text-gray-800 mb-2 text-sm">Services Offered</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedDoctorData.services.map((service, index) => (
+                        <span key={index} className="bg-pink-50 px-3 py-1 rounded-full text-xs text-pink-700 border border-pink-200">
+                          {service}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Weekly OPD Schedule */}
+                {selectedDoctorData.weeklyOPD && selectedDoctorData.weeklyOPD.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <h4 className="font-medium text-gray-800 mb-2 text-sm">Weekly OPD Schedule</h4>
+                    <div className="space-y-2">
+                      {selectedDoctorData.weeklyOPD.map((opd, index) => (
+                        <div key={index} className="bg-white rounded-lg p-2 border border-gray-200">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-xs text-gray-900">{opd.day}</span>
+                            <span className="text-xs text-gray-600">{opd.time}</span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">{opd.location}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Freelancing Cities */}
+                {selectedDoctorData.freelancingCities && selectedDoctorData.freelancingCities.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <h4 className="font-medium text-gray-800 mb-2 text-sm">Available in Cities</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedDoctorData.freelancingCities.map((city, index) => (
+                        <span key={index} className="bg-blue-50 px-3 py-1 rounded-full text-xs text-blue-700 border border-blue-200">
+                          <i className="ri-map-pin-line mr-1"></i>
+                          {city}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Booking Form */}
@@ -1010,17 +1549,271 @@ export default function Consult() {
                   </div>
                 </div>
 
+                {/* Second Opinion Option - Made More Prominent */}
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-purple-200">
+                  <label className="flex items-start space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={bookingForm.isSecondOpinion}
+                      onChange={(e) => setBookingForm({...bookingForm, isSecondOpinion: e.target.checked})}
+                      className="mt-1 w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-1">
+                        <i className="ri-user-star-line text-purple-600"></i>
+                        <span className="text-sm font-semibold text-gray-900">Second Opinion Consultation</span>
+                        <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-xs font-medium">Recommended</span>
+                      </div>
+                      <p className="text-xs text-gray-600">Get expert second opinion on your condition from another specialist</p>
+                    </div>
+                  </label>
+                </div>
+
+                {/* Basic Data Section */}
+                <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-semibold text-gray-900 text-sm flex items-center">
+                      <i className="ri-file-text-line text-blue-600 mr-2"></i>
+                      Basic Health Data
+                    </h4>
+                    <button
+                      type="button"
+                      onClick={() => setShowDoctorQuestions(!showDoctorQuestions)}
+                      className="text-xs text-blue-600 font-medium"
+                    >
+                      {showDoctorQuestions ? 'Hide' : 'Show'} Details
+                    </button>
+                  </div>
+                  
+                  {showDoctorQuestions && (
+                    <div className="space-y-3 mt-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Age</label>
+                          <input
+                            type="number"
+                            value={bookingForm.basicData.age}
+                            onChange={(e) => setBookingForm({
+                              ...bookingForm,
+                              basicData: {...bookingForm.basicData, age: e.target.value}
+                            })}
+                            placeholder="Years"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Gender</label>
+                          <select
+                            value={bookingForm.basicData.gender}
+                            onChange={(e) => setBookingForm({
+                              ...bookingForm,
+                              basicData: {...bookingForm.basicData, gender: e.target.value}
+                            })}
+                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                          >
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Height (cm)</label>
+                          <input
+                            type="number"
+                            value={bookingForm.basicData.height}
+                            onChange={(e) => setBookingForm({
+                              ...bookingForm,
+                              basicData: {...bookingForm.basicData, height: e.target.value}
+                            })}
+                            placeholder="cm"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Weight (kg)</label>
+                          <input
+                            type="number"
+                            value={bookingForm.basicData.weight}
+                            onChange={(e) => setBookingForm({
+                              ...bookingForm,
+                              basicData: {...bookingForm.basicData, weight: e.target.value}
+                            })}
+                            placeholder="kg"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Blood Pressure</label>
+                        <input
+                          type="text"
+                          value={bookingForm.basicData.bloodPressure}
+                          onChange={(e) => setBookingForm({
+                            ...bookingForm,
+                            basicData: {...bookingForm.basicData, bloodPressure: e.target.value}
+                          })}
+                          placeholder="e.g., 120/80"
+                          className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Allergies</label>
+                        <input
+                          type="text"
+                          value={bookingForm.basicData.allergies}
+                          onChange={(e) => setBookingForm({
+                            ...bookingForm,
+                            basicData: {...bookingForm.basicData, allergies: e.target.value}
+                          })}
+                          placeholder="List any allergies"
+                          className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Current Medications</label>
+                        <input
+                          type="text"
+                          value={bookingForm.basicData.currentMedications}
+                          onChange={(e) => setBookingForm({
+                            ...bookingForm,
+                            basicData: {...bookingForm.basicData, currentMedications: e.target.value}
+                          })}
+                          placeholder="List current medications"
+                          className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 {/* Symptoms */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">Symptoms or Concerns</label>
                   <textarea
                     value={bookingForm.symptoms}
                     onChange={(e) => setBookingForm({...bookingForm, symptoms: e.target.value})}
-                    placeholder="Describe your symptoms..."
+                    placeholder="Describe your symptoms in detail..."
                     rows={3}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300 resize-none"
                     required
                   />
+                </div>
+
+                {/* Clinical Pictures Upload */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Upload Clinical Pictures (Optional)
+                  </label>
+                  <div className="border-2 border-dashed border-gray-300 rounded-xl p-4">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files) {
+                          setBookingForm({
+                            ...bookingForm,
+                            clinicalPictures: Array.from(e.target.files)
+                          });
+                        }
+                      }}
+                      className="hidden"
+                      id="clinical-pictures"
+                    />
+                    <label
+                      htmlFor="clinical-pictures"
+                      className="flex flex-col items-center cursor-pointer"
+                    >
+                      <i className="ri-image-add-line text-3xl text-gray-400 mb-2"></i>
+                      <span className="text-sm text-gray-600 mb-1">Tap to upload images</span>
+                      <span className="text-xs text-gray-500">Supports JPG, PNG</span>
+                    </label>
+                    {bookingForm.clinicalPictures.length > 0 && (
+                      <div className="mt-3 grid grid-cols-3 gap-2">
+                        {bookingForm.clinicalPictures.map((file, index) => (
+                          <div key={index} className="relative">
+                            <img
+                              src={URL.createObjectURL(file)}
+                              alt={`Clinical ${index + 1}`}
+                              className="w-full h-20 object-cover rounded-lg"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setBookingForm({
+                                  ...bookingForm,
+                                  clinicalPictures: bookingForm.clinicalPictures.filter((_, i) => i !== index)
+                                });
+                              }}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs"
+                            >
+                              <i className="ri-close-line"></i>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Doctor Questions Section */}
+                <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-semibold text-gray-900 text-sm flex items-center">
+                      <i className="ri-question-line text-purple-600 mr-2"></i>
+                      Doctor's Pre-Consultation Questions
+                    </h4>
+                  </div>
+                  <p className="text-xs text-gray-600 mb-3">
+                    Answer these questions to help the doctor prepare for your consultation and reduce consultation time.
+                  </p>
+                  
+                  {/* Sample questions - In real app, these would come from doctor's profile */}
+                  <div className="space-y-3">
+                    {[
+                      { question: 'How long have you been experiencing these symptoms?', answer: '' },
+                      { question: 'Have you tried any medications or treatments?', answer: '' },
+                      { question: 'Is there a family history of similar conditions?', answer: '' }
+                    ].map((item, index) => (
+                      <div key={index} className="bg-white rounded-lg p-3 border border-purple-100">
+                        <p className="text-xs font-medium text-gray-900 mb-2">{item.question}</p>
+                        <textarea
+                          placeholder="Your answer..."
+                          rows={2}
+                          className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-purple-200 resize-none"
+                          onChange={(e) => {
+                            const newQuestions = [...bookingForm.doctorQuestions];
+                            if (!newQuestions[index]) {
+                              newQuestions[index] = { question: item.question, answer: '' };
+                            }
+                            newQuestions[index].answer = e.target.value;
+                            setBookingForm({...bookingForm, doctorQuestions: newQuestions});
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Prescription Request Option */}
+                <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200">
+                  <label className="flex items-start space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="mt-1 w-5 h-5 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-1">
+                        <i className="ri-file-prescription-line text-emerald-600"></i>
+                        <span className="text-sm font-semibold text-gray-900">Request Prescription</span>
+                        <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-xs font-medium">₹50 min</span>
+                      </div>
+                      <p className="text-xs text-gray-600">Request a prescription from the doctor with minimum charge. Doctor can add suggestions.</p>
+                    </div>
+                  </label>
                 </div>
 
                 {/* Additional Notes */}
@@ -1036,7 +1829,7 @@ export default function Consult() {
                 </div>
 
                 {/* Submit Button */}
-                <div className="pt-2">
+                <div className="pt-2 pb-20 sm:pb-24">
                   <button
                     type="submit"
                     disabled={!bookingForm.date || !bookingForm.time || !bookingForm.symptoms}
