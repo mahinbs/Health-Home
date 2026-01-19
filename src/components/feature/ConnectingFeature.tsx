@@ -115,14 +115,15 @@ export default function ConnectingFeature() {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Professional Connections</h2>
-        <div className="flex space-x-2">
+    <Card className="p-3 sm:p-4 overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900">Professional Connections</h2>
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto min-w-0">
           <Button
             onClick={() => setShowCommunityModal(true)}
             size="sm"
             variant="outline"
+            className="w-full sm:w-auto flex-shrink-0 text-xs sm:text-sm"
           >
             <i className="ri-group-line mr-1"></i>
             Community
@@ -130,6 +131,7 @@ export default function ConnectingFeature() {
           <Button
             onClick={() => setShowModal(true)}
             size="sm"
+            className="w-full sm:w-auto flex-shrink-0 text-xs sm:text-sm whitespace-nowrap"
           >
             <i className="ri-add-line mr-1"></i>
             New Connection
@@ -438,7 +440,7 @@ export default function ConnectingFeature() {
           </div>
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 
