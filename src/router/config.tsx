@@ -16,6 +16,7 @@ const MyHomecareRequests = lazy(() => import('../pages/my-homecare-requests/page
 const MyRewards = lazy(() => import('../pages/my-rewards/page'));
 const PaymentHistory = lazy(() => import('../pages/payment-history/page'));
 const HelpSupport = lazy(() => import('../pages/help-support/page'));
+const Diagnostic = lazy(() => import('../pages/diagnostic/page'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const routes: RouteObject[] = [
@@ -68,12 +69,16 @@ const routes: RouteObject[] = [
     element: <MyRewards />
   },
   {
-    path: '/payment-history',
+    path: '/payment',
     element: <PaymentHistory />
   },
   {
     path: '/help-support',
     element: <HelpSupport />
+  },
+  {
+    path: '/diagnostic',
+    element: <Diagnostic />
   },
   {
     path: '*',

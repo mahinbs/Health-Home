@@ -1,9 +1,12 @@
 
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
+import ScratchCard from '../../components/feature/ScratchCard';
 
 interface Reward {
   id: string;
@@ -25,10 +28,72 @@ interface Achievement {
   unlockedDate?: string;
 }
 
+interface ScratchCardReward {
+  id: string;
+  amount: number;
+  type: 'wallet' | 'discount' | 'benefit';
+  message: string;
+  date: string;
+  status: 'available' | 'used' | 'expired';
+  distance: number; // km completed
+}
+
 export default function MyRewards() {
   const navigate = useNavigate();
+  const [showScratchCard, setShowScratchCard] = useState(false);
+  const [selectedScratchCard, setSelectedScratchCard] = useState<ScratchCardReward | null>(null);
+  const [scratchCards, setScratchCards] = useState<ScratchCardReward[]>([
+    {
+      id: '1',
+      amount: 50,
+      type: 'wallet',
+      message: 'Added to your wallet!',
+      date: '2024-01-21',
+      status: 'available',
+      distance: 1.0
+    },
+    {
+      id: '2',
+      amount: 100,
+      type: 'wallet',
+      message: 'Great job! Keep walking!',
+      date: '2024-01-20',
+      status: 'used',
+      distance: 2.0
+    },
+    {
+      id: '3',
+      amount: 25,
+      type: 'discount',
+      message: '20% off on next consultation!',
+      date: '2024-01-19',
+      status: 'expired',
+      distance: 1.5
+    }
+  ]);
   const totalPoints = 2450;
   const healthCredits = 125.50;
+  const walkedDistance = 1.2; // km
+
+  const handleScratchCardClick = (card: ScratchCardReward) => {
+    if (card.status === 'available') {
+      setSelectedScratchCard(card);
+      setShowScratchCard(true);
+    }
+  };
+
+  const handleScratchCardClose = () => {
+    setShowScratchCard(false);
+    if (selectedScratchCard) {
+      // Mark as used after closing
+      setScratchCards(prev => prev.map(card => 
+        card.id === selectedScratchCard.id 
+          ? { ...card, status: 'used' as const }
+          : card
+      ));
+    }
+    setSelectedScratchCard(null);
+  };
 
   const recentRewards: Reward[] = [
     {
@@ -98,9 +163,10 @@ export default function MyRewards() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="My Rewards" showBack={true} onBack={() => navigate('/profile')} showCart={true} />
+      <AdsBanner />
+      <TopNavigation title="My Rewards" showCart={true} />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Points Summary */}
         <div className="mb-6">
           <Card className="p-6 bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 text-white animate-scale-in">
@@ -123,6 +189,62 @@ export default function MyRewards() {
             </div>
           </Card>
         </div>
+
+        {/* Scratch Cards Section */}
+        {walkedDistance >= 1 && (
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-semibold text-gray-900">Scratch Cards</h2>
+              <span className="text-sm text-gray-600">Complete 1km to unlock</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {scratchCards.map((card) => (
+                <Card
+                  key={card.id}
+                  className={`p-4 cursor-pointer transition-all duration-300 ${
+                    card.status === 'available'
+                      ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-300 hover:shadow-lg hover:scale-105'
+                      : card.status === 'used'
+                      ? 'bg-gray-50 border border-gray-200 opacity-60'
+                      : 'bg-gray-50 border border-gray-200 opacity-40'
+                  }`}
+                  onClick={() => handleScratchCardClick(card)}
+                >
+                  <div className="text-center">
+                    <div className={`w-16 h-16 mx-auto mb-2 rounded-xl flex items-center justify-center ${
+                      card.status === 'available'
+                        ? 'bg-gradient-to-br from-yellow-400 to-orange-400'
+                        : 'bg-gray-300'
+                    }`}>
+                      <i className={`ri-gift-2-fill text-2xl ${
+                        card.status === 'available' ? 'text-white' : 'text-gray-500'
+                      }`}></i>
+                    </div>
+                    <p className="text-xs font-semibold text-gray-900 mb-1">
+                      {card.distance} km Reward
+                    </p>
+                    {card.status === 'available' && (
+                      <p className="text-xs text-yellow-600 font-medium">Tap to scratch!</p>
+                    )}
+                    {card.status === 'used' && (
+                      <p className="text-xs text-gray-500">Used</p>
+                    )}
+                    {card.status === 'expired' && (
+                      <p className="text-xs text-gray-500">Expired</p>
+                    )}
+                  </div>
+                </Card>
+              ))}
+            </div>
+            {scratchCards.filter(c => c.status === 'available').length === 0 && (
+              <Card className="p-4 text-center bg-gray-50">
+                <i className="ri-gift-line text-4xl text-gray-300 mb-2"></i>
+                <p className="text-sm text-gray-600">No available scratch cards</p>
+                <p className="text-xs text-gray-500 mt-1">Walk 1km to unlock a new scratch card!</p>
+              </Card>
+            )}
+          </div>
+        )}
 
         {/* Recent Rewards */}
         <div className="mb-6">
@@ -206,6 +328,19 @@ export default function MyRewards() {
           </div>
         </Card>
       </div>
+
+      {/* Scratch Card Modal */}
+      {showScratchCard && selectedScratchCard && (
+        <ScratchCard
+          isOpen={showScratchCard}
+          onClose={handleScratchCardClose}
+          reward={{
+            amount: selectedScratchCard.amount,
+            type: selectedScratchCard.type,
+            message: selectedScratchCard.message
+          }}
+        />
+      )}
 
       <BottomNavigation />
     </div>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
 
@@ -85,9 +86,10 @@ export default function MyConsultations() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="My Consultations" showBack={true} onBack={() => navigate('/profile')} showCart={true} />
+      <AdsBanner />
+      <TopNavigation title="My Consultations" showCart={true} />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Filter Tabs */}
         <div className="mb-6">
           <div className="flex space-x-2 overflow-x-auto pb-2">
@@ -266,10 +268,24 @@ export default function MyConsultations() {
               )}
 
               {selectedConsultation.status === 'completed' && (
-                <Button variant="outline" className="w-full">
-                  <i className="ri-file-text-line mr-2"></i>
-                  View Prescription
-                </Button>
+                <div className="space-y-3">
+                  <Button variant="outline" className="w-full">
+                    <i className="ri-file-text-line mr-2"></i>
+                    View Prescription
+                  </Button>
+                  <Button 
+                    className="w-full bg-gradient-to-r from-green-500 to-emerald-500"
+                    onClick={() => {
+                      const minCharge = 50;
+                      if (confirm(`Request prescription from ${selectedConsultation.doctorName}? Minimum charge: ₹${minCharge}`)) {
+                        alert('Prescription request sent! Doctor will review and send it shortly.');
+                      }
+                    }}
+                  >
+                    <i className="ri-file-add-line mr-2"></i>
+                    Request Prescription (₹50 min)
+                  </Button>
+                </div>
               )}
             </div>
           </div>

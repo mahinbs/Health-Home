@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
 
@@ -83,9 +84,11 @@ export default function MyHomecareRequests() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="My Homecare Requests" showBack={true} onBack={() => navigate('/profile')} showCart={true} />
+      <AdsBanner />
+      <TopNavigation title="My Homecare Requests" showCart={true} />
+      <TopNavigation title="My Homecare Requests" showCart={true} />
       
-      <div className="pt-20 sm:pt-24 pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Filter Tabs */}
         <div className="mb-6">
           <div className="flex space-x-2 overflow-x-auto pb-2">

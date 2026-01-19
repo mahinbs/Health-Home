@@ -2,6 +2,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
+import AdsBanner from '../../components/feature/AdsBanner';
 import Card from '../../components/base/Card';
 import Button from '../../components/base/Button';
 
@@ -12,9 +13,10 @@ export default function PaymentSuccess() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
-      <TopNavigation title="Payment Success" showBack={false} showCart={true} />
+      <AdsBanner />
+      <TopNavigation title="Payment Success" showCart={true} />
       
-      <div className="pt-24 pb-24 px-4 flex items-center justify-center min-h-[calc(100vh-120px)]">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-24 px-4 flex items-center justify-center min-h-[calc(100vh-120px)]">
         <Card className="p-8 text-center max-w-md w-full animate-scale-in">
           <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-bounce-subtle">
             <i className="ri-check-line text-5xl text-white"></i>

@@ -1,13 +1,16 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Card from '../../../components/base/Card';
 import Button from '../../../components/base/Button';
 
 export default function HealthMetrics() {
+  const navigate = useNavigate();
   const [showBMIDetail, setShowBMIDetail] = useState(false);
   const [selectedComplaints, setSelectedComplaints] = useState<string[]>([]);
   const [showAIAdvice, setShowAIAdvice] = useState(false);
   const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
+  const [walkedDistance] = useState(1.2); // in km
 
   const currentSteps = 8432;
   const goalSteps = 10000;
@@ -139,9 +142,19 @@ export default function HealthMetrics() {
                 </p>
                 <p className="text-xs text-orange-600">Complete 10 km in a day</p>
               </div>
-              <p className="text-xs text-gray-600">
+              <button
+                onClick={() => navigate('/my-rewards')}
+                className="w-full bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg p-2 mb-2 border border-pink-200 hover:border-pink-300 hover:shadow-md transition-all duration-300 text-left"
+              >
+                <p className="text-xs font-semibold text-pink-700 mb-1">
+                  <i className="ri-gift-2-fill mr-1"></i>
+                  Scratch Card on 1km!
+                </p>
+                <p className="text-xs text-pink-600">Tap to view your scratch cards</p>
+              </button>
+              {/* <p className="text-xs text-gray-600">
                 Wallet money can be used for health insurance and app services.
-              </p>
+              </p> */}
             </div>
           </div>
         </Card>
