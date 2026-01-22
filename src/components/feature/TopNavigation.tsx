@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
 import ProfileAvatar from './ProfileAvatar';
+import healthHomeLogo from '../../assets/health-home-logo.png';
 
 interface TopNavigationProps {
   title?: string;
@@ -31,17 +32,17 @@ function CartIcon() {
 
 export default function TopNavigation({ title, rightAction, showCart = true }: TopNavigationProps) {
   return (
-    <div className="fixed top-[40px] left-0 right-0 bg-white/90 backdrop-blur-md border-b border-pink-200/50 px-3 sm:px-4 md:px-6 z-50 shadow-lg h-[64px] sm:h-[72px] flex items-center">
+    <div className="fixed top-[40px] left-0 right-0 bg-white/90 backdrop-blur-md border-b border-pink-200/50 px-3 sm:px-4 md:px-6 z-50 shadow-lg h-[72px] sm:h-[80px] md:h-[88px] flex items-center">
       <div className="flex items-center justify-between w-full">
         {/* Left side - Logo and Title */}
         <div className="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
           {title && (
             <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
-              <div className="relative w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-pink-100 to-rose-100 rounded-xl shadow-md flex items-center justify-center p-1.5 sm:p-2 border border-pink-200/50 flex-shrink-0">
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-pink-100 to-rose-100 rounded-xl shadow-md flex items-center justify-center p-0.5 md:p-1 border border-pink-200/50 flex-shrink-0">
                 <img 
-                  src="https://static.readdy.ai/image/19a52a0e7cd11d182286c46a940c9855/db67221c92c7b4d8a5d37a7873047074.jpeg" 
+                  src={healthHomeLogo} 
                   alt="Health@Home Logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="min-w-0 flex-1">

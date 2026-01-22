@@ -73,33 +73,6 @@ export default function Homecare() {
       popular: true
     },
     {
-      id: '3',
-      name: 'IV Infusion',
-      description: 'Intravenous infusion therapy at home',
-      icon: 'ri-medicine-bottle-line',
-      duration: '1-2 hours',
-      price: '$60/visit',
-      popular: true
-    },
-    {
-      id: '7',
-      name: 'Wound Dressing',
-      description: 'Professional wound care and dressing',
-      icon: 'ri-first-aid-kit-line',
-      duration: '30 min - 1 hour',
-      price: '$40/visit',
-      popular: true
-    },
-    {
-      id: '8',
-      name: 'Catheter Care',
-      description: 'Catheter insertion, maintenance, and care',
-      icon: 'ri-hospital-line',
-      duration: '30 min - 1 hour',
-      price: '$50/visit',
-      popular: false
-    },
-    {
       id: '4',
       name: 'Physiotherapy',
       description: 'Exercise assistance, mobility support',
@@ -125,6 +98,15 @@ export default function Homecare() {
       duration: '2-6 hours',
       price: '$35/hour',
       popular: false
+    },
+    {
+      id: '9',
+      name: 'General Practitioner',
+      description: 'Health check-ups, consultations, specialist referrals',
+      icon: 'ri-stethoscope-line',
+      duration: '30 min - 1 hour',
+      price: '$80/visit',
+      popular: true
     }
   ];
 
@@ -191,7 +173,39 @@ export default function Homecare() {
       languages: ['English', 'French'],
       totalReviews: 156,
       responseTime: '< 3 hours',
-      services: ['Medical Care', 'Medication Management', 'Wound Care']
+      services: ['Nursing Care', 'Wound Dressing', 'Catheter Care', 'IV Infusion']
+    },
+    {
+      id: '5',
+      name: 'Dr. Priya Sharma',
+      specialty: 'General Practitioner',
+      rating: 4.9,
+      experience: '10 years',
+      hourlyRate: '$80',
+      image: 'https://readdy.ai/api/search-image?query=Professional%20female%20doctor%20in%20white%20coat%2C%20confident%20friendly%20expression%2C%20general%20practitioner%20portrait%2C%20medical%20clinic%20background%2C%20healthcare%20professional&width=80&height=80&seq=gp1&orientation=squarish',
+      available: 'Available Today',
+      introduction: 'Dr. Priya is a dedicated General Practitioner with extensive experience in primary healthcare. She provides comprehensive health check-ups, consultations, and connects patients with specialist doctors when needed.',
+      certifications: ['MBBS', 'MD General Medicine', 'Family Medicine Specialist', 'Health Check-up Certified'],
+      languages: ['English', 'Hindi', 'Marathi'],
+      totalReviews: 428,
+      responseTime: '< 1 hour',
+      services: ['Health Check-up', 'General Consultation', 'Specialist Referral']
+    },
+    {
+      id: '6',
+      name: 'Dr. Rajesh Kumar',
+      specialty: 'General Practitioner',
+      rating: 4.8,
+      experience: '15 years',
+      hourlyRate: '$85',
+      image: 'https://readdy.ai/api/search-image?query=Professional%20male%20doctor%20in%20white%20coat%2C%20experienced%20confident%20appearance%2C%20general%20practitioner%20portrait%2C%20medical%20clinic%20background%2C%20healthcare%20professional&width=80&height=80&seq=gp2&orientation=squarish',
+      available: 'Available Tomorrow',
+      introduction: 'Dr. Rajesh is an experienced GP specializing in preventive healthcare and chronic disease management. He provides thorough health assessments and coordinates with specialists for comprehensive patient care.',
+      certifications: ['MBBS', 'MD General Medicine', 'Preventive Medicine Specialist', 'Chronic Disease Management'],
+      languages: ['English', 'Hindi', 'Tamil'],
+      totalReviews: 312,
+      responseTime: '< 2 hours',
+      services: ['Health Check-up', 'General Consultation', 'Specialist Referral']
     }
   ];
 
@@ -238,7 +252,7 @@ export default function Homecare() {
     }
   ];
 
-  const handleProactiveYes = (service: typeof proactiveServicesList[0]) => {
+  const handleProactiveYes = (service: { id: string; name: string; description: string; icon: string; price: string; category: 'consultation' | 'diagnostic' | 'medicine' | 'homecare' }) => {
     setShowProactiveDialog(false);
     
     // Update proactive services state
@@ -715,6 +729,14 @@ export default function Homecare() {
                     {selectedCaregiverData.services.map((service, index) => (
                       <option key={index} value={service}>{service}</option>
                     ))}
+                    {/* Add nursing-specific services if Nursing Care is in the services list */}
+                    {selectedCaregiverData.services.some(s => s.toLowerCase().includes('nursing')) && (
+                      <>
+                        <option value="Wound Dressing">Wound Dressing</option>
+                        <option value="Catheter Care">Catheter Care</option>
+                        <option value="IV Infusion">IV Infusion</option>
+                      </>
+                    )}
                   </select>
                 </div>
 
