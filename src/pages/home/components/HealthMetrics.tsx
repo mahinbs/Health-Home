@@ -10,7 +10,6 @@ export default function HealthMetrics() {
   const [selectedComplaints, setSelectedComplaints] = useState<string[]>([]);
   const [showAIAdvice, setShowAIAdvice] = useState(false);
   const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
-  const [walkedDistance] = useState(1.2); // in km
 
   const currentSteps = 8432;
   const goalSteps = 10000;
@@ -20,20 +19,20 @@ export default function HealthMetrics() {
 
   const metrics = [
     {
-      id: 'heart-rate',
-      label: 'Heart Rate',
-      value: '72 bpm',
-      status: 'Normal',
-      icon: 'ri-heart-pulse-fill',
-      color: 'text-red-500',
-      bgColor: 'bg-red-50'
+      id: 'active-consultations',
+      label: 'Active Consultations',
+      value: '3',
+      status: 'Ongoing',
+      icon: 'ri-video-chat-fill',
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-50'
     },
     {
-      id: 'blood-pressure',
-      label: 'Blood Pressure',
-      value: '120/80',
-      status: 'Optimal',
-      icon: 'ri-pulse-fill',
+      id: 'health-credits',
+      label: 'Health Credits',
+      value: '₹1,250',
+      status: 'Available',
+      icon: 'ri-wallet-3-fill',
       color: 'text-emerald-500',
       bgColor: 'bg-emerald-50'
     },
@@ -372,62 +371,75 @@ export default function HealthMetrics() {
             </div>
 
             <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 pb-20 sm:pb-24">
-              {selectedMetric === 'heart-rate' && (
-                <Card className="p-4 sm:p-6 bg-gradient-to-br from-red-50 to-pink-50">
+              {selectedMetric === 'active-consultations' && (
+                <Card className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
                   <div className="text-center mb-6">
-                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg">
-                      <i className="ri-heart-pulse-fill text-4xl text-white"></i>
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-lg">
+                      <i className="ri-video-chat-fill text-4xl text-white"></i>
                     </div>
-                    <h3 className="text-4xl font-bold text-gray-900 mb-2">72 bpm</h3>
-                    <p className="text-lg font-semibold text-emerald-600 mb-1">Normal</p>
-                    <p className="text-sm text-gray-600">Resting Heart Rate</p>
+                    <h3 className="text-4xl font-bold text-gray-900 mb-2">3</h3>
+                    <p className="text-lg font-semibold text-emerald-600 mb-1">Active Consultations</p>
+                    <p className="text-sm text-gray-600">Ongoing appointments</p>
                   </div>
                   <div className="space-y-3">
                     <div className="bg-white rounded-xl p-4">
-                      <h4 className="font-semibold text-gray-900 mb-2">Last 7 Days</h4>
+                      <h4 className="font-semibold text-gray-900 mb-2">Recent Consultations</h4>
                       <div className="space-y-2">
-                        {[72, 74, 71, 73, 72, 75, 72].map((rate, idx) => (
+                        {['Dr. Priya Sharma - General Check-up', 'Dr. Rajesh Kumar - Follow-up', 'Dr. Sarah Johnson - Specialist'].map((consult, idx) => (
                           <div key={idx} className="flex items-center justify-between">
-                            <span className="text-sm text-gray-600">Day {idx + 1}</span>
-                            <span className="font-semibold text-gray-900">{rate} bpm</span>
+                            <span className="text-sm text-gray-600">{consult}</span>
+                            <span className="text-xs font-semibold text-blue-600">Active</span>
                           </div>
                         ))}
                       </div>
                     </div>
-                    <div className="bg-white rounded-xl p-4">
-                      <h4 className="font-semibold text-gray-900 mb-2">Normal Range</h4>
-                      <p className="text-sm text-gray-600">60-100 bpm for adults at rest</p>
-                    </div>
+                    <button
+                      onClick={() => navigate('/my-consultations')}
+                      className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300"
+                    >
+                      View All Consultations
+                    </button>
                   </div>
                 </Card>
               )}
 
-              {selectedMetric === 'blood-pressure' && (
+              {selectedMetric === 'health-credits' && (
                 <Card className="p-4 sm:p-6 bg-gradient-to-br from-emerald-50 to-teal-50">
                   <div className="text-center mb-6">
                     <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
-                      <i className="ri-pulse-fill text-4xl text-white"></i>
+                      <i className="ri-wallet-3-fill text-4xl text-white"></i>
                     </div>
-                    <h3 className="text-4xl font-bold text-gray-900 mb-2">120/80</h3>
-                    <p className="text-lg font-semibold text-emerald-600 mb-1">Optimal</p>
-                    <p className="text-sm text-gray-600">Systolic/Diastolic</p>
+                    <h3 className="text-4xl font-bold text-gray-900 mb-2">₹1,250</h3>
+                    <p className="text-lg font-semibold text-emerald-600 mb-1">Health Credits</p>
+                    <p className="text-sm text-gray-600">Available balance</p>
                   </div>
                   <div className="space-y-3">
                     <div className="bg-white rounded-xl p-4">
-                      <h4 className="font-semibold text-gray-900 mb-2">Last 7 Days</h4>
+                      <h4 className="font-semibold text-gray-900 mb-2">Recent Transactions</h4>
                       <div className="space-y-2">
-                        {['120/80', '118/78', '122/82', '119/79', '121/81', '120/80', '119/79'].map((bp, idx) => (
+                        {[
+                          { desc: 'Steps Reward', amount: '+₹50', date: 'Today' },
+                          { desc: 'Consultation Payment', amount: '-₹200', date: 'Yesterday' },
+                          { desc: 'Health Check-up', amount: '-₹300', date: '2 days ago' }
+                        ].map((trans, idx) => (
                           <div key={idx} className="flex items-center justify-between">
-                            <span className="text-sm text-gray-600">Day {idx + 1}</span>
-                            <span className="font-semibold text-gray-900">{bp}</span>
+                            <div>
+                              <span className="text-sm text-gray-900 font-medium">{trans.desc}</span>
+                              <p className="text-xs text-gray-500">{trans.date}</p>
+                            </div>
+                            <span className={`text-sm font-semibold ${trans.amount.startsWith('+') ? 'text-emerald-600' : 'text-red-600'}`}>
+                              {trans.amount}
+                            </span>
                           </div>
                         ))}
                       </div>
                     </div>
-                    <div className="bg-white rounded-xl p-4">
-                      <h4 className="font-semibold text-gray-900 mb-2">Normal Range</h4>
-                      <p className="text-sm text-gray-600">Less than 120/80 mmHg is optimal</p>
-                    </div>
+                    <button
+                      onClick={() => navigate('/my-rewards')}
+                      className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300"
+                    >
+                      View Wallet Details
+                    </button>
                   </div>
                 </Card>
               )}
