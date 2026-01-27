@@ -50,7 +50,7 @@ export default function ProactiveBookingDialog({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 pb-6">
+        <div className="flex-1 overflow-y-auto p-4 pb-24 sm:pb-28">
           <p className="text-sm text-gray-600 mb-4">{message}</p>
 
           <div className="space-y-3 mb-6">

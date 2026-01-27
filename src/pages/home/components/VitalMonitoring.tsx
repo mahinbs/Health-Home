@@ -52,7 +52,7 @@ export default function VitalMonitoring() {
       <div className="px-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-3">Vital Monitoring</h2>
         
-        <div className="space-y-3">
+        <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-3">
           {/* Blood Pressure Card */}
           <Card 
             className={`p-4 cursor-pointer ${bpData.status === 'high' ? 'border-2 border-red-300 bg-red-50/50' : ''}`}

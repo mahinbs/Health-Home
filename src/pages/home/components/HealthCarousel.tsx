@@ -46,6 +46,38 @@ export default function HealthCarousel() {
       ctaText: 'View Metrics',
       navigationPath: '/records',
     },
+    {
+      id: 5,
+      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&q=80',
+      title: 'Diagnostic Services',
+      description: 'Book lab tests, X-rays, and diagnostic procedures with ease',
+      ctaText: 'Book Test',
+      navigationPath: '/diagnostic',
+    },
+    {
+      id: 6,
+      image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&q=80',
+      title: 'Health Community',
+      description: 'Connect with doctors, share experiences, and get health insights',
+      ctaText: 'Join Community',
+      navigationPath: '/connections',
+    },
+    {
+      id: 7,
+      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&q=80',
+      title: 'Hospital Network',
+      description: 'Access comprehensive healthcare services from trusted hospitals',
+      ctaText: 'Explore Hospitals',
+      navigationPath: '/consult',
+    },
+    {
+      id: 8,
+      image: 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=1200&q=80',
+      title: 'Health Rewards',
+      description: 'Earn points and rewards for maintaining your health and wellness',
+      ctaText: 'View Rewards',
+      navigationPath: '/my-rewards',
+    },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);

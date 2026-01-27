@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
 import AdsBanner from '../../components/feature/AdsBanner';
@@ -69,6 +70,7 @@ interface Order {
 }
 
 export default function PharmacyPage() {
+  const navigate = useNavigate();
   const { addToCart, removeFromCart, isInCart } = useCart();
   const [activeTab, setActiveTab] = useState('browse');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -83,6 +85,11 @@ export default function PharmacyPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [selectedStore, setSelectedStore] = useState<PharmacyStore | null>(null);
   const [showStoreModal, setShowStoreModal] = useState(false);
+  const [showPrescriptionModal, setShowPrescriptionModal] = useState(false);
+  const [prescriptionText, setPrescriptionText] = useState('');
+  const [prescriptionFile, setPrescriptionFile] = useState<File | null>(null);
+  const [prescriptionMedicines, setPrescriptionMedicines] = useState<string[]>([]);
+  const [matchedStores, setMatchedStores] = useState<PharmacyStore[]>([]);
 
   const pharmacyStores: PharmacyStore[] = [
     {
@@ -749,9 +756,63 @@ export default function PharmacyPage() {
         {activeTab === 'prescriptions' && (
           <div className="p-4">
             <div className="mb-4">
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">My Prescriptions</h2>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-lg font-semibold text-gray-900">My Prescriptions</h2>
+                <Button
+                  onClick={() => setShowPrescriptionModal(true)}
+                  size="sm"
+                  className="text-xs sm:text-sm"
+                >
+                  <i className="ri-add-line mr-1"></i>
+                  Add Prescription
+                </Button>
+              </div>
               <p className="text-sm text-gray-600">Manage your prescription medications</p>
             </div>
+
+            {/* Matched Stores Section */}
+            {matchedStores.length > 0 && (
+              <div className="mb-6">
+                <h3 className="text-base font-semibold text-gray-900 mb-3">Stores with Your Prescription Medicines</h3>
+                <div className="space-y-3">
+                  {matchedStores.map((store) => {
+                    const availableCount = prescriptionMedicines.filter(med => 
+                      store.availability.some(av => av.medicationId && av.inStock)
+                    ).length;
+                    return (
+                      <Card key={store.id} className="p-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">{store.name}</h4>
+                            <p className="text-sm text-gray-600">{store.address}</p>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <i className="ri-star-fill text-yellow-400 text-sm"></i>
+                            <span className="text-sm text-gray-600">{store.rating}</span>
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <p className="text-sm text-gray-700">
+                            <span className="font-semibold text-green-600">{availableCount}</span> out of {prescriptionMedicines.length} medicines available
+                          </p>
+                          <p className="text-xs text-gray-500">{store.distance} away</p>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            setSelectedStore(store);
+                            setShowStoreModal(true);
+                          }}
+                          className="w-full"
+                          size="sm"
+                        >
+                          View Store & Order
+                        </Button>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
             
             <div className="space-y-3">
               {prescriptions.map((prescription) => (
@@ -1158,26 +1219,216 @@ export default function PharmacyPage() {
                   </div>
                 </div>
 
+                {/* Prescription Medicines Section */}
+                {prescriptionMedicines.length > 0 && (
+                  <div className="mb-4">
+                    <h3 className="font-semibold mb-3 flex items-center">
+                      <i className="ri-file-prescription-line text-pink-600 mr-2"></i>
+                      Your Prescription Medicines
+                    </h3>
+                    <div className="space-y-3">
+                      {prescriptionMedicines.map((prescriptionMed, idx) => {
+                        // Try to find matching medication - improved matching logic
+                        const prescriptionLower = prescriptionMed.toLowerCase();
+                        const matchingMed = medications.find(med => {
+                          const medNameLower = med.name.toLowerCase();
+                          const genericNameLower = med.genericName.toLowerCase();
+                          const prescriptionWords = prescriptionLower.split(/\s+/);
+                          const firstWord = prescriptionWords[0];
+                          
+                          // Check if prescription contains medicine name or generic name
+                          return prescriptionLower.includes(medNameLower) ||
+                                 prescriptionLower.includes(genericNameLower) ||
+                                 medNameLower.includes(firstWord) ||
+                                 genericNameLower.includes(firstWord);
+                        });
+                        const isInStock = matchingMed && selectedStore.availability.some(av => 
+                          av.medicationId === matchingMed.id && av.inStock
+                        );
+                        
+                        return (
+                          <div key={idx} className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-lg p-3">
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="flex-1">
+                                <p className="font-medium text-sm text-gray-900">{prescriptionMed}</p>
+                                {matchingMed && (
+                                  <p className="text-xs text-gray-600 mt-1">
+                                    <span className="font-medium">Match:</span> {matchingMed.name} {matchingMed.dosage}
+                                  </p>
+                                )}
+                              </div>
+                              <div className="text-right ml-2">
+                                {matchingMed ? (
+                                  <>
+                                    <p className={`text-xs font-semibold ${isInStock ? 'text-emerald-600' : 'text-red-600'}`}>
+                                      {isInStock ? 'Available' : 'Not Available'}
+                                    </p>
+                                    {isInStock && (
+                                      <p className="text-sm font-bold text-pink-600 mt-1">₹{matchingMed.price}</p>
+                                    )}
+                                  </>
+                                ) : (
+                                  <p className="text-xs text-gray-500">Searching...</p>
+                                )}
+                              </div>
+                            </div>
+                            {matchingMed && isInStock && (
+                              <div className="flex items-center space-x-2 mt-2">
+                                <button
+                                  onClick={() => {
+                                    handleOrderMedication(matchingMed);
+                                  }}
+                                  className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+                                    isInCart(matchingMed.id)
+                                      ? 'bg-gray-200 text-gray-700'
+                                      : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-md'
+                                  }`}
+                                >
+                                  {isInCart(matchingMed.id) ? (
+                                    <>
+                                      <i className="ri-check-line mr-1"></i>
+                                      Added to Cart
+                                    </>
+                                  ) : (
+                                    <>
+                                      <i className="ri-shopping-cart-line mr-1"></i>
+                                      Add to Cart
+                                    </>
+                                  )}
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    if (!isInCart(matchingMed.id)) {
+                                      handleOrderMedication(matchingMed);
+                                    }
+                                    navigate('/cart');
+                                  }}
+                                  className="flex-1 py-2 px-3 rounded-lg text-xs font-semibold bg-white border-2 border-pink-500 text-pink-600 hover:bg-pink-50 transition-all"
+                                >
+                                  Buy Now
+                                </button>
+                              </div>
+                            )}
+                            {matchingMed && !isInStock && (
+                              <p className="text-xs text-red-600 mt-2">
+                                <i className="ri-alert-line mr-1"></i>
+                                This medicine is currently out of stock at this store
+                              </p>
+                            )}
+                            {!matchingMed && (
+                              <p className="text-xs text-gray-500 mt-2">
+                                <i className="ri-information-line mr-1"></i>
+                                Medicine not found in catalog. Please search manually.
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {prescriptionMedicines.some((prescriptionMed) => {
+                      const prescriptionLower = prescriptionMed.toLowerCase();
+                      const matchingMed = medications.find(med => {
+                        const medNameLower = med.name.toLowerCase();
+                        const genericNameLower = med.genericName.toLowerCase();
+                        const prescriptionWords = prescriptionLower.split(/\s+/);
+                        const firstWord = prescriptionWords[0];
+                        
+                        return prescriptionLower.includes(medNameLower) ||
+                               prescriptionLower.includes(genericNameLower) ||
+                               medNameLower.includes(firstWord) ||
+                               genericNameLower.includes(firstWord);
+                      });
+                      return matchingMed && selectedStore.availability.some(av => 
+                        av.medicationId === matchingMed.id && av.inStock
+                      );
+                    }) && (
+                      <div className="mt-4 pt-4 border-t border-pink-200">
+                        <button
+                          onClick={() => {
+                            let addedCount = 0;
+                            prescriptionMedicines.forEach((prescriptionMed) => {
+                              const prescriptionLower = prescriptionMed.toLowerCase();
+                              const matchingMed = medications.find(med => {
+                                const medNameLower = med.name.toLowerCase();
+                                const genericNameLower = med.genericName.toLowerCase();
+                                const prescriptionWords = prescriptionLower.split(/\s+/);
+                                const firstWord = prescriptionWords[0];
+                                
+                                return prescriptionLower.includes(medNameLower) ||
+                                       prescriptionLower.includes(genericNameLower) ||
+                                       medNameLower.includes(firstWord) ||
+                                       genericNameLower.includes(firstWord);
+                              });
+                              if (matchingMed && selectedStore.availability.some(av => 
+                                av.medicationId === matchingMed.id && av.inStock
+                              ) && !isInCart(matchingMed.id)) {
+                                handleOrderMedication(matchingMed);
+                                addedCount++;
+                              }
+                            });
+                            if (addedCount > 0) {
+                              navigate('/cart');
+                            } else {
+                              alert('All available medicines are already in your cart!');
+                            }
+                          }}
+                          className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        >
+                          <i className="ri-shopping-cart-2-line"></i>
+                          <span>Add All Available to Cart & Checkout</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div>
-                  <h3 className="font-semibold mb-3">Drug Availability</h3>
+                  <h3 className="font-semibold mb-3">All Available Medicines</h3>
                   <div className="space-y-2">
                     {selectedStore.availability.map((item) => {
                       const med = medications.find(m => m.id === item.medicationId);
                       if (!med) return null;
                       return (
                         <div key={item.medicationId} className="bg-gray-50 rounded-lg p-3">
-                          <div className="flex items-center justify-between">
-                            <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex-1">
                               <p className="font-medium text-sm">{med.name}</p>
                               <p className="text-xs text-gray-500">{med.dosage}</p>
                             </div>
-                            <div className="text-right">
+                            <div className="text-right ml-2">
                               <p className={`text-xs font-semibold ${item.inStock ? 'text-emerald-600' : 'text-red-600'}`}>
                                 {item.inStock ? `In Stock (${item.quantity})` : 'Out of Stock'}
                               </p>
                               <p className="text-xs text-gray-500">Updated: {item.lastUpdated}</p>
                             </div>
                           </div>
+                          {item.inStock && (
+                            <div className="mt-2 pt-2 border-t border-gray-200">
+                              <div className="flex items-center justify-between">
+                                <p className="text-sm font-semibold text-gray-900">₹{med.price}</p>
+                                <button
+                                  onClick={() => handleOrderMedication(med)}
+                                  className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                                    isInCart(med.id)
+                                      ? 'bg-gray-200 text-gray-700'
+                                      : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-md'
+                                  }`}
+                                >
+                                  {isInCart(med.id) ? (
+                                    <>
+                                      <i className="ri-check-line mr-1"></i>
+                                      Added
+                                    </>
+                                  ) : (
+                                    <>
+                                      <i className="ri-shopping-cart-line mr-1"></i>
+                                      Add to Cart
+                                    </>
+                                  )}
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
@@ -1208,6 +1459,129 @@ export default function PharmacyPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Prescription Upload/Entry Modal */}
+      {showPrescriptionModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900">Add Prescription</h2>
+              <button 
+                onClick={() => {
+                  setShowPrescriptionModal(false);
+                  setPrescriptionText('');
+                  setPrescriptionFile(null);
+                  setPrescriptionMedicines([]);
+                  setMatchedStores([]);
+                }}
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+              >
+                <i className="ri-close-line text-gray-600"></i>
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 pb-20 sm:pb-24">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Upload Prescription Image/PDF</label>
+                <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center">
+                  <input
+                    type="file"
+                    accept="image/*,.pdf"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setPrescriptionFile(file);
+                        // Simulate extracting medicines from prescription
+                        const extractedMedicines = ['Paracetamol 500mg', 'Amoxicillin 250mg', 'Vitamin D3 1000 IU'];
+                        setPrescriptionMedicines(extractedMedicines);
+                        // Find stores with these medicines
+                        const stores = pharmacyStores.filter(store => 
+                          store.availability.some(av => extractedMedicines.some(med => med.includes(av.medicationId)))
+                        );
+                        setMatchedStores(stores);
+                      }
+                    }}
+                    className="hidden"
+                    id="prescription-upload"
+                  />
+                  <label
+                    htmlFor="prescription-upload"
+                    className="flex flex-col items-center cursor-pointer"
+                  >
+                    <i className="ri-file-upload-line text-4xl text-gray-400 mb-2"></i>
+                    <span className="text-sm text-gray-600 mb-1">Tap to upload prescription</span>
+                    <span className="text-xs text-gray-500">Supports JPG, PNG, PDF</span>
+                  </label>
+                  {prescriptionFile && (
+                    <div className="mt-3">
+                      <p className="text-sm text-gray-700">
+                        <i className="ri-file-check-line text-green-600 mr-1"></i>
+                        {prescriptionFile.name}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="text-center text-gray-500 text-sm">OR</div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Enter Prescription Details</label>
+                <textarea
+                  value={prescriptionText}
+                  onChange={(e) => {
+                    setPrescriptionText(e.target.value);
+                    // Extract medicine names from text
+                    const medicines = e.target.value
+                      .split('\n')
+                      .filter(line => line.trim())
+                      .map(line => line.trim());
+                    if (medicines.length > 0) {
+                      setPrescriptionMedicines(medicines);
+                      // Find stores with these medicines
+                      const stores = pharmacyStores.filter(store => 
+                        store.availability.some(av => medicines.some(med => med.toLowerCase().includes(av.medicationId.toLowerCase())))
+                      );
+                      setMatchedStores(stores);
+                    }
+                  }}
+                  placeholder="Enter medicine names, one per line:\nParacetamol 500mg\nAmoxicillin 250mg\nVitamin D3 1000 IU"
+                  rows={6}
+                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300 resize-none"
+                />
+              </div>
+
+              {prescriptionMedicines.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-2">Detected Medicines:</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {prescriptionMedicines.map((med, idx) => (
+                      <span key={idx} className="bg-pink-50 text-pink-700 px-3 py-1 rounded-full text-xs">
+                        {med}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <Button
+                onClick={() => {
+                  if (prescriptionFile || prescriptionText.trim()) {
+                    setShowPrescriptionModal(false);
+                    setActiveTab('prescriptions');
+                  } else {
+                    alert('Please upload a prescription or enter medicine names');
+                  }
+                }}
+                className="w-full"
+                disabled={!prescriptionFile && !prescriptionText.trim()}
+              >
+                Find Stores
+              </Button>
             </div>
           </div>
         </div>
