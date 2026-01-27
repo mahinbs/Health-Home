@@ -3,6 +3,7 @@ import TopNavigation from '../../components/feature/TopNavigation';
 import BottomNavigation from '../../components/feature/BottomNavigation';
 import AdsBanner from '../../components/feature/AdsBanner';
 import ProactiveBookingDialog from '../../components/feature/ProactiveBookingDialog';
+import Button from '../../components/base/Button';
 import { useNavigate } from 'react-router-dom';
 
 interface Doctor {
@@ -85,6 +86,7 @@ export default function Consult() {
     notes: '',
     clinicalPictures: [] as File[],
     isSecondOpinion: false,
+    shareHealthRecords: false,
     basicData: {
       age: '',
       gender: '',
@@ -99,6 +101,27 @@ export default function Consult() {
   const [showDoctorQuestions, setShowDoctorQuestions] = useState(false);
   const [showEditDoctorProfile, setShowEditDoctorProfile] = useState(false);
   const [editableDoctorData, setEditableDoctorData] = useState<Doctor | null>(null);
+  const [showHospitalModal, setShowHospitalModal] = useState(false);
+  const [selectedHospital, setSelectedHospital] = useState<any>(null);
+  const [showHospitalOnboarding, setShowHospitalOnboarding] = useState(false);
+  const [hospitalForm, setHospitalForm] = useState({
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+    rating: 0,
+    image: null as File | null,
+    services: [] as string[],
+    doctors: [] as any[]
+  });
+  const [newService, setNewService] = useState('');
+  const [newDoctor, setNewDoctor] = useState({
+    name: '',
+    specialty: '',
+    experience: '',
+    price: '',
+    available: true
+  });
 
   // AI Diagnostic Assistant States
   const [showAIAssistant, setShowAIAssistant] = useState(false);
@@ -410,7 +433,7 @@ export default function Consult() {
         title="Consult Doctor" 
       />
       
-      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
+      <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-32 sm:pb-36 px-4">
         {/* Proactive Booking Dialog */}
         <ProactiveBookingDialog
           isOpen={showProactiveDialog}
@@ -902,6 +925,113 @@ export default function Consult() {
           </div>
         </div>
 
+        {/* Hospitals Section */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4 px-1">
+            <h2 className="text-base font-semibold text-gray-800">Hospitals & Healthcare Centers</h2>
+            <div className="flex items-center space-x-2">
+              <button 
+                onClick={() => setShowHospitalOnboarding(true)}
+                className="text-pink-600 text-sm font-medium flex items-center"
+              >
+                <i className="ri-add-line mr-1"></i>
+                Onboard Hospital
+              </button>
+              <button 
+                onClick={() => setShowHospitalModal(true)}
+                className="text-pink-600 text-sm font-medium"
+              >
+                View All
+              </button>
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+            {[
+              {
+                id: '1',
+                name: 'Apollo Hospitals',
+                address: '123 Medical Street, Mumbai',
+                rating: 4.8,
+                services: ['Blood Tests', 'X-Ray', 'ECG', 'Consultation'],
+                doctorsCount: 15,
+                image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80'
+              },
+              {
+                id: '2',
+                name: 'Fortis Healthcare',
+                address: '456 Health Avenue, Mumbai',
+                rating: 4.7,
+                services: ['Lab Tests', 'MRI', 'CT Scan', 'Consultation'],
+                doctorsCount: 12,
+                image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&q=80'
+              },
+              {
+                id: '3',
+                name: 'Max Super Specialty Hospital',
+                address: '789 Care Boulevard, Mumbai',
+                rating: 4.9,
+                services: ['Blood Tests', 'Ultrasound', 'Consultation', 'Surgery'],
+                doctorsCount: 20,
+                image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80'
+              }
+            ].map((hospital) => (
+              <div 
+                key={hospital.id}
+                onClick={() => {
+                  setSelectedHospital(hospital);
+                  setShowHospitalModal(true);
+                }}
+                className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-pink-100/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer"
+              >
+                <div className="flex items-start space-x-3">
+                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
+                    <img 
+                      src={hospital.image} 
+                      alt={hospital.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-gray-800 text-sm">{hospital.name}</h3>
+                        <p className="text-gray-500 text-xs mt-0.5">{hospital.address}</p>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <i className="ri-star-fill text-yellow-400 text-xs"></i>
+                        <span className="text-xs text-gray-600">{hospital.rating}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {hospital.services.slice(0, 3).map((service, idx) => (
+                        <span key={idx} className="bg-pink-50 text-pink-700 px-2 py-0.5 rounded-full text-xs">
+                          {service}
+                        </span>
+                      ))}
+                      {hospital.services.length > 3 && (
+                        <span className="text-xs text-gray-500">+{hospital.services.length - 3} more</span>
+                      )}
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-1 text-xs text-gray-600">
+                        <i className="ri-user-line"></i>
+                        <span>{hospital.doctorsCount} Doctors</span>
+                      </div>
+                      <button className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-4 py-1.5 rounded-lg text-xs font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 active:scale-95">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Emergency Section */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-red-100/50">
           <div className="flex items-center space-x-3">
@@ -1210,7 +1340,7 @@ export default function Consult() {
                 </button>
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 pb-24 sm:pb-28">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 pb-32 sm:pb-36">
 
               {/* Doctor Profile Section */}
               <div className="bg-gray-50 rounded-2xl p-4 mb-5">
@@ -1798,6 +1928,25 @@ export default function Consult() {
                   </div>
                 </div>
 
+                {/* Share Health Records Option */}
+                <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+                  <label className="flex items-start space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={bookingForm.shareHealthRecords}
+                      onChange={(e) => setBookingForm({...bookingForm, shareHealthRecords: e.target.checked})}
+                      className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-1">
+                        <i className="ri-file-shield-line text-blue-600"></i>
+                        <span className="text-sm font-semibold text-gray-900">Share Health Records with Doctor</span>
+                      </div>
+                      <p className="text-xs text-gray-600">Allow the doctor to access your uploaded health records, images, and PDFs for better consultation. You can choose what to share.</p>
+                    </div>
+                  </label>
+                </div>
+
                 {/* Prescription Request Option */}
                 <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200">
                   <label className="flex items-start space-x-3 cursor-pointer">
@@ -1839,6 +1988,416 @@ export default function Consult() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hospital Details Modal */}
+      {showHospitalModal && selectedHospital && (
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 md:px-5 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-800 truncate pr-2">{selectedHospital.name}</h2>
+              <button
+                onClick={() => {
+                  setShowHospitalModal(false);
+                  setSelectedHospital(null);
+                }}
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+              >
+                <i className="ri-close-line text-gray-600 text-lg"></i>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 pb-32 sm:pb-36">
+              <div className="mb-4">
+                <img
+                  src={selectedHospital.image}
+                  alt={selectedHospital.name}
+                  className="w-full h-48 object-cover rounded-xl mb-4"
+                />
+                <div className="flex items-center space-x-2 mb-2">
+                  <i className="ri-star-fill text-yellow-400"></i>
+                  <span className="font-semibold text-gray-800">{selectedHospital.rating}</span>
+                  <span className="text-gray-500 text-sm">• {selectedHospital.address}</span>
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <h3 className="font-semibold text-gray-800 mb-3">Available Services</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {selectedHospital.services.map((service: string, idx: number) => (
+                    <div key={idx} className="bg-pink-50 border border-pink-200 rounded-lg p-3">
+                      <div className="flex items-center space-x-2">
+                        <i className="ri-checkbox-circle-fill text-pink-600"></i>
+                        <span className="text-sm text-gray-800">{service}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <h3 className="font-semibold text-gray-800 mb-3">Available Doctors ({selectedHospital.doctorsCount})</h3>
+                <div className="space-y-3">
+                  {doctors.slice(0, 3).map((doctor) => (
+                    <div
+                      key={doctor.id}
+                      onClick={() => {
+                        setSelectedDoctorData(doctor);
+                        setShowHospitalModal(false);
+                        setShowBookingModal(true);
+                      }}
+                      className="bg-gray-50 rounded-lg p-3 flex items-center space-x-3 cursor-pointer hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-200">
+                        <img src={doctor.image} alt={doctor.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-sm text-gray-800">{doctor.name}</p>
+                        <p className="text-xs text-gray-600">{doctor.specialty}</p>
+                      </div>
+                      <button className="text-pink-600 text-sm font-medium">Book</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <Button
+                onClick={() => {
+                  setShowHospitalModal(false);
+                  setSelectedHospital(null);
+                }}
+                className="w-full"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hospital Onboarding Modal */}
+      {showHospitalOnboarding && (
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 animate-fade-in safe-area-inset">
+          <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 md:px-5 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-800 truncate pr-2">Onboard Hospital</h2>
+              <button
+                onClick={() => {
+                  setShowHospitalOnboarding(false);
+                  setHospitalForm({
+                    name: '',
+                    address: '',
+                    phone: '',
+                    email: '',
+                    rating: 0,
+                    image: null,
+                    services: [],
+                    doctors: []
+                  });
+                  setNewService('');
+                  setNewDoctor({
+                    name: '',
+                    specialty: '',
+                    experience: '',
+                    price: '',
+                    available: true
+                  });
+                }}
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+              >
+                <i className="ri-close-line text-gray-600 text-lg"></i>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 pb-32 sm:pb-36">
+              <div className="space-y-5">
+                {/* Hospital Basic Information */}
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">Hospital Information</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Hospital Name *</label>
+                      <input
+                        type="text"
+                        value={hospitalForm.name}
+                        onChange={(e) => setHospitalForm({...hospitalForm, name: e.target.value})}
+                        placeholder="Enter hospital name"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+                      <textarea
+                        value={hospitalForm.address}
+                        onChange={(e) => setHospitalForm({...hospitalForm, address: e.target.value})}
+                        placeholder="Enter full address"
+                        rows={3}
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300 resize-none"
+                        required
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                        <input
+                          type="tel"
+                          value={hospitalForm.phone}
+                          onChange={(e) => setHospitalForm({...hospitalForm, phone: e.target.value})}
+                          placeholder="+91 1234567890"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                        <input
+                          type="email"
+                          value={hospitalForm.email}
+                          onChange={(e) => setHospitalForm({...hospitalForm, email: e.target.value})}
+                          placeholder="hospital@example.com"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Hospital Image</label>
+                      <div className="border-2 border-dashed border-gray-300 rounded-xl p-4">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            if (e.target.files?.[0]) {
+                              setHospitalForm({...hospitalForm, image: e.target.files[0]});
+                            }
+                          }}
+                          className="hidden"
+                          id="hospital-image"
+                        />
+                        <label
+                          htmlFor="hospital-image"
+                          className="flex flex-col items-center cursor-pointer"
+                        >
+                          <i className="ri-image-add-line text-3xl text-gray-400 mb-2"></i>
+                          <span className="text-sm text-gray-600 mb-1">Tap to upload hospital image</span>
+                          <span className="text-xs text-gray-500">Supports JPG, PNG</span>
+                        </label>
+                        {hospitalForm.image && (
+                          <div className="mt-3">
+                            <p className="text-sm text-gray-700">
+                              <i className="ri-file-check-line text-green-600 mr-1"></i>
+                              {hospitalForm.image.name}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Services Section */}
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">Services Provided</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={newService}
+                        onChange={(e) => setNewService(e.target.value)}
+                        placeholder="Add service (e.g., Blood Tests, X-Ray)"
+                        className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300"
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter' && newService.trim()) {
+                            setHospitalForm({
+                              ...hospitalForm,
+                              services: [...hospitalForm.services, newService.trim()]
+                            });
+                            setNewService('');
+                          }
+                        }}
+                      />
+                      <button
+                        onClick={() => {
+                          if (newService.trim()) {
+                            setHospitalForm({
+                              ...hospitalForm,
+                              services: [...hospitalForm.services, newService.trim()]
+                            });
+                            setNewService('');
+                          }
+                        }}
+                        className="px-4 py-2 bg-pink-500 text-white rounded-xl text-sm font-semibold hover:bg-pink-600 transition-colors"
+                      >
+                        <i className="ri-add-line"></i>
+                      </button>
+                    </div>
+                    {hospitalForm.services.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {hospitalForm.services.map((service, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-pink-50 text-pink-700 px-3 py-1 rounded-full text-xs flex items-center space-x-2"
+                          >
+                            <span>{service}</span>
+                            <button
+                              onClick={() => {
+                                setHospitalForm({
+                                  ...hospitalForm,
+                                  services: hospitalForm.services.filter((_, i) => i !== idx)
+                                });
+                              }}
+                              className="hover:text-pink-900"
+                            >
+                              <i className="ri-close-line"></i>
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Doctors Section */}
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">Associated Doctors</h3>
+                  <div className="space-y-3">
+                    <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Doctor Name *</label>
+                          <input
+                            type="text"
+                            value={newDoctor.name}
+                            onChange={(e) => setNewDoctor({...newDoctor, name: e.target.value})}
+                            placeholder="Dr. Name"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Specialty *</label>
+                          <input
+                            type="text"
+                            value={newDoctor.specialty}
+                            onChange={(e) => setNewDoctor({...newDoctor, specialty: e.target.value})}
+                            placeholder="Cardiology, etc."
+                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
+                          />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Experience</label>
+                          <input
+                            type="text"
+                            value={newDoctor.experience}
+                            onChange={(e) => setNewDoctor({...newDoctor, experience: e.target.value})}
+                            placeholder="e.g., 10 years"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Consultation Price</label>
+                          <input
+                            type="text"
+                            value={newDoctor.price}
+                            onChange={(e) => setNewDoctor({...newDoctor, price: e.target.value})}
+                            placeholder="₹500"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          if (newDoctor.name.trim() && newDoctor.specialty.trim()) {
+                            setHospitalForm({
+                              ...hospitalForm,
+                              doctors: [...hospitalForm.doctors, {...newDoctor}]
+                            });
+                            setNewDoctor({
+                              name: '',
+                              specialty: '',
+                              experience: '',
+                              price: '',
+                              available: true
+                            });
+                          }
+                        }}
+                        className="w-full py-2 bg-pink-500 text-white rounded-lg text-sm font-semibold hover:bg-pink-600 transition-colors"
+                      >
+                        <i className="ri-add-line mr-1"></i>
+                        Add Doctor
+                      </button>
+                    </div>
+
+                    {hospitalForm.doctors.length > 0 && (
+                      <div className="space-y-2">
+                        {hospitalForm.doctors.map((doctor, idx) => (
+                          <div key={idx} className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center justify-between">
+                            <div>
+                              <p className="font-semibold text-sm text-gray-900">{doctor.name}</p>
+                              <p className="text-xs text-gray-600">{doctor.specialty}</p>
+                              {doctor.experience && (
+                                <p className="text-xs text-gray-500">{doctor.experience}</p>
+                              )}
+                            </div>
+                            <button
+                              onClick={() => {
+                                setHospitalForm({
+                                  ...hospitalForm,
+                                  doctors: hospitalForm.doctors.filter((_, i) => i !== idx)
+                                });
+                              }}
+                              className="text-red-600 hover:text-red-800"
+                            >
+                              <i className="ri-delete-bin-line"></i>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-4 border-t border-gray-200">
+                  <button
+                    onClick={() => {
+                      if (!hospitalForm.name || !hospitalForm.address || !hospitalForm.phone || !hospitalForm.email) {
+                        alert('Please fill in all required fields');
+                        return;
+                      }
+                      alert('Hospital onboarded successfully!');
+                      setShowHospitalOnboarding(false);
+                      setHospitalForm({
+                        name: '',
+                        address: '',
+                        phone: '',
+                        email: '',
+                        rating: 0,
+                        image: null,
+                        services: [],
+                        doctors: []
+                      });
+                      setNewService('');
+                      setNewDoctor({
+                        name: '',
+                        specialty: '',
+                        experience: '',
+                        price: '',
+                        available: true
+                      });
+                    }}
+                    className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-xl font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 active:scale-95"
+                  >
+                    Submit Hospital Onboarding
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

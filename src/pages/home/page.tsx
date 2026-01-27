@@ -12,6 +12,7 @@ import VitalMonitoring from './components/VitalMonitoring';
 import AdvertisingBanner from './components/AdvertisingBanner';
 import MedicationReminders from './components/MedicationReminders';
 import HealthTips from './components/HealthTips';
+import ProfessionalConnectionsPreview from './components/ProfessionalConnectionsPreview';
 
 export default function Home() {
   return (
@@ -38,8 +39,9 @@ export default function Home() {
         <HealthMetrics />
         <VitalMonitoring />
         <AdvertisingBanner />
-        <UpcomingAppointments />
         <QuickAccessCards />
+        <UpcomingAppointments />
+        <ProfessionalConnectionsPreview />
         <MedicationReminders />
         <HealthTips />
       </div>

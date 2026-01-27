@@ -17,6 +17,7 @@ const MyRewards = lazy(() => import('../pages/my-rewards/page'));
 const PaymentHistory = lazy(() => import('../pages/payment-history/page'));
 const HelpSupport = lazy(() => import('../pages/help-support/page'));
 const Diagnostic = lazy(() => import('../pages/diagnostic/page'));
+const Connections = lazy(() => import('../pages/connections/page'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const routes: RouteObject[] = [
@@ -79,6 +80,10 @@ const routes: RouteObject[] = [
   {
     path: '/diagnostic',
     element: <Diagnostic />
+  },
+  {
+    path: '/connections',
+    element: <Connections />
   },
   {
     path: '*',
