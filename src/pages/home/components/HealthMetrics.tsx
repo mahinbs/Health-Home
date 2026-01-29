@@ -93,11 +93,11 @@ export default function HealthMetrics() {
         </div>
         
         {/* Circular Step Tracker */}
-        <Card className="p-6 mb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <div className="relative w-32 h-32">
-                <svg className="transform -rotate-90 w-32 h-32">
+        <Card className="p-4 sm:p-6 mb-4 overflow-hidden min-w-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex justify-center sm:flex-1 sm:justify-start">
+              <div className="relative w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
+                <svg className="transform -rotate-90 w-full h-full" viewBox="0 0 128 128">
                   <circle
                     cx="64"
                     cy="64"
@@ -126,55 +126,52 @@ export default function HealthMetrics() {
                   </defs>
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <i className="ri-footprint-fill text-orange-500 text-2xl mb-1"></i>
-                  <p className="text-xl font-bold text-gray-900">{currentSteps.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500">of {goalSteps.toLocaleString()}</p>
+                  <i className="ri-footprint-fill text-orange-500 text-lg sm:text-2xl mb-0.5 sm:mb-1"></i>
+                  <p className="text-base sm:text-xl font-bold text-gray-900 leading-tight">{currentSteps.toLocaleString()}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 leading-tight">of {goalSteps.toLocaleString()}</p>
                 </div>
               </div>
             </div>
-            <div className="flex-1 pl-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Daily Steps</h3>
-              <div className="bg-orange-50 rounded-lg p-3 mb-2">
-                <p className="text-sm font-medium text-orange-700 mb-1">
-                  <i className="ri-wallet-3-fill mr-1"></i>
+            <div className="flex-1 min-w-0 overflow-hidden sm:pl-4">
+              <h3 className="font-semibold text-gray-900 text-sm sm:text-base mb-2">Daily Steps</h3>
+              <div className="bg-orange-50 rounded-lg p-2.5 sm:p-3 mb-2">
+                <p className="text-xs sm:text-sm font-medium text-orange-700 mb-0.5 sm:mb-1 truncate">
+                  <i className="ri-wallet-3-fill mr-1 flex-shrink-0"></i>
                   Earn ₹50 in wallet
                 </p>
-                <p className="text-xs text-orange-600">Complete 10 km in a day</p>
+                <p className="text-[10px] sm:text-xs text-orange-600 truncate">Complete 10 km in a day</p>
               </div>
               <button
                 onClick={() => navigate('/my-rewards')}
-                className="w-full bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg p-2 mb-2 border border-pink-200 hover:border-pink-300 hover:shadow-md transition-all duration-300 text-left"
+                className="w-full bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg p-2 mb-2 border border-pink-200 hover:border-pink-300 hover:shadow-md transition-all duration-300 text-left min-w-0 overflow-hidden"
               >
-                <p className="text-xs font-semibold text-pink-700 mb-1">
-                  <i className="ri-gift-2-fill mr-1"></i>
+                <p className="text-xs font-semibold text-pink-700 mb-0.5 sm:mb-1 truncate">
+                  <i className="ri-gift-2-fill mr-1 flex-shrink-0"></i>
                   Scratch Card on 1km!
                 </p>
-                <p className="text-xs text-pink-600">Tap to view your scratch cards</p>
+                <p className="text-[10px] sm:text-xs text-pink-600 truncate">Tap to view your scratch cards</p>
               </button>
-              {/* <p className="text-xs text-gray-600">
-                Wallet money can be used for health insurance and app services.
-              </p> */}
             </div>
           </div>
         </Card>
 
-        {/* Health Metrics Grid */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+        {/* Health Metrics Grid - equal height/width cards */}
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 grid-rows-2">
           {metrics.map((metric) => (
             <Card 
               key={metric.id} 
-              className="p-4 cursor-pointer animate-scale-in"
+              className="h-full min-h-[100px] sm:min-h-[110px] p-3 sm:p-4 cursor-pointer animate-scale-in overflow-hidden min-w-0 flex flex-col"
               onClick={() => setSelectedMetric(metric.id)}
               style={{ animationDelay: `${metrics.indexOf(metric) * 0.1}s` }}
             >
-              <div className="flex items-start space-x-3">
-                <div className={`w-10 h-10 rounded-full ${metric.bgColor} flex items-center justify-center`}>
-                  <i className={`${metric.icon} ${metric.color}`}></i>
+              <div className="flex items-start gap-2 sm:gap-3 min-w-0 flex-1">
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex-shrink-0 ${metric.bgColor} flex items-center justify-center`}>
+                  <i className={`${metric.icon} ${metric.color} text-sm sm:text-base`}></i>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-600 mb-1">{metric.label}</p>
-                  <p className="font-bold text-gray-900 text-sm">{metric.value}</p>
-                  <p className="text-xs text-emerald-600 font-medium">{metric.status}</p>
+                <div className="flex-1 min-w-0 overflow-hidden">
+                  <p className="text-[10px] sm:text-xs text-gray-600 mb-0.5 sm:mb-1 truncate">{metric.label}</p>
+                  <p className="font-bold text-gray-900 text-xs sm:text-sm truncate">{metric.value}</p>
+                  <p className="text-[10px] sm:text-xs text-emerald-600 font-medium truncate">{metric.status}</p>
                 </div>
               </div>
             </Card>
@@ -182,21 +179,21 @@ export default function HealthMetrics() {
           
           {/* Highlighted BMI Card */}
           <Card 
-            className="p-4 cursor-pointer hover:shadow-lg transition-all duration-300 border-2 border-purple-300 bg-gradient-to-br from-purple-50 to-pink-50 shadow-md relative overflow-hidden"
+            className="h-full min-h-[100px] sm:min-h-[110px] p-3 sm:p-4 cursor-pointer hover:shadow-lg transition-all duration-300 border-2 border-purple-300 bg-gradient-to-br from-purple-50 to-pink-50 shadow-md relative overflow-hidden min-w-0 flex flex-col"
             onClick={handleBMIClick}
           >
             <div className="absolute top-0 right-0 w-20 h-20 bg-purple-200/30 rounded-full -mr-10 -mt-10"></div>
             <div className="absolute bottom-0 left-0 w-16 h-16 bg-pink-200/30 rounded-full -ml-8 -mb-8"></div>
-            <div className="relative flex items-start space-x-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
-                <i className="ri-body-scan-fill text-white text-xl"></i>
+            <div className="relative flex items-start gap-2 sm:gap-3 min-w-0 flex-1">
+              <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full flex-shrink-0 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+                <i className="ri-body-scan-fill text-white text-base sm:text-xl"></i>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-purple-700 font-semibold mb-1">BMI</p>
-                <p className="font-bold text-gray-900 text-lg">24.8</p>
-                <p className="text-xs text-emerald-600 font-semibold">Normal</p>
-                <div className="mt-2 flex items-center text-xs text-purple-600 font-medium">
-                  <i className="ri-arrow-right-circle-fill mr-1"></i>
+              <div className="flex-1 min-w-0 overflow-hidden">
+                <p className="text-[10px] sm:text-xs text-purple-700 font-semibold mb-0.5 sm:mb-1">BMI</p>
+                <p className="font-bold text-gray-900 text-sm sm:text-lg truncate">24.8</p>
+                <p className="text-[10px] sm:text-xs text-emerald-600 font-semibold truncate">Normal</p>
+                <div className="mt-1.5 sm:mt-2 flex items-center text-[10px] sm:text-xs text-purple-600 font-medium truncate">
+                  <i className="ri-arrow-right-circle-fill mr-1 flex-shrink-0"></i>
                   Tap for details
                 </div>
               </div>
