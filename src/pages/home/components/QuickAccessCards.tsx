@@ -55,6 +55,16 @@ export default function QuickAccessCards() {
       iconColor: 'text-purple-600',
       borderColor: 'border-purple-100',
       path: '/records'
+    },
+    {
+      id: 'hospitals',
+      title: 'Hospitals',
+      description: 'Healthcare centers',
+      icon: 'ri-hospital-line',
+      color: 'from-rose-50 to-pink-50',
+      iconColor: 'text-pink-600',
+      borderColor: 'border-pink-100',
+      path: '/consult'
     }
   ];
 
