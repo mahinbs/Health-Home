@@ -52,102 +52,96 @@ export default function VitalMonitoring() {
       <div className="px-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-3">Vital Monitoring</h2>
         
-        <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
           {/* Blood Pressure Card */}
           <Card 
-            className={`p-4 cursor-pointer ${bpData.status === 'high' ? 'border-2 border-red-300 bg-red-50/50' : ''}`}
+            className={`p-3 sm:p-4 cursor-pointer overflow-hidden min-w-0 ${bpData.status === 'high' ? 'border-2 border-red-300 bg-red-50/50' : ''}`}
             onClick={() => openHealthLocker('bp')}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3 flex-1">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+            <div className="flex items-start justify-between gap-1 min-w-0">
+              <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 overflow-hidden">
+                <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
                   bpData.status === 'high' ? 'bg-red-100' : 'bg-emerald-50'
                 }`}>
-                  <i className={`ri-pulse-fill text-2xl ${
+                  <i className={`ri-pulse-fill text-lg sm:text-2xl ${
                     bpData.status === 'high' ? 'text-red-600' : 'text-emerald-600'
                   }`}></i>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <h3 className="font-semibold text-gray-900">Blood Pressure</h3>
+                <div className="flex-1 min-w-0 overflow-hidden">
+                  <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
+                    <h3 className="font-semibold text-gray-900 text-xs sm:text-sm truncate">Blood Pressure</h3>
                     {bpData.status === 'high' && (
-                      <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-medium rounded-full">
+                      <span className="px-1.5 py-0.5 bg-red-500 text-white text-[10px] sm:text-xs font-medium rounded-full flex-shrink-0">
                         High
                       </span>
                     )}
                   </div>
-                  <p className="text-lg font-bold text-gray-900">{bpData.value}</p>
-                  <p className="text-xs text-gray-600">Last measured: {bpData.lastMeasured}</p>
+                  <p className="text-sm sm:text-lg font-bold text-gray-900 truncate">{bpData.value}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-600 truncate">Last: {bpData.lastMeasured}</p>
                   {bpData.status === 'high' && (
-                    <p className="text-xs text-red-600 font-medium mt-1">
-                      <i className="ri-alert-fill mr-1"></i>
+                    <p className="text-[10px] sm:text-xs text-red-600 font-medium mt-0.5 truncate">
+                      <i className="ri-alert-fill mr-0.5"></i>
                       Monitor weekly
                     </p>
                   )}
                 </div>
               </div>
-              <div className="w-6 h-6 flex items-center justify-center">
-                <i className="ri-arrow-right-s-line text-gray-400"></i>
+              <div className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center flex-shrink-0">
+                <i className="ri-arrow-right-s-line text-gray-400 text-sm sm:text-base"></i>
               </div>
             </div>
             <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                openHealthLocker('bp');
-              }}
-              className="mt-3 text-sm text-blue-600 font-medium flex items-center"
+              onClick={(e) => { e.stopPropagation(); openHealthLocker('bp'); }}
+              className="mt-2 sm:mt-3 text-[10px] sm:text-xs text-blue-600 font-medium flex items-center gap-1"
             >
-              <i className="ri-folder-3-line mr-1"></i>
-              View in Health Locker
+              <i className="ri-folder-3-line flex-shrink-0"></i>
+              <span>Health Locker</span>
             </button>
           </Card>
 
           {/* Blood Sugar Card */}
           <Card 
-            className={`p-4 cursor-pointer ${sugarData.status === 'high' ? 'border-2 border-red-300 bg-red-50/50' : ''}`}
+            className={`p-3 sm:p-4 cursor-pointer overflow-hidden min-w-0 ${sugarData.status === 'high' ? 'border-2 border-red-300 bg-red-50/50' : ''}`}
             onClick={() => openHealthLocker('sugar')}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3 flex-1">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+            <div className="flex items-start justify-between gap-1 min-w-0">
+              <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 overflow-hidden">
+                <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
                   sugarData.status === 'high' ? 'bg-red-100' : 'bg-blue-50'
                 }`}>
-                  <i className={`ri-drop-fill text-2xl ${
+                  <i className={`ri-drop-fill text-lg sm:text-2xl ${
                     sugarData.status === 'high' ? 'text-red-600' : 'text-blue-600'
                   }`}></i>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <h3 className="font-semibold text-gray-900">Blood Sugar</h3>
+                <div className="flex-1 min-w-0 overflow-hidden">
+                  <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
+                    <h3 className="font-semibold text-gray-900 text-xs sm:text-sm truncate">Blood Sugar</h3>
                     {sugarData.status === 'high' && (
-                      <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-medium rounded-full">
+                      <span className="px-1.5 py-0.5 bg-red-500 text-white text-[10px] sm:text-xs font-medium rounded-full flex-shrink-0">
                         High
                       </span>
                     )}
                   </div>
-                  <p className="text-lg font-bold text-gray-900">{sugarData.value}</p>
-                  <p className="text-xs text-gray-600">Last measured: {sugarData.lastMeasured}</p>
+                  <p className="text-sm sm:text-lg font-bold text-gray-900 truncate">{sugarData.value}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-600 truncate">Last: {sugarData.lastMeasured}</p>
                   {sugarData.status === 'high' && (
-                    <p className="text-xs text-red-600 font-medium mt-1">
-                      <i className="ri-alert-fill mr-1"></i>
+                    <p className="text-[10px] sm:text-xs text-red-600 font-medium mt-0.5 truncate">
+                      <i className="ri-alert-fill mr-0.5"></i>
                       Monitor weekly
                     </p>
                   )}
                 </div>
               </div>
-              <div className="w-6 h-6 flex items-center justify-center">
-                <i className="ri-arrow-right-s-line text-gray-400"></i>
+              <div className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center flex-shrink-0">
+                <i className="ri-arrow-right-s-line text-gray-400 text-sm sm:text-base"></i>
               </div>
             </div>
             <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                openHealthLocker('sugar');
-              }}
-              className="mt-3 text-sm text-blue-600 font-medium flex items-center"
+              onClick={(e) => { e.stopPropagation(); openHealthLocker('sugar'); }}
+              className="mt-2 sm:mt-3 text-[10px] sm:text-xs text-blue-600 font-medium flex items-center gap-1"
             >
-              <i className="ri-folder-3-line mr-1"></i>
-              View in Health Locker
+              <i className="ri-folder-3-line flex-shrink-0"></i>
+              <span>Health Locker</span>
             </button>
           </Card>
         </div>
