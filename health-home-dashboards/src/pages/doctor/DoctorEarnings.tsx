@@ -58,7 +58,7 @@ export default function DoctorEarnings() {
                     <h1 className="text-2xl font-bold text-gray-900">Earnings & Finance</h1>
                     <p className="text-gray-500">Track your revenue and transaction history</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                     <Button
                         variant="outline"
                         className="gap-2"
