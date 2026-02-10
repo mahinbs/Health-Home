@@ -1,0 +1,2 @@
+﻿src/pages/hospital/HospitalDashboard.tsx(2,79): error TS6133: 'CircleCheck' is declared but its value is never read.
+src/pages/pharmacy/PharmacyDashboard.tsx(2,76): error TS6133: 'CircleCheck' is declared but its value is never read.
