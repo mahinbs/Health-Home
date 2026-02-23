@@ -15,7 +15,7 @@ const sidebarItems = [
 
 export default function HealthcareDashboard() {
     return (
-        <DashboardLayout role="healthcare" sidebarItems={sidebarItems}>
+        <DashboardLayout role={"healthcare" as any} sidebarItems={sidebarItems}>
             <Routes>
                 <Route path="/" element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<HealthcareOverview />} />
