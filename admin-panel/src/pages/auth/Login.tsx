@@ -5,12 +5,12 @@ import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import {
     Stethoscope,
-    // Building2,
-    // Pill,
+    Building2,
+    Pill,
     Activity,
     UserCircle,
     ShieldCheck,
-    // FlaskConical,
+    FlaskConical,
     Heart,
     Accessibility
 } from 'lucide-react';
@@ -22,9 +22,9 @@ const roles = [
     { id: 'nurse', title: 'Nurse', icon: UserCircle, color: 'text-rose-500 bg-rose-50' },
     { id: 'physiotherapist', title: 'Physio', icon: Accessibility, color: 'text-indigo-500 bg-indigo-50' },
     { id: 'caretaker', title: 'Caretaker', icon: Heart, color: 'text-pink-500 bg-pink-50' },
-    // { id: 'pharmacy', title: 'Pharmacy', icon: Pill, color: 'text-orange-500 bg-orange-50' },
-    // { id: 'laboratory', title: 'Laboratory', icon: FlaskConical, color: 'text-cyan-500 bg-cyan-50' },
-    // { id: 'hospital', title: 'Hospital', icon: Building2, color: 'text-purple-500 bg-purple-50' },
+    { id: 'pharmacy', title: 'Pharmacy', icon: Pill, color: 'text-orange-500 bg-orange-50' },
+    { id: 'laboratory', title: 'Laboratory', icon: FlaskConical, color: 'text-cyan-500 bg-cyan-50' },
+    { id: 'hospital', title: 'Hospital', icon: Building2, color: 'text-purple-500 bg-purple-50' },
 ];
 
 export default function Login() {
