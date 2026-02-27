@@ -149,10 +149,10 @@ function TypeToggle({ icon: Icon, label, active, onToggle }: any) {
     return (
         <div
             onClick={onToggle}
-            className={`p-4 rounded-2xl border-2 flex items-center justify-between cursor-pointer transition-all ${active ? 'border-primary bg-primary/5' : 'border-gray-50 bg-white/50 opacity-60'}`}
+            className={`p-4 rounded-2xl border-2 flex items-center justify-between cursor-pointer transition-all ${active ? 'border-primary bg-primary/5' : 'border-gray-50 bg-gray-300'}`}
         >
             <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${active ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'}`}>
+                <div className={`p-2 rounded-lg ${active ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600'}`}>
                     <Icon size={18} />
                 </div>
                 <span className="font-bold text-sm text-gray-900">{label}</span>
