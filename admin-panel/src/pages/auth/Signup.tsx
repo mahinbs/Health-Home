@@ -13,7 +13,6 @@ import {
     FlaskConical,
     Heart,
     Accessibility,
-    CheckCircle2,
     ShieldCheck
 } from 'lucide-react';
 import Verification from '../common/Verification';
