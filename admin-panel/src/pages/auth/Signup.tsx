@@ -37,7 +37,8 @@ export default function Signup() {
         phone: '',
         password: ''
     });
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [otp, setOtp] = useState(['', '', '', '', '', '']); // 6-digit OTP
+    const [step, setStep] = useState<'form' | 'otp' | 'success'>('form');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,12 +46,37 @@ export default function Signup() {
 
     const handleSignup = (e: React.FormEvent) => {
         e.preventDefault();
-        // Simulate registration request logic
-        setIsSubmitted(true);
-        toast.success("Application submitted successfully!");
+        // Simulate sending OTP
+        setStep('otp');
+        toast.success("OTP sent to your phone/email!");
     };
 
-    if (isSubmitted) {
+    const handleOtpChange = (index: number, value: string) => {
+        if (value.length > 1) return;
+        const newOtp = [...otp];
+        newOtp[index] = value;
+        setOtp(newOtp);
+
+        // Auto-focus next input
+        if (value !== '' && index < 5) {
+            const nextInput = document.getElementById(`otp-${index + 1}`);
+            nextInput?.focus();
+        }
+    };
+
+    const handleVerifyOTP = (e: React.FormEvent) => {
+        e.preventDefault();
+        const enteredOtp = otp.join('');
+        if (enteredOtp.length === 6) {
+            // Simulate verification
+            setStep('success');
+            toast.success("Account verified successfully!");
+        } else {
+            toast.error("Please enter a valid 6-digit OTP");
+        }
+    };
+
+    if (step === 'success') {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#FDF2F7] p-6 font-sans">
                 <div className="bg-white/70 backdrop-blur-xl border border-white rounded-[40px] p-10 lg:p-16 max-w-lg w-full text-center shadow-2xl shadow-primary/5">
@@ -59,7 +85,7 @@ export default function Signup() {
                     </div>
                     <h2 className="text-3xl font-black text-gray-900 mb-4">Application Received</h2>
                     <p className="text-gray-500 font-medium leading-relaxed mb-8">
-                        Thank you for applying to join the Health@Home network as a <span className="text-primary font-bold">{roles.find(r => r.id === selectedRole)?.title}</span>. Your account logic is currently pending admin approval. You will receive an email once your professional profile is verified.
+                        Thank you for applying to join the Health@Home network as a <span className="text-primary font-bold">{roles.find(r => r.id === selectedRole)?.title}</span>. Your account is currently pending admin approval. You will receive an email once your professional profile is verified.
                     </p>
                     <Button onClick={() => navigate('/login')} className="w-full h-14 rounded-2xl bg-primary hover:bg-primary-600 text-white font-black text-sm tracking-widest uppercase shadow-xl transition-all hover:scale-[1.02] active:scale-95">
                         Return to Login
@@ -145,66 +171,103 @@ export default function Signup() {
                             })}
                         </div>
 
-                        <form onSubmit={handleSignup} className="space-y-5">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {step === 'form' ? (
+                            <form onSubmit={handleSignup} className="space-y-5">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div className="space-y-1.5">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Full Name / Entity</label>
+                                        <Input
+                                            type="text"
+                                            name="fullName"
+                                            placeholder="Dr. Sarah Johnson"
+                                            value={formData.fullName}
+                                            onChange={handleChange}
+                                            required
+                                            className="h-12 rounded-2xl bg-white border-gray-100 shadow-sm focus:border-primary transition-all px-4"
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Contact Number</label>
+                                        <Input
+                                            type="tel"
+                                            name="phone"
+                                            placeholder="+1 234 567 8900"
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                            required
+                                            className="h-12 rounded-2xl bg-white border-gray-100 shadow-sm focus:border-primary transition-all px-4"
+                                        />
+                                    </div>
+                                </div>
+
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Full Name / Entity</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Professional Email</label>
                                     <Input
-                                        type="text"
-                                        name="fullName"
-                                        placeholder="Dr. Sarah Johnson"
-                                        value={formData.fullName}
+                                        type="email"
+                                        name="email"
+                                        placeholder="sarah.j@example.com"
+                                        value={formData.email}
                                         onChange={handleChange}
                                         required
                                         className="h-12 rounded-2xl bg-white border-gray-100 shadow-sm focus:border-primary transition-all px-4"
                                     />
                                 </div>
+
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Contact Number</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Create Password</label>
                                     <Input
-                                        type="tel"
-                                        name="phone"
-                                        placeholder="+1 234 567 8900"
-                                        value={formData.phone}
+                                        type="password"
+                                        name="password"
+                                        placeholder="••••••••"
+                                        value={formData.password}
                                         onChange={handleChange}
                                         required
                                         className="h-12 rounded-2xl bg-white border-gray-100 shadow-sm focus:border-primary transition-all px-4"
                                     />
                                 </div>
-                            </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Professional Email</label>
-                                <Input
-                                    type="email"
-                                    name="email"
-                                    placeholder="sarah.j@example.com"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                    className="h-12 rounded-2xl bg-white border-gray-100 shadow-sm focus:border-primary transition-all px-4"
-                                />
-                            </div>
+                                <div className="pt-2">
+                                    <Button type="submit" className="w-full h-14 rounded-2xl bg-primary hover:bg-primary-600 text-white font-black text-sm tracking-widest uppercase shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95">
+                                        Apply for {roles.find(r => r.id === selectedRole)?.title} Access
+                                    </Button>
+                                </div>
+                            </form>
+                        ) : (
+                            <form onSubmit={handleVerifyOTP} className="space-y-8">
+                                <div className="text-center">
+                                    <p className="text-gray-500 text-sm font-medium mb-6">
+                                        A 6-digit verification code has been sent to <br />
+                                        <span className="text-primary font-bold">{formData.phone || formData.email}</span>
+                                    </p>
+                                    <div className="flex justify-center gap-3">
+                                        {otp.map((digit, idx) => (
+                                            <input
+                                                key={idx}
+                                                id={`otp-${idx}`}
+                                                type="text"
+                                                maxLength={1}
+                                                value={digit}
+                                                onChange={(e) => handleOtpChange(idx, e.target.value)}
+                                                className="w-12 h-14 text-center text-xl font-black bg-gray-50 border-2 border-gray-200 focus:border-primary focus:bg-white rounded-2xl transition-all outline-none"
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Create Password</label>
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    placeholder="••••••••"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                    className="h-12 rounded-2xl bg-white border-gray-100 shadow-sm focus:border-primary transition-all px-4"
-                                />
-                            </div>
-
-                            <div className="pt-2">
-                                <Button type="submit" className="w-full h-14 rounded-2xl bg-primary hover:bg-primary-600 text-white font-black text-sm tracking-widest uppercase shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95">
-                                    Apply for {roles.find(r => r.id === selectedRole)?.title} Access
-                                </Button>
-                            </div>
-                        </form>
+                                <div className="space-y-4">
+                                    <Button type="submit" className="w-full h-14 rounded-2xl bg-primary hover:bg-primary-600 text-white font-black text-sm tracking-widest uppercase shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95">
+                                        Verify & Complete Application
+                                    </Button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep('form')}
+                                        className="w-full text-center text-xs font-black uppercase tracking-widest text-gray-400 hover:text-primary transition-colors"
+                                    >
+                                        Edit Details
+                                    </button>
+                                </div>
+                            </form>
+                        )}
 
                         <div className="mt-8 text-center border-t border-gray-100 pt-6">
                             <p className="text-sm font-bold text-gray-500">

@@ -22,10 +22,12 @@ import { DashboardOverview } from '../../components/shared/DashboardOverview';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { ReviewsRatings, Review } from '../../components/shared/ReviewsRatings';
 import { cn } from '../../components/ui/Button';
+import VerificationRequests from './VerificationRequests';
 
 const ADMIN_SIDEBAR_ITEMS = [
     { icon: LayoutDashboard, label: 'Overview', path: '/admin/overview' },
     { icon: BarChart3, label: 'Analytics', path: '/admin/analytics' },
+    { icon: ShieldCheck, label: 'Verification', path: '/admin/verification-requests' },
     { icon: Users, label: 'Providers', path: '/admin/providers' },
     { icon: ClipboardList, label: 'All Bookings', path: '/admin/bookings' },
     { icon: MessageSquare, label: 'Reviews', path: '/admin/reviews' },
@@ -51,6 +53,7 @@ export default function AdminDashboard() {
                 <Route path="/" element={<Navigate to="overview" replace />} />
                 <Route path="overview" element={<AdminOverview />} />
                 <Route path="analytics" element={<AdminAnalytics />} />
+                <Route path="verification-requests" element={<VerificationRequests />} />
                 <Route path="providers" element={<ProviderManagement />} />
                 <Route path="bookings" element={<BookingManagement bookings={MOCK_SYSTEM_BOOKINGS} />} />
                 <Route path="reviews" element={<ReviewsRatings reviews={MOCK_SYSTEM_REVIEWS} isAdmin={true} />} />

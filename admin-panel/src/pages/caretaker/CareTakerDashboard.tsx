@@ -9,10 +9,12 @@ import {
     Tag,
     Heart,
     Baby,
-    Moon
+    Moon,
+    ShieldCheck
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
+import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
@@ -26,6 +28,7 @@ const CARE_TAKER_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Bookings', path: '/caretaker/bookings' },
     { icon: Clock, label: 'Availability', path: '/caretaker/availability' },
     { icon: Tag, label: 'Services & Fees', path: '/caretaker/services' },
+    { icon: ShieldCheck, label: 'Verification', path: '/caretaker/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/caretaker/earnings' },
     { icon: Star, label: 'Reviews', path: '/caretaker/reviews' },
     { icon: UserCircle, label: 'Profile', path: '/caretaker/profile' },
@@ -59,6 +62,7 @@ export default function CareTakerDashboard() {
                 <Route path="availability" element={
                     <AvailabilityManagement showMultiCity={false} showHomeToggle={true} showPhysicalToggle={false} />
                 } />
+                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}

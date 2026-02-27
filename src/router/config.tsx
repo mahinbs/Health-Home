@@ -1,5 +1,5 @@
 
-import { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 
 const Home = lazy(() => import('../pages/home/page'));
@@ -18,6 +18,8 @@ const PaymentHistory = lazy(() => import('../pages/payment-history/page'));
 const HelpSupport = lazy(() => import('../pages/help-support/page'));
 const Diagnostic = lazy(() => import('../pages/diagnostic/page'));
 const Connections = lazy(() => import('../pages/connections/page'));
+const Login = lazy(() => import('../pages/auth/Login'));
+const Signup = lazy(() => import('../pages/auth/Signup'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const routes: RouteObject[] = [
@@ -84,6 +86,14 @@ const routes: RouteObject[] = [
   {
     path: '/connections',
     element: <Connections />
+  },
+  {
+    path: '/auth/login',
+    element: <Login />
+  },
+  {
+    path: '/auth/signup',
+    element: <Signup />
   },
   {
     path: '*',

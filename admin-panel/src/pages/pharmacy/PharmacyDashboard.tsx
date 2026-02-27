@@ -8,10 +8,12 @@ import {
     DollarSign,
     Star,
     Tag,
-    Pill
+    Pill,
+    ShieldCheck
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
+import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
@@ -25,6 +27,7 @@ const PHARMACY_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Orders', path: '/pharmacy/orders' },
     { icon: Clock, label: 'Store Hours', path: '/pharmacy/hours' },
     { icon: Tag, label: 'Inventory', path: '/pharmacy/inventory' },
+    { icon: ShieldCheck, label: 'Verification', path: '/pharmacy/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/pharmacy/earnings' },
     { icon: Star, label: 'Reviews', path: '/pharmacy/reviews' },
     { icon: UserCircle, label: 'Store Profile', path: '/pharmacy/profile' },
@@ -58,6 +61,7 @@ export default function PharmacyDashboard() {
                 <Route path="hours" element={
                     <AvailabilityManagement showMultiCity={false} showHomeToggle={true} showDeliverySettings={true} showServiceRadius={true} showOnlineToggle={false} />
                 } />
+                <Route path="verification" element={<Verification />} />
                 <Route path="inventory" element={
                     <ServicePricingManagement
                         services={MOCK_INVENTORY}

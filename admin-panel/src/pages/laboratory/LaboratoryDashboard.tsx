@@ -9,14 +9,17 @@ import {
     Tag,
     Microscope,
     Activity,
-    FlaskConical
+    FlaskConical,
+    ShieldCheck
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
+import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
 import { ServicePricingManagement, ServiceItem } from '../../components/shared/ServicePricingManagement';
+import DepartmentManagement from './DepartmentManagement';
 import { ReviewsRatings, Review } from '../../components/shared/ReviewsRatings';
 import { EarningsReports } from '../../components/shared/EarningsReports';
 import { UserRole } from '../../types/auth';
@@ -26,6 +29,8 @@ const LAB_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Appointments', path: '/laboratory/appointments' },
     { icon: Clock, label: 'Available Slots', path: '/laboratory/availability' },
     { icon: Tag, label: 'Tests & Pricing', path: '/laboratory/services' },
+    { icon: Microscope, label: 'Departments', path: '/laboratory/departments' },
+    { icon: ShieldCheck, label: 'Verification', path: '/laboratory/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/laboratory/earnings' },
     { icon: Star, label: 'Reviews', path: '/laboratory/reviews' },
     { icon: UserCircle, label: 'Lab Profile', path: '/laboratory/profile' },
@@ -57,9 +62,11 @@ export default function LaboratoryDashboard() {
                 <Route path="/" element={<Navigate to="overview" replace />} />
                 <Route path="overview" element={<LabOverview />} />
                 <Route path="appointments" element={<BookingManagement bookings={MOCK_BOOKINGS} />} />
+                <Route path="departments" element={<DepartmentManagement />} />
                 <Route path="availability" element={
                     <AvailabilityManagement showOnlineToggle={false} showHomeToggle={true} showServiceRadius={true} showSlotCapacity={true} />
                 } />
+                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}

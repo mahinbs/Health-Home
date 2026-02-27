@@ -9,12 +9,14 @@ import {
     FileText,
     DollarSign,
     Star,
-    Tag
+    Tag,
+    ShieldCheck
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
+import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
-import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
+import Availability from './Availability';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
 import { ServicePricingManagement, ServiceItem } from '../../components/shared/ServicePricingManagement';
 import { ReviewsRatings, Review } from '../../components/shared/ReviewsRatings';
@@ -26,6 +28,7 @@ const DOCTOR_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Appointments', path: '/doctor/appointments' },
     { icon: Clock, label: 'Availability', path: '/doctor/availability' },
     { icon: Tag, label: 'Services & Fees', path: '/doctor/services' },
+    { icon: ShieldCheck, label: 'Verification', path: '/doctor/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/doctor/earnings' },
     { icon: Star, label: 'Reviews', path: '/doctor/reviews' },
     { icon: UserCircle, label: 'Profile', path: '/doctor/profile' },
@@ -60,9 +63,8 @@ export default function DoctorDashboard() {
                 <Route path="/" element={<Navigate to="overview" replace />} />
                 <Route path="overview" element={<DoctorOverview />} />
                 <Route path="appointments" element={<BookingManagement bookings={MOCK_BOOKINGS} />} />
-                <Route path="availability" element={
-                    <AvailabilityManagement showMultiCity={true} showHomeToggle={true} showServiceRadius={true} />
-                } />
+                <Route path="availability" element={<Availability />} />
+                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}

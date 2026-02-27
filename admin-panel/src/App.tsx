@@ -11,31 +11,71 @@ import PharmacyDashboard from './pages/pharmacy/PharmacyDashboard';
 import LaboratoryDashboard from './pages/laboratory/LaboratoryDashboard';
 import HospitalDashboard from './pages/hospital/HospitalDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
-
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import { UserRole } from './types/auth';
 function App() {
     return (
-        <Router>
-            <Toaster position="top-right" richColors closeButton />
-            <Routes>
-                <Route path="/" element={<Navigate to="/login" replace />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+        <AuthProvider>
+            <Router>
+                <Toaster position="top-right" richColors closeButton />
+                <Routes>
+                    <Route path="/" element={<Navigate to="/login" replace />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
 
-                {/* Role-Based Routes */}
-                <Route path="/admin/*" element={<AdminDashboard />} />
-                <Route path="/doctor/*" element={<DoctorDashboard />} />
-                <Route path="/medical-officer/*" element={<MedicalOfficerDashboard />} />
-                <Route path="/nurse/*" element={<NurseDashboard />} />
-                <Route path="/physiotherapist/*" element={<PhysiotherapistDashboard />} />
-                <Route path="/caretaker/*" element={<CareTakerDashboard />} />
-                <Route path="/pharmacy/*" element={<PharmacyDashboard />} />
-                <Route path="/laboratory/*" element={<LaboratoryDashboard />} />
-                <Route path="/hospital/*" element={<HospitalDashboard />} />
+                    {/* Role-Based Routes with Protection */}
+                    <Route path="/admin/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.ADMIN]}>
+                            <AdminDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/doctor/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.DOCTOR]}>
+                            <DoctorDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/medical-officer/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.MEDICAL_OFFICER]}>
+                            <MedicalOfficerDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/nurse/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.NURSE]}>
+                            <NurseDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/physiotherapist/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.PHYSIOTHERAPIST]}>
+                            <PhysiotherapistDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/caretaker/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.CARETAKER]}>
+                            <CareTakerDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/pharmacy/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.PHARMACY]}>
+                            <PharmacyDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/laboratory/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.LABORATORY]}>
+                            <LaboratoryDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/hospital/*" element={
+                        <ProtectedRoute allowedRoles={[UserRole.HOSPITAL]}>
+                            <HospitalDashboard />
+                        </ProtectedRoute>
+                    } />
 
-                {/* 404 Redirect */}
-                <Route path="*" element={<Navigate to="/login" replace />} />
-            </Routes>
-        </Router>
+                    {/* 404 Redirect */}
+                    <Route path="*" element={<Navigate to="/login" replace />} />
+                </Routes>
+            </Router>
+        </AuthProvider>
     );
 }
 

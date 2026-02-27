@@ -9,10 +9,12 @@ import {
     Tag,
     Building2,
     Users,
-    Stethoscope
+    Stethoscope,
+    ShieldCheck
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
+import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
@@ -26,6 +28,7 @@ const HOSPITAL_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'OPD Bookings', path: '/hospital/bookings' },
     { icon: Clock, label: 'Schedules', path: '/hospital/availability' },
     { icon: Tag, label: 'Departments & Fees', path: '/hospital/services' },
+    { icon: ShieldCheck, label: 'Verification', path: '/hospital/verification' },
     { icon: DollarSign, label: 'Revenue', path: '/hospital/earnings' },
     { icon: Star, label: 'Reviews', path: '/hospital/reviews' },
     { icon: UserCircle, label: 'Hospital Profile', path: '/hospital/profile' },
@@ -59,6 +62,7 @@ export default function HospitalDashboard() {
                 <Route path="availability" element={
                     <AvailabilityManagement showOnlineToggle={true} showHomeToggle={false} />
                 } />
+                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}
