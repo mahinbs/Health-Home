@@ -86,8 +86,8 @@ export default function MyRewards() {
     setShowScratchCard(false);
     if (selectedScratchCard) {
       // Mark as used after closing
-      setScratchCards(prev => prev.map(card => 
-        card.id === selectedScratchCard.id 
+      setScratchCards(prev => prev.map(card =>
+        card.id === selectedScratchCard.id
           ? { ...card, status: 'used' as const }
           : card
       ));
@@ -165,7 +165,7 @@ export default function MyRewards() {
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
       <AdsBanner />
       <TopNavigation title="My Rewards" showCart={true} />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Points Summary */}
         <div className="mb-6">
@@ -201,24 +201,21 @@ export default function MyRewards() {
               {scratchCards.map((card) => (
                 <Card
                   key={card.id}
-                  className={`p-4 cursor-pointer transition-all duration-300 ${
-                    card.status === 'available'
+                  className={`p-4 cursor-pointer transition-all duration-300 ${card.status === 'available'
                       ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-300 hover:shadow-lg hover:scale-105'
                       : card.status === 'used'
-                      ? 'bg-gray-50 border border-gray-200 opacity-60'
-                      : 'bg-gray-50 border border-gray-200 opacity-40'
-                  }`}
+                        ? 'bg-gray-50 border border-gray-200 opacity-60'
+                        : 'bg-gray-50 border border-gray-200 opacity-40'
+                    }`}
                   onClick={() => handleScratchCardClick(card)}
                 >
                   <div className="text-center">
-                    <div className={`w-16 h-16 mx-auto mb-2 rounded-xl flex items-center justify-center ${
-                      card.status === 'available'
+                    <div className={`w-16 h-16 mx-auto mb-2 rounded-xl flex items-center justify-center ${card.status === 'available'
                         ? 'bg-gradient-to-br from-yellow-400 to-orange-400'
                         : 'bg-gray-300'
-                    }`}>
-                      <i className={`ri-gift-2-fill text-2xl ${
-                        card.status === 'available' ? 'text-white' : 'text-gray-500'
-                      }`}></i>
+                      }`}>
+                      <i className={`ri-gift-2-fill text-2xl ${card.status === 'available' ? 'text-white' : 'text-gray-500'
+                        }`}></i>
                     </div>
                     <p className="text-xs font-semibold text-gray-900 mb-1">
                       {card.distance} km Reward
@@ -282,17 +279,14 @@ export default function MyRewards() {
             {achievements.map((achievement, index) => (
               <Card
                 key={achievement.id}
-                className={`p-4 text-center animate-scale-in ${
-                  achievement.unlocked ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200' : 'opacity-60'
-                }`}
+                className={`p-4 text-center animate-scale-in ${achievement.unlocked ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200' : 'opacity-60'
+                  }`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className={`w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center ${
-                  achievement.unlocked ? 'bg-gradient-to-br from-yellow-400 to-orange-400' : 'bg-gray-200'
-                }`}>
-                  <i className={`${achievement.icon} ${
-                    achievement.unlocked ? 'text-white' : 'text-gray-400'
-                  } text-2xl`}></i>
+                <div className={`w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center ${achievement.unlocked ? 'bg-gradient-to-br from-yellow-400 to-orange-400' : 'bg-white/40'
+                  }`}>
+                  <i className={`${achievement.icon} ${achievement.unlocked ? 'text-white' : 'text-gray-400'
+                    } text-2xl`}></i>
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-1 text-sm">{achievement.title}</h3>
                 <p className="text-xs text-gray-600 mb-2">{achievement.description}</p>

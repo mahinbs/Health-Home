@@ -51,7 +51,7 @@ export default function Homecare() {
     medicineDelivery: false
   });
   const [showProactiveDialog, setShowProactiveDialog] = useState(false);
-  const [pendingBooking, setPendingBooking] = useState<{caregiverId: string} | null>(null);
+  const [pendingBooking, setPendingBooking] = useState<{ caregiverId: string } | null>(null);
 
   const services: Service[] = [
     {
@@ -209,12 +209,12 @@ export default function Homecare() {
     }
   ];
 
-  const filteredCaregivers = selectedService 
-    ? caregivers.filter(caregiver => 
-        caregiver.services.some(service => 
-          service.toLowerCase().includes(selectedService.toLowerCase())
-        )
+  const filteredCaregivers = selectedService
+    ? caregivers.filter(caregiver =>
+      caregiver.services.some(service =>
+        service.toLowerCase().includes(selectedService.toLowerCase())
       )
+    )
     : caregivers;
 
   const handleBookCaregiver = (caregiverId: string) => {
@@ -254,16 +254,16 @@ export default function Homecare() {
 
   const handleProactiveYes = (service: { id: string; name: string; description: string; icon: string; price: string; category: 'consultation' | 'diagnostic' | 'medicine' | 'homecare' }) => {
     setShowProactiveDialog(false);
-    
+
     // Update proactive services state
     if (service.category === 'consultation') {
-      setProactiveServices({...proactiveServices, doctorConsultation: true});
+      setProactiveServices({ ...proactiveServices, doctorConsultation: true });
     } else if (service.category === 'diagnostic') {
-      setProactiveServices({...proactiveServices, diagnosticXray: true});
+      setProactiveServices({ ...proactiveServices, diagnosticXray: true });
     } else if (service.category === 'medicine') {
-      setProactiveServices({...proactiveServices, medicineDelivery: true});
+      setProactiveServices({ ...proactiveServices, medicineDelivery: true });
     }
-    
+
     // Continue with original booking
     if (pendingBooking) {
       const caregiver = caregivers.find(c => c.id === pendingBooking.caregiverId);
@@ -283,15 +283,15 @@ export default function Homecare() {
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!selectedCaregiverData) return;
-    
+
     // Calculate total cost including proactive services
     const baseCost = parseInt(selectedCaregiverData.hourlyRate.replace('$', '')) * parseInt(bookingForm.duration);
     const doctorCost = proactiveServices.doctorConsultation ? 100 : 0;
     const xrayCost = proactiveServices.diagnosticXray ? 800 : 0;
     const totalCost = baseCost + doctorCost;
-    
+
     // Navigate to booking confirmation page
     navigate('/homecare-booking-success', {
       state: {
@@ -302,7 +302,7 @@ export default function Homecare() {
         xrayCost: xrayCost
       }
     });
-    
+
     setShowBookingModal(false);
     setSelectedCaregiverData(null);
     setBookingForm({
@@ -341,10 +341,10 @@ export default function Homecare() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
       <AdsBanner />
-      <TopNavigation 
-        title="Home Care Services" 
+      <TopNavigation
+        title="Home Care Services"
       />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4 sm:px-6">
         {/* Hero Section */}
         <div className="mb-8">
@@ -364,7 +364,7 @@ export default function Homecare() {
               </div>
             </div>
             <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
-              <img 
+              <img
                 src="https://readdy.ai/api/search-image?query=icon%2C%203D%20cartoon%20home%20with%20heart%20symbol%2C%20healthcare%20home%20icon%2C%20medical%20house%20illustration%2C%20the%20icon%20should%20take%20up%2070%25%20of%20the%20frame%2C%20vibrant%20blue%20colors%20with%20soft%20gradients%2C%20minimalist%20design%2C%20smooth%20rounded%20shapes%2C%20subtle%20shading%2C%20no%20outlines%2C%20centered%20composition%2C%20isolated%20on%20white%20background%2C%20playful%20and%20friendly%20aesthetic%2C%20isometric%20perspective%2C%20high%20detail%20quality%2C%20clean%20and%20modern%20look%2C%20single%20object%20focus&width=128&height=128&seq=homeicon&orientation=squarish"
                 alt="Home Care"
                 className="w-full h-full object-cover"
@@ -388,7 +388,7 @@ export default function Homecare() {
         {/* Quick Actions */}
         <div className="mb-8">
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            <button 
+            <button
               onClick={() => {
                 // Navigate to service selection page or show service selection
                 if (services.length > 0 && caregivers.length > 0) {
@@ -408,7 +408,7 @@ export default function Homecare() {
                 <span className="font-semibold">Book Now</span>
               </div>
             </button>
-            <button 
+            <button
               onClick={() => {
                 const phoneNumber = 'tel:+18001234567';
                 window.location.href = phoneNumber;
@@ -432,11 +432,10 @@ export default function Homecare() {
               <button
                 key={service.id}
                 onClick={() => setSelectedService(selectedService === service.name ? '' : service.name)}
-                className={`p-4 rounded-xl border transition-all duration-300 text-left relative ${
-                  selectedService === service.name
+                className={`p-4 rounded-xl border transition-all duration-300 text-left relative ${selectedService === service.name
                     ? 'bg-gradient-to-br from-pink-100 to-rose-100 text-pink-800 border-pink-300 shadow-lg scale-105'
                     : 'bg-white/95 backdrop-blur-sm border-gray-200 text-gray-700 hover:border-pink-200 hover:shadow-md'
-                }`}
+                  }`}
               >
                 {service.popular && (
                   <div className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full">
@@ -467,19 +466,19 @@ export default function Homecare() {
             <h2 className="text-lg font-semibold text-gray-800">Available Caregivers</h2>
             <button className="text-pink-600 text-sm font-medium">View All</button>
           </div>
-          
+
           <div className="space-y-4">
             {filteredCaregivers.map((caregiver) => (
               <div key={caregiver.id} className="bg-white/95 backdrop-blur-sm border border-pink-100/50 rounded-xl p-5 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
                 <div className="flex items-start space-x-4">
                   <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
-                    <img 
-                      src={caregiver.image} 
+                    <img
+                      src={caregiver.image}
                       alt={caregiver.name}
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
-                  
+
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between mb-3">
                       <div>
@@ -491,7 +490,7 @@ export default function Homecare() {
                         <p className="text-xs text-gray-500">per hour</p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-4 mb-3">
                       <div className="flex items-center space-x-1">
                         <i className="ri-star-fill text-yellow-400 text-xs"></i>
@@ -511,13 +510,13 @@ export default function Homecare() {
                         </span>
                       ))}
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-1">
                         <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                         <span className="text-xs text-green-600 font-medium">{caregiver.available}</span>
                       </div>
-                      
+
                       <button
                         onClick={() => handleBookCaregiver(caregiver.id)}
                         className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-5 py-2 rounded-lg text-xs font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 active:scale-95"
@@ -545,7 +544,7 @@ export default function Homecare() {
                 <p className="text-gray-600 text-xs">All our caregivers are licensed, certified, and background-checked professionals.</p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-4 p-4 bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl border border-pink-100/50">
               <div className="w-10 h-10 bg-gradient-to-br from-emerald-200 to-teal-200 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
                 <i className="ri-heart-pulse-line text-emerald-600"></i>
@@ -555,7 +554,7 @@ export default function Homecare() {
                 <p className="text-gray-600 text-xs">Customized care plans tailored to individual needs and preferences.</p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-4 p-4 bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl border border-pink-100/50">
               <div className="w-10 h-10 bg-gradient-to-br from-pink-200 to-rose-200 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
                 <i className="ri-customer-service-2-line text-pink-600"></i>
@@ -607,7 +606,7 @@ export default function Homecare() {
               <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 truncate pr-2">Caregiver Profile & Booking</h2>
               <button
                 onClick={handleCloseModal}
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
@@ -619,8 +618,8 @@ export default function Homecare() {
                 {/* Basic Info */}
                 <div className="flex items-start space-x-4 mb-5">
                   <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
-                    <img 
-                      src={selectedCaregiverData.image} 
+                    <img
+                      src={selectedCaregiverData.image}
                       alt={selectedCaregiverData.name}
                       className="w-full h-full object-cover object-top"
                     />
@@ -714,8 +713,8 @@ export default function Homecare() {
                     value={bookingForm.serviceType}
                     onChange={(e) => {
                       const serviceType = e.target.value;
-                      setBookingForm({...bookingForm, serviceType});
-                      
+                      setBookingForm({ ...bookingForm, serviceType });
+
                       // Show proactive dialog for Wound Dressing
                       if (serviceType === 'Wound Dressing' || serviceType.includes('Dressing')) {
                         setPendingBooking({ caregiverId: selectedCaregiverData.id });
@@ -746,7 +745,7 @@ export default function Homecare() {
                   <input
                     type="date"
                     value={bookingForm.date}
-                    onChange={(e) => setBookingForm({...bookingForm, date: e.target.value})}
+                    onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
                     min={new Date().toISOString().split('T')[0]}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
                     required
@@ -761,12 +760,11 @@ export default function Homecare() {
                       <button
                         key={time}
                         type="button"
-                        onClick={() => setBookingForm({...bookingForm, time})}
-                        className={`p-3 rounded-lg border text-sm transition-all duration-300 ${
-                          bookingForm.time === time
+                        onClick={() => setBookingForm({ ...bookingForm, time })}
+                        className={`p-3 rounded-lg border text-sm transition-all duration-300 ${bookingForm.time === time
                             ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white border-pink-500 shadow-md scale-105'
                             : 'bg-white border-gray-200 text-gray-700 hover:border-pink-300 hover:shadow-sm'
-                        }`}
+                          }`}
                       >
                         {time}
                       </button>
@@ -782,12 +780,11 @@ export default function Homecare() {
                       <button
                         key={duration}
                         type="button"
-                        onClick={() => setBookingForm({...bookingForm, duration})}
-                        className={`p-3 rounded-lg border text-sm transition-all duration-300 ${
-                          bookingForm.duration === duration
+                        onClick={() => setBookingForm({ ...bookingForm, duration })}
+                        className={`p-3 rounded-lg border text-sm transition-all duration-300 ${bookingForm.duration === duration
                             ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white border-pink-500 shadow-md scale-105'
                             : 'bg-white border-gray-200 text-gray-700 hover:border-pink-300 hover:shadow-sm'
-                        }`}
+                          }`}
                       >
                         {duration}h
                       </button>
@@ -800,7 +797,7 @@ export default function Homecare() {
                   <label className="block text-sm font-medium text-gray-700 mb-3">Service Address</label>
                   <textarea
                     value={bookingForm.address}
-                    onChange={(e) => setBookingForm({...bookingForm, address: e.target.value})}
+                    onChange={(e) => setBookingForm({ ...bookingForm, address: e.target.value })}
                     placeholder="Enter your complete address..."
                     rows={2}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 resize-none"
@@ -813,7 +810,7 @@ export default function Homecare() {
                   <label className="block text-sm font-medium text-gray-700 mb-3">Special Instructions (Optional)</label>
                   <textarea
                     value={bookingForm.notes}
-                    onChange={(e) => setBookingForm({...bookingForm, notes: e.target.value})}
+                    onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
                     placeholder="Any special care instructions or requirements..."
                     rows={3}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 resize-none"
@@ -828,14 +825,14 @@ export default function Homecare() {
                       <h4 className="font-semibold text-gray-900">Recommended Services</h4>
                     </div>
                     <p className="text-xs text-gray-600 mb-4">We recommend these additional services for better care:</p>
-                    
+
                     <div className="space-y-3">
                       {/* Doctor Consultation */}
                       <label className="flex items-start space-x-3 p-3 bg-white rounded-lg border border-pink-200 cursor-pointer hover:border-pink-400 transition-colors">
                         <input
                           type="checkbox"
                           checked={proactiveServices.doctorConsultation}
-                          onChange={(e) => setProactiveServices({...proactiveServices, doctorConsultation: e.target.checked})}
+                          onChange={(e) => setProactiveServices({ ...proactiveServices, doctorConsultation: e.target.checked })}
                           className="mt-1 w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
                         />
                         <div className="flex-1">
@@ -855,7 +852,7 @@ export default function Homecare() {
                         <input
                           type="checkbox"
                           checked={proactiveServices.diagnosticXray}
-                          onChange={(e) => setProactiveServices({...proactiveServices, diagnosticXray: e.target.checked})}
+                          onChange={(e) => setProactiveServices({ ...proactiveServices, diagnosticXray: e.target.checked })}
                           className="mt-1 w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
                         />
                         <div className="flex-1">
@@ -875,7 +872,7 @@ export default function Homecare() {
                         <input
                           type="checkbox"
                           checked={proactiveServices.medicineDelivery}
-                          onChange={(e) => setProactiveServices({...proactiveServices, medicineDelivery: e.target.checked})}
+                          onChange={(e) => setProactiveServices({ ...proactiveServices, medicineDelivery: e.target.checked })}
                           className="mt-1 w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
                         />
                         <div className="flex-1">

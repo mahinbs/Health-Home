@@ -103,7 +103,7 @@ export default function PharmacySales() {
                         {/* Mock Chart Bars */}
                         {[30, 45, 35, 60, 50, 75, 65, 80, 70, 90, 85, 95].map((h, i) => (
                             <div key={i} className="w-full mx-1 bg-white rounded-t-sm h-full relative group">
-                                <div className="absolute bottom-0 w-full bg-gray-200 rounded-t-sm h-[70%]"></div>
+                                <div className="absolute bottom-0 w-full bg-white/40 rounded-t-sm h-[70%]"></div>
                                 <div
                                     className="absolute bottom-0 w-full bg-primary-500 rounded-t-sm transition-all hover:bg-primary-600"
                                     style={{ height: `${h}%` }}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { User, Mail, Phone, MapPin, Briefcase, Camera, Save, CheckCircle2, Globe } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Briefcase, Camera, Save, CheckCircle2, Globe, Clock, XCircle, ShieldCheck } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 import { UserRole } from '../../types/auth';
 
@@ -8,6 +9,7 @@ interface ProfileManagementProps {
 }
 
 export function ProfileManagement({ role }: ProfileManagementProps) {
+    const { user } = useAuth();
     const [isSaving, setIsSaving] = useState(false);
     const [profile] = useState({
         fullName: 'Dr. Sarah Johnson',
@@ -48,12 +50,35 @@ export function ProfileManagement({ role }: ProfileManagementProps) {
                         <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-primary-50 to-primary-100 border-4 border-white shadow-xl flex items-center justify-center text-primary overflow-hidden">
                             <User size={64} fill="currentColor" fillOpacity={0.1} />
                         </div>
+                        {user?.verificationStatus === 'approved' && (
+                            <div className="absolute -top-2 -right-2 p-1.5 rounded-full bg-emerald-500 text-white border-4 border-white shadow-lg">
+                                <CheckCircle2 size={16} />
+                            </div>
+                        )}
                         <button className="absolute bottom-2 right-2 p-2.5 rounded-xl bg-primary text-white shadow-lg border-2 border-white hover:scale-110 transition-transform">
                             <Camera size={16} />
                         </button>
                     </div>
                     <h4 className="text-xl font-bold text-gray-900 leading-tight">{profile.fullName}</h4>
-                    <p className="text-primary font-bold text-xs uppercase tracking-wider mb-6">Verified Specialist</p>
+
+                    <div className="mt-2 mb-6">
+                        {user?.verificationStatus === 'approved' ? (
+                            <span className="inline-flex items-center gap-1.5 text-emerald-600 font-bold text-xs uppercase tracking-wider bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+                                <ShieldCheck size={12} />
+                                Verified Specialist
+                            </span>
+                        ) : user?.verificationStatus === 'pending' ? (
+                            <span className="inline-flex items-center gap-1.5 text-orange-600 font-bold text-xs uppercase tracking-wider bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
+                                <Clock size={12} className="animate-pulse" />
+                                KYC Pending
+                            </span>
+                        ) : (
+                            <span className="inline-flex items-center gap-1.5 text-rose-600 font-bold text-xs uppercase tracking-wider bg-rose-50 px-3 py-1 rounded-full border border-rose-100">
+                                <XCircle size={12} />
+                                Unverified Profile
+                            </span>
+                        )}
+                    </div>
 
                     <div className="text-left space-y-4">
                         <div>
@@ -61,7 +86,7 @@ export function ProfileManagement({ role }: ProfileManagementProps) {
                             <textarea
                                 value={profile.bio}
                                 rows={4}
-                                className="w-full bg-white/40 border border-white/60 rounded-2xl p-4 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                                className="w-full bg-white/40 border border-gray-200 rounded-2xl p-4 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none"
                                 placeholder="Tell patients about yourself..."
                             />
                         </div>
@@ -105,7 +130,7 @@ export function ProfileManagement({ role }: ProfileManagementProps) {
                             <input
                                 type="text"
                                 value={profile.serviceArea}
-                                className="w-full bg-white/40 border border-white/60 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                                className="w-full bg-white/40 border border-gray-200 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                             />
                         </div>
                         <div className="h-48 rounded-2xl bg-gray-100/50 border border-dashed border-gray-300 flex items-center justify-center text-gray-400">
@@ -131,7 +156,7 @@ function ProfileInput({ icon: Icon, label, value }: { icon: any, label: string, 
             <input
                 type="text"
                 defaultValue={value}
-                className="w-full bg-white/40 border border-white/60 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                className="w-full bg-white/40 border border-gray-200 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             />
         </div>
     );

@@ -371,10 +371,10 @@ export default function PharmacyPage() {
     }
   ];
 
-  const filteredMedications = (selectedCategory === 'all' 
-    ? medications 
+  const filteredMedications = (selectedCategory === 'all'
+    ? medications
     : medications.filter(med => med.category === selectedCategory))
-    .filter(med => 
+    .filter(med =>
       med.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       med.genericName.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -444,7 +444,7 @@ export default function PharmacyPage() {
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
       <AdsBanner />
       <TopNavigation title="Pharmacy & Medical Equipment" />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Hero Section */}
         <div className="bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 text-white p-6 rounded-2xl mb-4 shadow-2xl animate-scale-in">
@@ -481,11 +481,10 @@ export default function PharmacyPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-col items-center justify-center py-3 px-3 sm:px-2 border-b-2 transition-all duration-300 flex-shrink-0 min-w-[90px] sm:flex-1 ${
-                  activeTab === tab.id
+                className={`flex flex-col items-center justify-center py-3 px-3 sm:px-2 border-b-2 transition-all duration-300 flex-shrink-0 min-w-[90px] sm:flex-1 ${activeTab === tab.id
                     ? 'border-pink-500 text-pink-600 bg-pink-50/50'
                     : 'border-transparent text-gray-500 hover:text-pink-400'
-                }`}
+                  }`}
               >
                 <i className={`${tab.icon} text-lg ${activeTab === tab.id ? 'scale-110' : ''} transition-transform duration-300`}></i>
                 <span className="font-semibold text-xs mt-1 whitespace-nowrap">{tab.label}</span>
@@ -526,11 +525,10 @@ export default function PharmacyPage() {
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`p-3 rounded-lg border text-center transition-all duration-300 ${
-                      selectedCategory === category.id
+                    className={`p-3 rounded-lg border text-center transition-all duration-300 ${selectedCategory === category.id
                         ? 'border-pink-500 bg-gradient-to-br from-pink-50 to-rose-50 text-pink-600 shadow-md scale-105'
                         : 'border-gray-200 bg-white text-gray-600 hover:border-pink-300 hover:shadow-sm'
-                    }`}
+                      }`}
                   >
                     <div className="w-8 h-8 mx-auto mb-2 flex items-center justify-center">
                       <i className={`${category.icon} text-xl`}></i>
@@ -638,11 +636,10 @@ export default function PharmacyPage() {
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`p-3 rounded-lg border text-center transition-all duration-300 ${
-                      selectedCategory === category.id
+                    className={`p-3 rounded-lg border text-center transition-all duration-300 ${selectedCategory === category.id
                         ? 'border-pink-500 bg-gradient-to-br from-pink-50 to-rose-50 text-pink-600 shadow-md scale-105'
                         : 'border-gray-200 bg-white text-gray-600 hover:border-pink-300 hover:shadow-sm'
-                    }`}
+                      }`}
                   >
                     <div className="w-8 h-8 mx-auto mb-2 flex items-center justify-center">
                       <i className={`${category.icon} text-xl`}></i>
@@ -704,7 +701,7 @@ export default function PharmacyPage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-2">Pharmacy Store Network</h2>
               <p className="text-sm text-gray-600">Find medicines and check availability at nearby stores</p>
             </div>
-            
+
             <div className="space-y-3">
               {pharmacyStores.map((store) => (
                 <Card key={store.id} className="p-4">
@@ -733,7 +730,7 @@ export default function PharmacyPage() {
                       View Details
                     </button>
                   </div>
-                  
+
                   <div className="border-t border-gray-100 pt-3 mt-3">
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       <div>
@@ -776,7 +773,7 @@ export default function PharmacyPage() {
                 <h3 className="text-base font-semibold text-gray-900 mb-3">Stores with Your Prescription Medicines</h3>
                 <div className="space-y-3">
                   {matchedStores.map((store) => {
-                    const availableCount = prescriptionMedicines.filter(med => 
+                    const availableCount = prescriptionMedicines.filter(med =>
                       store.availability.some(av => av.medicationId && av.inStock)
                     ).length;
                     return (
@@ -813,7 +810,7 @@ export default function PharmacyPage() {
                 </div>
               </div>
             )}
-            
+
             <div className="space-y-3">
               {prescriptions.map((prescription) => (
                 <Card key={prescription.id} className="p-4">
@@ -827,7 +824,7 @@ export default function PharmacyPage() {
                       {prescription.status.charAt(0).toUpperCase() + prescription.status.slice(1)}
                     </span>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
                     <div>
                       <p className="text-gray-500">Quantity</p>
@@ -842,9 +839,9 @@ export default function PharmacyPage() {
                       <p className="font-medium">{prescription.expiryDate}</p>
                     </div>
                   </div>
-                  
+
                   {prescription.status === 'active' && prescription.refillsLeft > 0 && (
-                    <Button 
+                    <Button
                       className="w-full mt-3"
                       onClick={() => {
                         setSelectedPrescription(prescription);
@@ -867,7 +864,7 @@ export default function PharmacyPage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-2">Order History</h2>
               <p className="text-sm text-gray-600">Track your medication orders</p>
             </div>
-            
+
             <div className="space-y-3">
               {orders.map((order) => (
                 <Card key={order.id} className="p-4">
@@ -880,14 +877,14 @@ export default function PharmacyPage() {
                       {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                     </span>
                   </div>
-                  
+
                   <div className="mb-3">
                     <p className="text-sm text-gray-500 mb-1">Items:</p>
                     {order.items.map((item, index) => (
                       <p key={index} className="text-sm text-gray-700">• {item}</p>
                     ))}
                   </div>
-                  
+
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="text-sm text-gray-500">Total Amount</p>
@@ -898,9 +895,9 @@ export default function PharmacyPage() {
                       <p className="font-medium">{order.deliveryDate}</p>
                     </div>
                   </div>
-                  
-                  <Button 
-                    variant="outline" 
+
+                  <Button
+                    variant="outline"
                     className="w-full mt-3"
                     onClick={() => {
                       setSelectedOrder(order);
@@ -926,7 +923,7 @@ export default function PharmacyPage() {
               </h3>
               <button
                 onClick={() => setShowOrderModal(false)}
-                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-white/40 flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
@@ -956,7 +953,7 @@ export default function PharmacyPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
                 <div className="flex items-center space-x-3">
@@ -975,7 +972,7 @@ export default function PharmacyPage() {
                   </button>
                 </div>
               </div>
-              
+
               <div className="border-t border-pink-100 pt-4 mb-4">
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">Total Amount:</span>
@@ -984,7 +981,7 @@ export default function PharmacyPage() {
                   </span>
                 </div>
               </div>
-              
+
               <Button
                 onClick={handlePlaceOrder}
                 className="w-full"
@@ -1007,29 +1004,29 @@ export default function PharmacyPage() {
                   setShowRefillModal(false);
                   setSelectedPrescription(null);
                 }}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-white/40"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 pb-28 sm:pb-32">
               <div className="space-y-4">
-              <Card className="p-4 bg-gradient-to-br from-pink-50 to-rose-50">
-                <h4 className="font-semibold text-gray-900 mb-2">{selectedPrescription.medicationName}</h4>
-                <p className="text-sm text-gray-600 mb-1">Prescribed by {selectedPrescription.doctorName}</p>
-                <p className="text-sm text-gray-600 mb-1">Dosage: {selectedPrescription.dosage}</p>
-                <p className="text-sm text-gray-600">Quantity: {selectedPrescription.quantity}</p>
-                <div className="mt-3 pt-3 border-t border-pink-200">
-                  <p className="text-xs text-gray-500">Refills Left: <span className="font-semibold text-pink-600">{selectedPrescription.refillsLeft}</span></p>
-                </div>
+                <Card className="p-4 bg-gradient-to-br from-pink-50 to-rose-50">
+                  <h4 className="font-semibold text-gray-900 mb-2">{selectedPrescription.medicationName}</h4>
+                  <p className="text-sm text-gray-600 mb-1">Prescribed by {selectedPrescription.doctorName}</p>
+                  <p className="text-sm text-gray-600 mb-1">Dosage: {selectedPrescription.dosage}</p>
+                  <p className="text-sm text-gray-600">Quantity: {selectedPrescription.quantity}</p>
+                  <div className="mt-3 pt-3 border-t border-pink-200">
+                    <p className="text-xs text-gray-500">Refills Left: <span className="font-semibold text-pink-600">{selectedPrescription.refillsLeft}</span></p>
+                  </div>
                 </Card>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Delivery Address</label>
-                <textarea
-                  placeholder="Enter your delivery address..."
-                  rows={3}
-                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300 resize-none"
+                  <textarea
+                    placeholder="Enter your delivery address..."
+                    rows={3}
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300 resize-none"
                   />
                 </div>
 
@@ -1077,7 +1074,7 @@ export default function PharmacyPage() {
                   setShowTrackOrderModal(false);
                   setSelectedOrder(null);
                 }}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-white/40"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>
@@ -1086,14 +1083,13 @@ export default function PharmacyPage() {
               <div className="space-y-4">
                 <Card className="p-4 bg-gradient-to-br from-pink-50 to-rose-50">
                   <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-semibold text-gray-900">Order {selectedOrder.id}</h4>
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                    selectedOrder.status === 'delivered' ? 'bg-emerald-100 text-emerald-700' :
-                    selectedOrder.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
-                    'bg-orange-100 text-orange-700'
-                  }`}>
-                    {selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}
-                  </span>
+                    <h4 className="font-semibold text-gray-900">Order {selectedOrder.id}</h4>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${selectedOrder.status === 'delivered' ? 'bg-emerald-100 text-emerald-700' :
+                        selectedOrder.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
+                          'bg-orange-100 text-orange-700'
+                      }`}>
+                      {selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}
+                    </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-3">Ordered on {selectedOrder.orderDate}</p>
                   <div className="space-y-2">
@@ -1115,62 +1111,62 @@ export default function PharmacyPage() {
                 {/* Tracking Timeline */}
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">Order Status</h4>
-                <div className="space-y-4">
-                  {selectedOrder.status === 'delivered' && (
-                    <>
+                  <div className="space-y-4">
+                    {selectedOrder.status === 'delivered' && (
+                      <>
+                        <div className="flex items-start space-x-3">
+                          <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+                            <i className="ri-check-line text-white text-sm"></i>
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-semibold text-gray-900 text-sm">Delivered</p>
+                            <p className="text-xs text-gray-600">Delivered on {selectedOrder.deliveryDate}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+                            <i className="ri-check-line text-white text-sm"></i>
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-semibold text-gray-900 text-sm">Shipped</p>
+                            <p className="text-xs text-gray-600">Order shipped on {selectedOrder.orderDate}</p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {selectedOrder.status === 'shipped' && (
+                      <>
+                        <div className="flex items-start space-x-3">
+                          <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                            <i className="ri-truck-line text-white text-sm"></i>
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-semibold text-gray-900 text-sm">Shipped</p>
+                            <p className="text-xs text-gray-600">Order is on the way</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+                            <i className="ri-check-line text-white text-sm"></i>
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-semibold text-gray-900 text-sm">Processing</p>
+                            <p className="text-xs text-gray-600">Order confirmed on {selectedOrder.orderDate}</p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {selectedOrder.status === 'processing' && (
                       <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
-                          <i className="ri-check-line text-white text-sm"></i>
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-semibold text-gray-900 text-sm">Delivered</p>
-                          <p className="text-xs text-gray-600">Delivered on {selectedOrder.deliveryDate}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
-                          <i className="ri-check-line text-white text-sm"></i>
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-semibold text-gray-900 text-sm">Shipped</p>
-                          <p className="text-xs text-gray-600">Order shipped on {selectedOrder.orderDate}</p>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {selectedOrder.status === 'shipped' && (
-                    <>
-                      <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                          <i className="ri-truck-line text-white text-sm"></i>
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-semibold text-gray-900 text-sm">Shipped</p>
-                          <p className="text-xs text-gray-600">Order is on the way</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
-                          <i className="ri-check-line text-white text-sm"></i>
+                        <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
+                          <i className="ri-loader-4-line text-white text-sm animate-spin"></i>
                         </div>
                         <div className="flex-1">
                           <p className="font-semibold text-gray-900 text-sm">Processing</p>
-                          <p className="text-xs text-gray-600">Order confirmed on {selectedOrder.orderDate}</p>
+                          <p className="text-xs text-gray-600">Your order is being prepared</p>
                         </div>
                       </div>
-                    </>
-                  )}
-                  {selectedOrder.status === 'processing' && (
-                    <div className="flex items-start space-x-3">
-                      <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
-                        <i className="ri-loader-4-line text-white text-sm animate-spin"></i>
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-semibold text-gray-900 text-sm">Processing</p>
-                        <p className="text-xs text-gray-600">Your order is being prepared</p>
-                      </div>
-                    </div>
-                  )}
+                    )}
                   </div>
                 </div>
 
@@ -1235,17 +1231,17 @@ export default function PharmacyPage() {
                           const genericNameLower = med.genericName.toLowerCase();
                           const prescriptionWords = prescriptionLower.split(/\s+/);
                           const firstWord = prescriptionWords[0];
-                          
+
                           // Check if prescription contains medicine name or generic name
                           return prescriptionLower.includes(medNameLower) ||
-                                 prescriptionLower.includes(genericNameLower) ||
-                                 medNameLower.includes(firstWord) ||
-                                 genericNameLower.includes(firstWord);
+                            prescriptionLower.includes(genericNameLower) ||
+                            medNameLower.includes(firstWord) ||
+                            genericNameLower.includes(firstWord);
                         });
-                        const isInStock = matchingMed && selectedStore.availability.some(av => 
+                        const isInStock = matchingMed && selectedStore.availability.some(av =>
                           av.medicationId === matchingMed.id && av.inStock
                         );
-                        
+
                         return (
                           <div key={idx} className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-lg p-3">
                             <div className="flex items-start justify-between mb-2">
@@ -1278,11 +1274,10 @@ export default function PharmacyPage() {
                                   onClick={() => {
                                     handleOrderMedication(matchingMed);
                                   }}
-                                  className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
-                                    isInCart(matchingMed.id)
-                                      ? 'bg-gray-200 text-gray-700'
+                                  className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${isInCart(matchingMed.id)
+                                      ? 'bg-white/40 text-gray-700'
                                       : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-md'
-                                  }`}
+                                    }`}
                                 >
                                   {isInCart(matchingMed.id) ? (
                                     <>
@@ -1332,53 +1327,53 @@ export default function PharmacyPage() {
                         const genericNameLower = med.genericName.toLowerCase();
                         const prescriptionWords = prescriptionLower.split(/\s+/);
                         const firstWord = prescriptionWords[0];
-                        
+
                         return prescriptionLower.includes(medNameLower) ||
-                               prescriptionLower.includes(genericNameLower) ||
-                               medNameLower.includes(firstWord) ||
-                               genericNameLower.includes(firstWord);
+                          prescriptionLower.includes(genericNameLower) ||
+                          medNameLower.includes(firstWord) ||
+                          genericNameLower.includes(firstWord);
                       });
-                      return matchingMed && selectedStore.availability.some(av => 
+                      return matchingMed && selectedStore.availability.some(av =>
                         av.medicationId === matchingMed.id && av.inStock
                       );
                     }) && (
-                      <div className="mt-4 pt-4 border-t border-pink-200">
-                        <button
-                          onClick={() => {
-                            let addedCount = 0;
-                            prescriptionMedicines.forEach((prescriptionMed) => {
-                              const prescriptionLower = prescriptionMed.toLowerCase();
-                              const matchingMed = medications.find(med => {
-                                const medNameLower = med.name.toLowerCase();
-                                const genericNameLower = med.genericName.toLowerCase();
-                                const prescriptionWords = prescriptionLower.split(/\s+/);
-                                const firstWord = prescriptionWords[0];
-                                
-                                return prescriptionLower.includes(medNameLower) ||
-                                       prescriptionLower.includes(genericNameLower) ||
-                                       medNameLower.includes(firstWord) ||
-                                       genericNameLower.includes(firstWord);
+                        <div className="mt-4 pt-4 border-t border-pink-200">
+                          <button
+                            onClick={() => {
+                              let addedCount = 0;
+                              prescriptionMedicines.forEach((prescriptionMed) => {
+                                const prescriptionLower = prescriptionMed.toLowerCase();
+                                const matchingMed = medications.find(med => {
+                                  const medNameLower = med.name.toLowerCase();
+                                  const genericNameLower = med.genericName.toLowerCase();
+                                  const prescriptionWords = prescriptionLower.split(/\s+/);
+                                  const firstWord = prescriptionWords[0];
+
+                                  return prescriptionLower.includes(medNameLower) ||
+                                    prescriptionLower.includes(genericNameLower) ||
+                                    medNameLower.includes(firstWord) ||
+                                    genericNameLower.includes(firstWord);
+                                });
+                                if (matchingMed && selectedStore.availability.some(av =>
+                                  av.medicationId === matchingMed.id && av.inStock
+                                ) && !isInCart(matchingMed.id)) {
+                                  handleOrderMedication(matchingMed);
+                                  addedCount++;
+                                }
                               });
-                              if (matchingMed && selectedStore.availability.some(av => 
-                                av.medicationId === matchingMed.id && av.inStock
-                              ) && !isInCart(matchingMed.id)) {
-                                handleOrderMedication(matchingMed);
-                                addedCount++;
+                              if (addedCount > 0) {
+                                navigate('/cart');
+                              } else {
+                                alert('All available medicines are already in your cart!');
                               }
-                            });
-                            if (addedCount > 0) {
-                              navigate('/cart');
-                            } else {
-                              alert('All available medicines are already in your cart!');
-                            }
-                          }}
-                          className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
-                        >
-                          <i className="ri-shopping-cart-2-line"></i>
-                          <span>Add All Available to Cart & Checkout</span>
-                        </button>
-                      </div>
-                    )}
+                            }}
+                            className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                          >
+                            <i className="ri-shopping-cart-2-line"></i>
+                            <span>Add All Available to Cart & Checkout</span>
+                          </button>
+                        </div>
+                      )}
                   </div>
                 )}
 
@@ -1408,11 +1403,10 @@ export default function PharmacyPage() {
                                 <p className="text-sm font-semibold text-gray-900">₹{med.price}</p>
                                 <button
                                   onClick={() => handleOrderMedication(med)}
-                                  className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                                    isInCart(med.id)
-                                      ? 'bg-gray-200 text-gray-700'
+                                  className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${isInCart(med.id)
+                                      ? 'bg-white/40 text-gray-700'
                                       : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:shadow-md'
-                                  }`}
+                                    }`}
                                 >
                                   {isInCart(med.id) ? (
                                     <>
@@ -1470,7 +1464,7 @@ export default function PharmacyPage() {
           <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
             <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Add Prescription</h2>
-              <button 
+              <button
                 onClick={() => {
                   setShowPrescriptionModal(false);
                   setPrescriptionText('');
@@ -1478,7 +1472,7 @@ export default function PharmacyPage() {
                   setPrescriptionMedicines([]);
                   setMatchedStores([]);
                 }}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>
@@ -1499,7 +1493,7 @@ export default function PharmacyPage() {
                         const extractedMedicines = ['Paracetamol 500mg', 'Amoxicillin 250mg', 'Vitamin D3 1000 IU'];
                         setPrescriptionMedicines(extractedMedicines);
                         // Find stores with these medicines
-                        const stores = pharmacyStores.filter(store => 
+                        const stores = pharmacyStores.filter(store =>
                           store.availability.some(av => extractedMedicines.some(med => med.includes(av.medicationId)))
                         );
                         setMatchedStores(stores);
@@ -1543,7 +1537,7 @@ export default function PharmacyPage() {
                     if (medicines.length > 0) {
                       setPrescriptionMedicines(medicines);
                       // Find stores with these medicines
-                      const stores = pharmacyStores.filter(store => 
+                      const stores = pharmacyStores.filter(store =>
                         store.availability.some(av => medicines.some(med => med.toLowerCase().includes(av.medicationId.toLowerCase())))
                       );
                       setMatchedStores(stores);

@@ -5,7 +5,7 @@ import Button from '../../../components/base/Button';
 
 export default function UpcomingAppointments() {
   const [selectedAppointment, setSelectedAppointment] = useState<typeof appointments[0] | null>(null);
-  
+
   const appointments = [
     {
       id: 1,
@@ -30,12 +30,12 @@ export default function UpcomingAppointments() {
   return (
     <div className="px-4">
       <h2 className="text-lg font-semibold text-gray-900 mb-3">Upcoming Appointments</h2>
-      
+
       {appointments.length > 0 ? (
         <div className="space-y-3">
           {appointments.map((appointment, index) => (
-            <Card 
-              key={appointment.id} 
+            <Card
+              key={appointment.id}
               className="p-4 cursor-pointer animate-scale-in"
               onClick={() => setSelectedAppointment(appointment)}
               style={{ animationDelay: `${index * 0.1}s` }}
@@ -79,9 +79,9 @@ export default function UpcomingAppointments() {
           <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[85vh] flex flex-col animate-slide-up">
             <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Appointment Details</h2>
-              <button 
+              <button
                 onClick={() => setSelectedAppointment(null)}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>

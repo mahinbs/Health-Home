@@ -55,7 +55,7 @@ export default function HealthMetrics() {
   ];
 
   const toggleComplaint = (id: string) => {
-    setSelectedComplaints(prev => 
+    setSelectedComplaints(prev =>
       prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
     );
   };
@@ -91,7 +91,7 @@ export default function HealthMetrics() {
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-semibold text-gray-900">Health Metrics</h2>
         </div>
-        
+
         {/* Circular Step Tracker */}
         <Card className="p-4 sm:p-6 mb-4 overflow-hidden min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -158,8 +158,8 @@ export default function HealthMetrics() {
         {/* Health Metrics Grid - equal height/width cards */}
         <div className="grid grid-cols-2 gap-2 sm:gap-3 grid-rows-2">
           {metrics.map((metric) => (
-            <Card 
-              key={metric.id} 
+            <Card
+              key={metric.id}
               className="h-full min-h-[100px] sm:min-h-[110px] p-3 sm:p-4 cursor-pointer animate-scale-in overflow-hidden min-w-0 flex flex-col"
               onClick={() => setSelectedMetric(metric.id)}
               style={{ animationDelay: `${metrics.indexOf(metric) * 0.1}s` }}
@@ -176,9 +176,9 @@ export default function HealthMetrics() {
               </div>
             </Card>
           ))}
-          
+
           {/* Highlighted BMI Card */}
-          <Card 
+          <Card
             className="h-full min-h-[100px] sm:min-h-[110px] p-3 sm:p-4 cursor-pointer hover:shadow-lg transition-all duration-300 border-2 border-purple-300 bg-gradient-to-br from-purple-50 to-pink-50 shadow-md relative overflow-hidden min-w-0 flex flex-col"
             onClick={handleBMIClick}
           >
@@ -208,9 +208,9 @@ export default function HealthMetrics() {
           <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[85vh] flex flex-col animate-slide-up">
             <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">BMI Details</h2>
-              <button 
+              <button
                 onClick={closeBMIDetail}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
@@ -237,18 +237,16 @@ export default function HealthMetrics() {
                     <button
                       key={complaint.id}
                       onClick={() => toggleComplaint(complaint.id)}
-                      className={`p-3 rounded-lg border-2 transition-all ${
-                        selectedComplaints.includes(complaint.id)
+                      className={`p-3 rounded-lg border-2 transition-all ${selectedComplaints.includes(complaint.id)
                           ? 'border-purple-500 bg-purple-50'
                           : 'border-gray-200 bg-white'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center space-x-2">
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                          selectedComplaints.includes(complaint.id)
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedComplaints.includes(complaint.id)
                             ? 'border-purple-500 bg-purple-500'
                             : 'border-gray-300'
-                        }`}>
+                          }`}>
                           {selectedComplaints.includes(complaint.id) && (
                             <i className="ri-check-line text-white text-xs"></i>
                           )}
@@ -359,9 +357,9 @@ export default function HealthMetrics() {
               <h2 className="text-lg sm:text-xl font-bold text-gray-900 truncate pr-2">
                 {metrics.find(m => m.id === selectedMetric)?.label} Details
               </h2>
-              <button 
+              <button
                 onClick={() => setSelectedMetric(null)}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>

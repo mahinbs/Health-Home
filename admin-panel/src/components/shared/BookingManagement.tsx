@@ -108,7 +108,7 @@ export function BookingManagement({ bookings, onAccept, onReject, onViewDetails 
 
                                 {/* Details */}
                                 <div className="flex-[1.5] grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/40 border border-white/60">
+                                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/40 border border-gray-200">
                                         <div className="p-2 rounded-xl bg-primary/10 text-primary">
                                             <Calendar size={18} />
                                         </div>
@@ -117,7 +117,7 @@ export function BookingManagement({ bookings, onAccept, onReject, onViewDetails 
                                             <p className="text-sm font-bold text-gray-900">{booking.date}</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/40 border border-white/60">
+                                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/40 border border-gray-200">
                                         <div className="p-2 rounded-xl bg-primary/10 text-primary">
                                             <Clock size={18} />
                                         </div>
@@ -126,7 +126,7 @@ export function BookingManagement({ bookings, onAccept, onReject, onViewDetails 
                                             <p className="text-sm font-bold text-gray-900">{booking.time}</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/40 border border-white/60 sm:col-span-2">
+                                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/40 border border-gray-200 sm:col-span-2">
                                         <div className="p-2 rounded-xl bg-primary/10 text-primary">
                                             <MapPin size={18} />
                                         </div>
@@ -201,7 +201,7 @@ export function BookingManagement({ bookings, onAccept, onReject, onViewDetails 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-2 ml-1">Free Cancellation Window</label>
-                        <select className="w-full bg-white/40 border border-white/60 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        <select className="w-full bg-white/40 border border-gray-200 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20">
                             <option>Up to 24 hours before</option>
                             <option>Up to 12 hours before</option>
                             <option>Up to 48 hours before</option>
@@ -209,7 +209,7 @@ export function BookingManagement({ bookings, onAccept, onReject, onViewDetails 
                     </div>
                     <div>
                         <label className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-2 ml-1">Late Cancellation Penalty</label>
-                        <select className="w-full bg-white/40 border border-white/60 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        <select className="w-full bg-white/40 border border-gray-200 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20">
                             <option>100% of Booking Fee</option>
                             <option>50% of Booking Fee</option>
                             <option>Fixed Amount ($20)</option>

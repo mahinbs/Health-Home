@@ -60,7 +60,7 @@ export default function Records() {
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
       <AdsBanner />
       <TopNavigation title="Health Records" />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Categories */}
         <div className="mb-6">
@@ -69,11 +69,10 @@ export default function Records() {
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`p-4 rounded-xl border transition-all duration-300 text-center animate-scale-in ${
-                  selectedCategory === category.id
+                className={`p-4 rounded-xl border transition-all duration-300 text-center animate-scale-in ${selectedCategory === category.id
                     ? 'border-pink-500 bg-gradient-to-br from-pink-50 to-rose-50 text-pink-600 shadow-md scale-105'
                     : 'border-gray-200 bg-white text-gray-600 hover:border-pink-300 hover:shadow-sm'
-                }`}
+                  }`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
@@ -96,12 +95,11 @@ export default function Records() {
             >
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-pink-100 to-rose-100 rounded-xl flex items-center justify-center shadow-md">
-                  <i className={`${
-                    record.type === 'prescription' ? 'ri-file-list-3-line' :
-                    record.type === 'report' ? 'ri-test-tube-line' :
-                    record.type === 'scan' ? 'ri-scanner-line' :
-                    'ri-medicine-bottle-line'
-                  } text-xl text-pink-600`}></i>
+                  <i className={`${record.type === 'prescription' ? 'ri-file-list-3-line' :
+                      record.type === 'report' ? 'ri-test-tube-line' :
+                        record.type === 'scan' ? 'ri-scanner-line' :
+                          'ri-medicine-bottle-line'
+                    } text-xl text-pink-600`}></i>
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900 mb-1">{record.title}</h3>
@@ -133,9 +131,9 @@ export default function Records() {
           <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
             <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Record Details</h2>
-              <button 
+              <button
                 onClick={() => setSelectedRecord(null)}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>
@@ -145,12 +143,11 @@ export default function Records() {
               <Card className="p-6 bg-gradient-to-br from-pink-50 to-rose-50">
                 <div className="text-center mb-4">
                   <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center shadow-lg">
-                    <i className={`${
-                      selectedRecord.type === 'prescription' ? 'ri-file-list-3-line' :
-                      selectedRecord.type === 'report' ? 'ri-test-tube-line' :
-                      selectedRecord.type === 'scan' ? 'ri-scanner-line' :
-                      'ri-medicine-bottle-line'
-                    } text-4xl text-white`}></i>
+                    <i className={`${selectedRecord.type === 'prescription' ? 'ri-file-list-3-line' :
+                        selectedRecord.type === 'report' ? 'ri-test-tube-line' :
+                          selectedRecord.type === 'scan' ? 'ri-scanner-line' :
+                            'ri-medicine-bottle-line'
+                      } text-4xl text-white`}></i>
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{selectedRecord.title}</h3>
                   <p className="text-sm text-gray-600">{selectedRecord.description}</p>

@@ -17,6 +17,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
+
     if (allowedRoles && user && !allowedRoles.includes(user.role)) {
         // Role not allowed, redirect to their specific overview or login
         const dashboardPath = `/${user.role.toLowerCase().replace('_', '-')}/overview`;

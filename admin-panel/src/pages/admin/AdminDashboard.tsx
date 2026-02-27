@@ -69,7 +69,7 @@ function AdminOverview() {
         <div className="space-y-10">
             <DashboardOverview />
 
-            <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm">
+            <div className="bg-white/40 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-sm">
                 <div className="flex justify-between items-center mb-6">
                     <div>
                         <h4 className="text-lg font-bold text-gray-900">System Shortcuts</h4>
@@ -103,7 +103,7 @@ function ShortcutCard({ icon: Icon, title, desc, color }: any) {
 function AdminAnalytics() {
     return (
         <div className="space-y-10">
-            <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm">
+            <div className="bg-white/40 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-sm">
                 <h4 className="text-lg font-bold text-gray-900 mb-8">Category Utilization</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <CategoryStat label="Doctor" value="45%" color="bg-primary" />
@@ -131,7 +131,7 @@ function ProviderManagement() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-                <div className="p-6 bg-white/60 border border-white/60 rounded-3xl">
+                <div className="p-6 bg-white/60 border border-gray-200 rounded-3xl">
                     <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Total Providers</p>
                     <p className="text-3xl font-black text-gray-900">1,245</p>
                 </div>
@@ -263,7 +263,7 @@ function AdminSettings() {
                                     <h5 className="font-bold text-gray-900 text-sm">Maintenance Mode</h5>
                                     <p className="text-xs text-gray-500">Temporarily disable access for users</p>
                                 </div>
-                                <div className="w-12 h-6 bg-gray-200 rounded-full relative cursor-pointer">
+                                <div className="w-12 h-6 bg-white/40 rounded-full relative cursor-pointer">
                                     <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
                                 </div>
                             </div>

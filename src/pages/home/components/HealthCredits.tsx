@@ -11,19 +11,19 @@ export default function HealthCredits() {
             <i className="ri-heart-pulse-fill text-white text-2xl"></i>
           </div>
         </div>
-        
+
         <div className="flex items-end space-x-2 mb-2">
           <span className="text-5xl font-bold text-pink-600">85</span>
           <span className="text-2xl text-gray-400 pb-2">/100</span>
         </div>
-        
-        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-          <div 
+
+        <div className="w-full bg-white/40 rounded-full h-3 overflow-hidden">
+          <div
             className="bg-gradient-to-r from-pink-500 to-rose-400 h-full rounded-full transition-all duration-500"
             style={{ width: '85%' }}
           ></div>
         </div>
-        
+
         <p className="text-xs text-gray-500 mt-3">
           Based on your activity, vitals, and wellness habits
         </p>

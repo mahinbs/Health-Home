@@ -9,12 +9,10 @@ import {
     Tag,
     Heart,
     Baby,
-    Moon,
-    ShieldCheck
+    Moon
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
-import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
@@ -28,7 +26,6 @@ const CARE_TAKER_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Bookings', path: '/caretaker/bookings' },
     { icon: Clock, label: 'Availability', path: '/caretaker/availability' },
     { icon: Tag, label: 'Services & Fees', path: '/caretaker/services' },
-    { icon: ShieldCheck, label: 'Verification', path: '/caretaker/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/caretaker/earnings' },
     { icon: Star, label: 'Reviews', path: '/caretaker/reviews' },
     { icon: UserCircle, label: 'Profile', path: '/caretaker/profile' },
@@ -62,7 +59,6 @@ export default function CareTakerDashboard() {
                 <Route path="availability" element={
                     <AvailabilityManagement showMultiCity={false} showHomeToggle={true} showPhysicalToggle={false} />
                 } />
-                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}
@@ -82,7 +78,7 @@ function CareTakerOverview() {
         <div className="space-y-10">
             <DashboardOverview />
 
-            <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm">
+            <div className="bg-white/40 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-sm">
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h4 className="text-lg font-bold text-gray-900">Care Services</h4>

@@ -10,12 +10,10 @@ import {
     DollarSign,
     Star,
     Tag,
-    BedDouble,
-    ShieldCheck
+    BedDouble
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
-import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
@@ -29,7 +27,6 @@ const NURSE_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Bookings', path: '/nurse/bookings' },
     { icon: Clock, label: 'Availability', path: '/nurse/availability' },
     { icon: Tag, label: 'Services & Fees', path: '/nurse/services' },
-    { icon: ShieldCheck, label: 'Verification', path: '/nurse/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/nurse/earnings' },
     { icon: Star, label: 'Reviews', path: '/nurse/reviews' },
     { icon: UserCircle, label: 'Profile', path: '/nurse/profile' },
@@ -65,7 +62,6 @@ export default function NurseDashboard() {
                 <Route path="availability" element={
                     <AvailabilityManagement showMultiCity={false} showHomeToggle={true} showServiceRadius={true} />
                 } />
-                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}
@@ -87,7 +83,7 @@ function NurseOverview() {
         <div className="space-y-10">
             <DashboardOverview />
 
-            <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm">
+            <div className="bg-white/40 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-sm">
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h4 className="text-lg font-bold text-gray-900">Nursing Specializations</h4>

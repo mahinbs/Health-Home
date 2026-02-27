@@ -169,7 +169,7 @@ function PricingModifierInput({ icon: Icon, label, defaultVal, unit }: any) {
                     type="number"
                     defaultValue={defaultVal}
                     className={cn(
-                        "w-full bg-white/40 border border-white/60 rounded-xl py-3 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20",
+                        "w-full bg-white/40 border border-gray-200 rounded-xl py-3 text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20",
                         unit === '$' ? "pl-9 pr-4" : "px-4"
                     )}
                 />

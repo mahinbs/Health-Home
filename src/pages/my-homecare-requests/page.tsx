@@ -87,7 +87,7 @@ export default function MyHomecareRequests() {
       <AdsBanner />
       <TopNavigation title="My Homecare Requests" showCart={true} />
       <TopNavigation title="My Homecare Requests" showCart={true} />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Filter Tabs */}
         <div className="mb-6">
@@ -102,11 +102,10 @@ export default function MyHomecareRequests() {
               <button
                 key={tab.id}
                 onClick={() => setFilter(tab.id as typeof filter)}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 ${
-                  filter === tab.id
+                className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 ${filter === tab.id
                     ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md scale-105'
                     : 'bg-white/95 text-gray-600 hover:bg-pink-50'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -190,7 +189,7 @@ export default function MyHomecareRequests() {
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Request Details</h2>
               <button
                 onClick={() => setSelectedRequest(null)}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>

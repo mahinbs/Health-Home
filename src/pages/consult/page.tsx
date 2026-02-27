@@ -254,7 +254,7 @@ export default function Consult() {
     }
   ];
 
-  const filteredDoctors = selectedSpecialty 
+  const filteredDoctors = selectedSpecialty
     ? doctors.filter(doctor => doctor.specialty.toLowerCase() === selectedSpecialty.toLowerCase())
     : doctors;
 
@@ -296,16 +296,16 @@ export default function Consult() {
 
   const handleProactiveYes = (service: typeof proactiveServicesList[0]) => {
     setShowProactiveDialog(false);
-    
+
     // Update proactive services state
     if (service.category === 'homecare') {
-      setProactiveServices({...proactiveServices, homecareDressing: true});
+      setProactiveServices({ ...proactiveServices, homecareDressing: true });
     } else if (service.category === 'diagnostic') {
-      setProactiveServices({...proactiveServices, diagnosticXray: true});
+      setProactiveServices({ ...proactiveServices, diagnosticXray: true });
     } else if (service.category === 'medicine') {
-      setProactiveServices({...proactiveServices, medicineDelivery: true});
+      setProactiveServices({ ...proactiveServices, medicineDelivery: true });
     }
-    
+
     // Continue with consultation booking
     if (selectedDoctorData) {
       setShowBookingModal(true);
@@ -335,7 +335,7 @@ export default function Consult() {
       };
       setChatMessages([...chatMessages, newMsg]);
       setNewMessage('');
-      
+
       // Simulate doctor response after 2 seconds
       setTimeout(() => {
         const doctorResponse: ChatMessage = {
@@ -352,7 +352,7 @@ export default function Consult() {
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Reset form and close modal
     setShowBookingModal(false);
     setSelectedDoctorData(null);
@@ -375,7 +375,7 @@ export default function Consult() {
       },
       doctorQuestions: []
     });
-    
+
     // Show success message
     alert('Consultation booked successfully!');
   };
@@ -408,9 +408,9 @@ export default function Consult() {
 
   const handleAIAnalysis = () => {
     if (!aiInput.trim() && uploadedFiles.length === 0) return;
-    
+
     setIsAnalyzing(true);
-    
+
     // Simulate AI analysis
     setTimeout(() => {
       setIsAnalyzing(false);
@@ -429,10 +429,10 @@ export default function Consult() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
       <AdsBanner />
-      <TopNavigation 
-        title="Consult Doctor" 
+      <TopNavigation
+        title="Consult Doctor"
       />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-32 sm:pb-36 px-4">
         {/* Proactive Booking Dialog */}
         <ProactiveBookingDialog
@@ -467,7 +467,7 @@ export default function Consult() {
                 </div>
                 <button
                   onClick={closeAIAssistant}
-                  className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+                  className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors"
                 >
                   <i className="ri-close-line text-gray-600"></i>
                 </button>
@@ -591,8 +591,8 @@ export default function Consult() {
                         <div className="bg-white rounded-xl p-4 mb-4">
                           <h4 className="font-semibold text-gray-900 mb-2">Cardiovascular Concern</h4>
                           <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                            Your symptoms of chest pain and shortness of breath may indicate a cardiovascular issue. 
-                            This could range from minor conditions like anxiety or muscle strain to more serious concerns 
+                            Your symptoms of chest pain and shortness of breath may indicate a cardiovascular issue.
+                            This could range from minor conditions like anxiety or muscle strain to more serious concerns
                             requiring immediate medical attention.
                           </p>
                           <div className="flex items-center space-x-2 text-xs">
@@ -635,7 +635,7 @@ export default function Consult() {
                           <div className="bg-white rounded-2xl p-4 border-2 border-purple-200 shadow-sm">
                             <div className="flex items-start space-x-3">
                               <div className="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
-                                <img 
+                                <img
                                   src="https://readdy.ai/api/search-image?query=Professional%20female%20doctor%20in%20white%20coat%2C%20warm%20smile%2C%20stethoscope%20around%20neck%2C%20medical%20office%20background%2C%20soft%20lighting%2C%20healthcare%20professional%20portrait%2C%20clean%20and%20trustworthy%20appearance&width=80&height=80&seq=doc1&orientation=squarish"
                                   alt="Dr. Sarah Johnson"
                                   className="w-full h-full object-cover object-top"
@@ -688,7 +688,7 @@ export default function Consult() {
                           <div className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm">
                             <div className="flex items-start space-x-3">
                               <div className="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
-                                <img 
+                                <img
                                   src="https://readdy.ai/api/search-image?query=Professional%20female%20pediatric%20doctor%2C%20warm%20and%20caring%20expression%2C%20white%20medical%20coat%2C%20child-friendly%20medical%20office%20background%2C%20healthcare%20professional%20portrait&width=80&height=80&seq=doc3&orientation=squarish"
                                   alt="Dr. Emily Rodriguez"
                                   className="w-full h-full object-cover object-top"
@@ -748,8 +748,8 @@ export default function Consult() {
                           <div className="flex-1">
                             <h4 className="font-semibold text-red-900 mb-1 text-sm">Important Notice</h4>
                             <p className="text-xs text-red-800 leading-relaxed mb-2">
-                              This AI analysis is for informational purposes only and should not replace professional medical advice. 
-                              If you experience severe chest pain, difficulty breathing, or other emergency symptoms, please call 
+                              This AI analysis is for informational purposes only and should not replace professional medical advice.
+                              If you experience severe chest pain, difficulty breathing, or other emergency symptoms, please call
                               emergency services immediately.
                             </p>
                             <button className="bg-red-500 text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-red-600 transition-colors">
@@ -768,7 +768,7 @@ export default function Consult() {
                             setAiInput('');
                             setUploadedFiles([]);
                           }}
-                          className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+                          className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-white/40 transition-colors"
                         >
                           New Analysis
                         </button>
@@ -808,7 +808,7 @@ export default function Consult() {
                 <span className="font-semibold text-sm">Voice /Video Call</span>
               </div>
             </button>
-            <button 
+            <button
               onClick={handleOpenChat}
               className="bg-white/95 backdrop-blur-sm text-pink-600 rounded-2xl p-4 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 border border-pink-100/50"
             >
@@ -828,11 +828,10 @@ export default function Consult() {
               <button
                 key={specialty.name}
                 onClick={() => setSelectedSpecialty(selectedSpecialty === specialty.name ? '' : specialty.name)}
-                className={`p-4 rounded-2xl transition-all duration-300 ${
-                  selectedSpecialty === specialty.name
+                className={`p-4 rounded-2xl transition-all duration-300 ${selectedSpecialty === specialty.name
                     ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg scale-105'
                     : 'bg-white/95 backdrop-blur-sm text-gray-700 hover:shadow-md hover:scale-105 border border-pink-100/50'
-                }`}
+                  }`}
               >
                 <div className="flex flex-col items-center space-y-2">
                   <div className="w-8 h-8 flex items-center justify-center">
@@ -851,29 +850,29 @@ export default function Consult() {
             <h2 className="text-base font-semibold text-gray-800">Available Doctors</h2>
             <button className="text-pink-600 text-sm font-medium">View All</button>
           </div>
-          
+
           <div className="space-y-3">
             {filteredDoctors.map((doctor) => (
-              <div 
-                key={doctor.id} 
+              <div
+                key={doctor.id}
                 className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-pink-100/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
               >
                 <div className="flex items-start space-x-3">
-                  <div 
+                  <div
                     className="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0 cursor-pointer"
                     onClick={() => {
                       setSelectedDoctorData(doctor);
                       setShowBookingModal(true);
                     }}
                   >
-                    <img 
-                      src={doctor.image} 
+                    <img
+                      src={doctor.image}
                       alt={doctor.name}
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
-                  
-                  <div 
+
+                  <div
                     className="flex-1 min-w-0 cursor-pointer"
                     onClick={() => {
                       setSelectedDoctorData(doctor);
@@ -890,7 +889,7 @@ export default function Consult() {
                         <p className="text-xs text-gray-400">per session</p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-3 mb-3">
                       <div className="flex items-center space-x-1">
                         <i className="ri-star-fill text-yellow-400 text-xs"></i>
@@ -901,13 +900,13 @@ export default function Consult() {
                         <span className="text-xs text-gray-600">{doctor.experience}</span>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-1">
                         <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                         <span className="text-xs text-green-600 font-medium">{doctor.available}</span>
                       </div>
-                      
+
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -930,14 +929,14 @@ export default function Consult() {
           <div className="flex items-center justify-between mb-4 px-1">
             <h2 className="text-base font-semibold text-gray-800">Hospitals & Healthcare Centers</h2>
             <div className="flex items-center space-x-2">
-              <button 
+              <button
                 onClick={() => setShowHospitalOnboarding(true)}
                 className="text-pink-600 text-sm font-medium flex items-center"
               >
                 <i className="ri-add-line mr-1"></i>
                 Onboard Hospital
               </button>
-              <button 
+              <button
                 onClick={() => setShowHospitalModal(true)}
                 className="text-pink-600 text-sm font-medium"
               >
@@ -945,7 +944,7 @@ export default function Consult() {
               </button>
             </div>
           </div>
-          
+
           <div className="space-y-3">
             {[
               {
@@ -976,7 +975,7 @@ export default function Consult() {
                 image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80'
               }
             ].map((hospital) => (
-              <div 
+              <div
                 key={hospital.id}
                 onClick={() => {
                   setSelectedHospital(hospital);
@@ -986,13 +985,13 @@ export default function Consult() {
               >
                 <div className="flex items-start space-x-3">
                   <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
-                    <img 
-                      src={hospital.image} 
+                    <img
+                      src={hospital.image}
                       alt={hospital.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  
+
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between mb-2">
                       <div>
@@ -1004,7 +1003,7 @@ export default function Consult() {
                         <span className="text-xs text-gray-600">{hospital.rating}</span>
                       </div>
                     </div>
-                    
+
                     <div className="flex flex-wrap gap-2 mb-2">
                       {hospital.services.slice(0, 3).map((service, idx) => (
                         <span key={idx} className="bg-pink-50 text-pink-700 px-2 py-0.5 rounded-full text-xs">
@@ -1015,7 +1014,7 @@ export default function Consult() {
                         <span className="text-xs text-gray-500">+{hospital.services.length - 3} more</span>
                       )}
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-1 text-xs text-gray-600">
                         <i className="ri-user-line"></i>
@@ -1057,7 +1056,7 @@ export default function Consult() {
             <div className="flex-shrink-0 flex items-center justify-between p-3 sm:p-4 md:p-5 border-b border-gray-100">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100">
-                  <img 
+                  <img
                     src="https://readdy.ai/api/search-image?query=Professional%20female%20doctor%20in%20white%20coat%2C%20warm%20smile%2C%20stethoscope%20around%20neck%2C%20medical%20office%20background%2C%20soft%20lighting%2C%20healthcare%20professional%20portrait%2C%20clean%20and%20trustworthy%20appearance&width=40&height=40&seq=chatdoc&orientation=squarish"
                     alt="Dr. Sarah Johnson"
                     className="w-full h-full object-cover object-top"
@@ -1073,7 +1072,7 @@ export default function Consult() {
               </div>
               <button
                 onClick={handleCloseChatModal}
-                className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+                className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>
@@ -1091,11 +1090,10 @@ export default function Consult() {
                       <p className="text-xs text-gray-500 mb-1 ml-3">{message.doctorName}</p>
                     )}
                     <div
-                      className={`px-4 py-3 rounded-2xl ${
-                        message.sender === 'user'
+                      className={`px-4 py-3 rounded-2xl ${message.sender === 'user'
                           ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-md'
                           : 'bg-gray-100 text-gray-800'
-                      }`}
+                        }`}
                     >
                       <p className="text-sm">{message.message}</p>
                     </div>
@@ -1147,7 +1145,7 @@ export default function Consult() {
                   setShowEditDoctorProfile(false);
                   setEditableDoctorData(null);
                 }}
-                className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+                className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>
@@ -1227,7 +1225,7 @@ export default function Consult() {
                             onChange={(e) => {
                               const newOPD = [...editableDoctorData.weeklyOPD];
                               newOPD[index].day = e.target.value;
-                              setEditableDoctorData({...editableDoctorData, weeklyOPD: newOPD});
+                              setEditableDoctorData({ ...editableDoctorData, weeklyOPD: newOPD });
                             }}
                             className="w-full bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs"
                           >
@@ -1244,7 +1242,7 @@ export default function Consult() {
                             onChange={(e) => {
                               const newOPD = [...editableDoctorData.weeklyOPD];
                               newOPD[index].time = e.target.value;
-                              setEditableDoctorData({...editableDoctorData, weeklyOPD: newOPD});
+                              setEditableDoctorData({ ...editableDoctorData, weeklyOPD: newOPD });
                             }}
                             placeholder="9:00 AM - 1:00 PM"
                             className="w-full bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs"
@@ -1258,7 +1256,7 @@ export default function Consult() {
                             onChange={(e) => {
                               const newOPD = [...editableDoctorData.weeklyOPD];
                               newOPD[index].location = e.target.value;
-                              setEditableDoctorData({...editableDoctorData, weeklyOPD: newOPD});
+                              setEditableDoctorData({ ...editableDoctorData, weeklyOPD: newOPD });
                             }}
                             placeholder="Hospital name"
                             className="w-full bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs"
@@ -1269,7 +1267,7 @@ export default function Consult() {
                         type="button"
                         onClick={() => {
                           const newOPD = editableDoctorData.weeklyOPD.filter((_, i) => i !== index);
-                          setEditableDoctorData({...editableDoctorData, weeklyOPD: newOPD});
+                          setEditableDoctorData({ ...editableDoctorData, weeklyOPD: newOPD });
                         }}
                         className="text-xs text-red-600 hover:text-red-700"
                       >
@@ -1334,7 +1332,7 @@ export default function Consult() {
                 </button>
                 <button
                   onClick={handleCloseModal}
-                  className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                  className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
                 >
                   <i className="ri-close-line text-gray-600 text-lg"></i>
                 </button>
@@ -1347,8 +1345,8 @@ export default function Consult() {
                 {/* Basic Info */}
                 <div className="flex items-start space-x-3 mb-4">
                   <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
-                    <img 
-                      src={selectedDoctorData.image} 
+                    <img
+                      src={selectedDoctorData.image}
                       alt={selectedDoctorData.name}
                       className="w-full h-full object-cover object-top"
                     />
@@ -1471,7 +1469,7 @@ export default function Consult() {
                           <div className="flex-1">
                             <p className="text-xs text-gray-500 mb-1 font-medium">Address</p>
                             <p className="text-sm text-gray-900 leading-relaxed mb-2">{selectedDoctorData.hospitalAddress}</p>
-                            <a 
+                            <a
                               href={`https://maps.google.com/?q=${encodeURIComponent(selectedDoctorData.hospitalAddress)}`}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -1492,8 +1490,8 @@ export default function Consult() {
                           </div>
                           <div className="flex-1">
                             <p className="text-xs text-gray-500 mb-1 font-medium">Contact Number</p>
-                            <a 
-                              href={`tel:${selectedDoctorData.hospitalPhone.replace(/\s/g, '')}`} 
+                            <a
+                              href={`tel:${selectedDoctorData.hospitalPhone.replace(/\s/g, '')}`}
                               className="text-sm text-gray-900 font-medium hover:text-pink-600 flex items-center"
                             >
                               {selectedDoctorData.hospitalPhone}
@@ -1503,60 +1501,60 @@ export default function Consult() {
                         </div>
                       )}
 
-                    {/* Hospital Facilities */}
-                    <div className="pt-3 border-t border-gray-100">
-                      <p className="text-xs text-gray-500 mb-2">Hospital Facilities</p>
-                      <div className="grid grid-cols-2 gap-2">
-                        {['Emergency Services', 'ICU', 'Pharmacy', 'Lab Services', 'Ambulance', 'Parking'].map((facility, index) => (
-                          <div key={index} className="flex items-center space-x-2">
-                            <i className="ri-checkbox-circle-fill text-emerald-500 text-xs"></i>
-                            <span className="text-xs text-gray-700">{facility}</span>
+                      {/* Hospital Facilities */}
+                      <div className="pt-3 border-t border-gray-100">
+                        <p className="text-xs text-gray-500 mb-2">Hospital Facilities</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {['Emergency Services', 'ICU', 'Pharmacy', 'Lab Services', 'Ambulance', 'Parking'].map((facility, index) => (
+                            <div key={index} className="flex items-center space-x-2">
+                              <i className="ri-checkbox-circle-fill text-emerald-500 text-xs"></i>
+                              <span className="text-xs text-gray-700">{facility}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Consultation Charges */}
+                      <div className="pt-3 border-t border-gray-100 bg-pink-50 rounded-lg p-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-xs text-gray-600">Consultation Fee</p>
+                          <p className="text-base font-bold text-pink-600">{selectedDoctorData.price}</p>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-gray-600">Follow-up Consultation</span>
+                          <span className="text-gray-900 font-medium">50% off</span>
+                        </div>
+                      </div>
+
+                      {/* Hospital Timings */}
+                      <div className="pt-3 border-t border-gray-100">
+                        <p className="text-xs text-gray-500 mb-2">Hospital Timings</p>
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-gray-600">Monday - Friday</span>
+                            <span className="text-gray-900 font-medium">8:00 AM - 8:00 PM</span>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Consultation Charges */}
-                    <div className="pt-3 border-t border-gray-100 bg-pink-50 rounded-lg p-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <p className="text-xs text-gray-600">Consultation Fee</p>
-                        <p className="text-base font-bold text-pink-600">{selectedDoctorData.price}</p>
-                      </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-gray-600">Follow-up Consultation</span>
-                        <span className="text-gray-900 font-medium">50% off</span>
-                      </div>
-                    </div>
-
-                    {/* Hospital Timings */}
-                    <div className="pt-3 border-t border-gray-100">
-                      <p className="text-xs text-gray-500 mb-2">Hospital Timings</p>
-                      <div className="space-y-1.5">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-gray-600">Monday - Friday</span>
-                          <span className="text-gray-900 font-medium">8:00 AM - 8:00 PM</span>
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-gray-600">Saturday</span>
-                          <span className="text-gray-900 font-medium">9:00 AM - 6:00 PM</span>
-                        </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-gray-600">Sunday</span>
-                          <span className="text-gray-900 font-medium">Emergency Only</span>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-gray-600">Saturday</span>
+                            <span className="text-gray-900 font-medium">9:00 AM - 6:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-gray-600">Sunday</span>
+                            <span className="text-gray-900 font-medium">Emergency Only</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Emergency Contact */}
-                    <div className="pt-3 border-t border-gray-100 bg-red-50 rounded-lg p-3">
-                      <div className="flex items-center space-x-2 mb-1">
-                        <i className="ri-alarm-warning-line text-red-600"></i>
-                        <p className="text-xs font-semibold text-red-900">Emergency Contact</p>
+                      {/* Emergency Contact */}
+                      <div className="pt-3 border-t border-gray-100 bg-red-50 rounded-lg p-3">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <i className="ri-alarm-warning-line text-red-600"></i>
+                          <p className="text-xs font-semibold text-red-900">Emergency Contact</p>
+                        </div>
+                        <a href="tel:108" className="text-sm font-bold text-red-700">108 / +91 22 1234 5678</a>
+                        <p className="text-xs text-red-600 mt-1">Available 24/7</p>
                       </div>
-                      <a href="tel:108" className="text-sm font-bold text-red-700">108 / +91 22 1234 5678</a>
-                      <p className="text-xs text-red-600 mt-1">Available 24/7</p>
                     </div>
-                  </div>
                   </div>
                 )}
 
@@ -1616,12 +1614,11 @@ export default function Consult() {
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     <button
                       type="button"
-                      onClick={() => setBookingForm({...bookingForm, consultationType: 'video'})}
-                      className={`p-3 rounded-xl border transition-all duration-300 ${
-                        bookingForm.consultationType === 'video'
+                      onClick={() => setBookingForm({ ...bookingForm, consultationType: 'video' })}
+                      className={`p-3 rounded-xl border transition-all duration-300 ${bookingForm.consultationType === 'video'
                           ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white border-pink-500 shadow-md scale-105'
                           : 'bg-white border-gray-200 text-gray-700 hover:border-pink-300 hover:shadow-md'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-center space-x-2">
                         <i className="ri-video-line"></i>
@@ -1630,12 +1627,11 @@ export default function Consult() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => setBookingForm({...bookingForm, consultationType: 'chat'})}
-                      className={`p-3 rounded-xl border transition-all duration-300 ${
-                        bookingForm.consultationType === 'chat'
+                      onClick={() => setBookingForm({ ...bookingForm, consultationType: 'chat' })}
+                      className={`p-3 rounded-xl border transition-all duration-300 ${bookingForm.consultationType === 'chat'
                           ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white border-pink-500 shadow-md scale-105'
                           : 'bg-white border-gray-200 text-gray-700 hover:border-pink-300 hover:shadow-md'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-center space-x-2">
                         <i className="ri-chat-3-line"></i>
@@ -1651,7 +1647,7 @@ export default function Consult() {
                   <input
                     type="date"
                     value={bookingForm.date}
-                    onChange={(e) => setBookingForm({...bookingForm, date: e.target.value})}
+                    onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
                     min={new Date().toISOString().split('T')[0]}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300"
                     required
@@ -1666,12 +1662,11 @@ export default function Consult() {
                       <button
                         key={time}
                         type="button"
-                        onClick={() => setBookingForm({...bookingForm, time})}
-                        className={`p-2 rounded-lg border text-xs transition-all duration-300 ${
-                          bookingForm.time === time
+                        onClick={() => setBookingForm({ ...bookingForm, time })}
+                        className={`p-2 rounded-lg border text-xs transition-all duration-300 ${bookingForm.time === time
                             ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white border-pink-500 shadow-md scale-105'
                             : 'bg-white border-gray-200 text-gray-700 hover:border-pink-300 hover:shadow-sm'
-                        }`}
+                          }`}
                       >
                         {time}
                       </button>
@@ -1685,7 +1680,7 @@ export default function Consult() {
                     <input
                       type="checkbox"
                       checked={bookingForm.isSecondOpinion}
-                      onChange={(e) => setBookingForm({...bookingForm, isSecondOpinion: e.target.checked})}
+                      onChange={(e) => setBookingForm({ ...bookingForm, isSecondOpinion: e.target.checked })}
                       className="mt-1 w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
                     />
                     <div className="flex-1">
@@ -1714,7 +1709,7 @@ export default function Consult() {
                       {showDoctorQuestions ? 'Hide' : 'Show'} Details
                     </button>
                   </div>
-                  
+
                   {showDoctorQuestions && (
                     <div className="space-y-3 mt-3">
                       <div className="grid grid-cols-2 gap-3">
@@ -1725,7 +1720,7 @@ export default function Consult() {
                             value={bookingForm.basicData.age}
                             onChange={(e) => setBookingForm({
                               ...bookingForm,
-                              basicData: {...bookingForm.basicData, age: e.target.value}
+                              basicData: { ...bookingForm.basicData, age: e.target.value }
                             })}
                             placeholder="Years"
                             className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -1737,7 +1732,7 @@ export default function Consult() {
                             value={bookingForm.basicData.gender}
                             onChange={(e) => setBookingForm({
                               ...bookingForm,
-                              basicData: {...bookingForm.basicData, gender: e.target.value}
+                              basicData: { ...bookingForm.basicData, gender: e.target.value }
                             })}
                             className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
                           >
@@ -1756,7 +1751,7 @@ export default function Consult() {
                             value={bookingForm.basicData.height}
                             onChange={(e) => setBookingForm({
                               ...bookingForm,
-                              basicData: {...bookingForm.basicData, height: e.target.value}
+                              basicData: { ...bookingForm.basicData, height: e.target.value }
                             })}
                             placeholder="cm"
                             className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -1769,7 +1764,7 @@ export default function Consult() {
                             value={bookingForm.basicData.weight}
                             onChange={(e) => setBookingForm({
                               ...bookingForm,
-                              basicData: {...bookingForm.basicData, weight: e.target.value}
+                              basicData: { ...bookingForm.basicData, weight: e.target.value }
                             })}
                             placeholder="kg"
                             className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -1783,7 +1778,7 @@ export default function Consult() {
                           value={bookingForm.basicData.bloodPressure}
                           onChange={(e) => setBookingForm({
                             ...bookingForm,
-                            basicData: {...bookingForm.basicData, bloodPressure: e.target.value}
+                            basicData: { ...bookingForm.basicData, bloodPressure: e.target.value }
                           })}
                           placeholder="e.g., 120/80"
                           className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -1796,7 +1791,7 @@ export default function Consult() {
                           value={bookingForm.basicData.allergies}
                           onChange={(e) => setBookingForm({
                             ...bookingForm,
-                            basicData: {...bookingForm.basicData, allergies: e.target.value}
+                            basicData: { ...bookingForm.basicData, allergies: e.target.value }
                           })}
                           placeholder="List any allergies"
                           className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -1809,7 +1804,7 @@ export default function Consult() {
                           value={bookingForm.basicData.currentMedications}
                           onChange={(e) => setBookingForm({
                             ...bookingForm,
-                            basicData: {...bookingForm.basicData, currentMedications: e.target.value}
+                            basicData: { ...bookingForm.basicData, currentMedications: e.target.value }
                           })}
                           placeholder="List current medications"
                           className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -1824,7 +1819,7 @@ export default function Consult() {
                   <label className="block text-sm font-medium text-gray-700 mb-3">Symptoms or Concerns</label>
                   <textarea
                     value={bookingForm.symptoms}
-                    onChange={(e) => setBookingForm({...bookingForm, symptoms: e.target.value})}
+                    onChange={(e) => setBookingForm({ ...bookingForm, symptoms: e.target.value })}
                     placeholder="Describe your symptoms in detail..."
                     rows={3}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300 resize-none"
@@ -1900,7 +1895,7 @@ export default function Consult() {
                   <p className="text-xs text-gray-600 mb-3">
                     Answer these questions to help the doctor prepare for your consultation and reduce consultation time.
                   </p>
-                  
+
                   {/* Sample questions - In real app, these would come from doctor's profile */}
                   <div className="space-y-3">
                     {[
@@ -1920,7 +1915,7 @@ export default function Consult() {
                               newQuestions[index] = { question: item.question, answer: '' };
                             }
                             newQuestions[index].answer = e.target.value;
-                            setBookingForm({...bookingForm, doctorQuestions: newQuestions});
+                            setBookingForm({ ...bookingForm, doctorQuestions: newQuestions });
                           }}
                         />
                       </div>
@@ -1934,7 +1929,7 @@ export default function Consult() {
                     <input
                       type="checkbox"
                       checked={bookingForm.shareHealthRecords}
-                      onChange={(e) => setBookingForm({...bookingForm, shareHealthRecords: e.target.checked})}
+                      onChange={(e) => setBookingForm({ ...bookingForm, shareHealthRecords: e.target.checked })}
                       className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
                     <div className="flex-1">
@@ -1970,7 +1965,7 @@ export default function Consult() {
                   <label className="block text-sm font-medium text-gray-700 mb-3">Additional Notes (Optional)</label>
                   <textarea
                     value={bookingForm.notes}
-                    onChange={(e) => setBookingForm({...bookingForm, notes: e.target.value})}
+                    onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
                     placeholder="Any additional information..."
                     rows={2}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300 resize-none"
@@ -2004,7 +1999,7 @@ export default function Consult() {
                   setShowHospitalModal(false);
                   setSelectedHospital(null);
                 }}
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
@@ -2050,7 +2045,7 @@ export default function Consult() {
                       }}
                       className="bg-gray-50 rounded-lg p-3 flex items-center space-x-3 cursor-pointer hover:bg-gray-100 transition-colors"
                     >
-                      <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-200">
+                      <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/40">
                         <img src={doctor.image} alt={doctor.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1">
@@ -2105,7 +2100,7 @@ export default function Consult() {
                     available: true
                   });
                 }}
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
@@ -2121,7 +2116,7 @@ export default function Consult() {
                       <input
                         type="text"
                         value={hospitalForm.name}
-                        onChange={(e) => setHospitalForm({...hospitalForm, name: e.target.value})}
+                        onChange={(e) => setHospitalForm({ ...hospitalForm, name: e.target.value })}
                         placeholder="Enter hospital name"
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300"
                         required
@@ -2132,7 +2127,7 @@ export default function Consult() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">Address *</label>
                       <textarea
                         value={hospitalForm.address}
-                        onChange={(e) => setHospitalForm({...hospitalForm, address: e.target.value})}
+                        onChange={(e) => setHospitalForm({ ...hospitalForm, address: e.target.value })}
                         placeholder="Enter full address"
                         rows={3}
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300 resize-none"
@@ -2146,7 +2141,7 @@ export default function Consult() {
                         <input
                           type="tel"
                           value={hospitalForm.phone}
-                          onChange={(e) => setHospitalForm({...hospitalForm, phone: e.target.value})}
+                          onChange={(e) => setHospitalForm({ ...hospitalForm, phone: e.target.value })}
                           placeholder="+91 1234567890"
                           className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300"
                           required
@@ -2157,7 +2152,7 @@ export default function Consult() {
                         <input
                           type="email"
                           value={hospitalForm.email}
-                          onChange={(e) => setHospitalForm({...hospitalForm, email: e.target.value})}
+                          onChange={(e) => setHospitalForm({ ...hospitalForm, email: e.target.value })}
                           placeholder="hospital@example.com"
                           className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300/50 focus:border-pink-300"
                           required
@@ -2173,7 +2168,7 @@ export default function Consult() {
                           accept="image/*"
                           onChange={(e) => {
                             if (e.target.files?.[0]) {
-                              setHospitalForm({...hospitalForm, image: e.target.files[0]});
+                              setHospitalForm({ ...hospitalForm, image: e.target.files[0] });
                             }
                           }}
                           className="hidden"
@@ -2273,7 +2268,7 @@ export default function Consult() {
                           <input
                             type="text"
                             value={newDoctor.name}
-                            onChange={(e) => setNewDoctor({...newDoctor, name: e.target.value})}
+                            onChange={(e) => setNewDoctor({ ...newDoctor, name: e.target.value })}
                             placeholder="Dr. Name"
                             className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
                           />
@@ -2283,7 +2278,7 @@ export default function Consult() {
                           <input
                             type="text"
                             value={newDoctor.specialty}
-                            onChange={(e) => setNewDoctor({...newDoctor, specialty: e.target.value})}
+                            onChange={(e) => setNewDoctor({ ...newDoctor, specialty: e.target.value })}
                             placeholder="Cardiology, etc."
                             className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
                           />
@@ -2295,7 +2290,7 @@ export default function Consult() {
                           <input
                             type="text"
                             value={newDoctor.experience}
-                            onChange={(e) => setNewDoctor({...newDoctor, experience: e.target.value})}
+                            onChange={(e) => setNewDoctor({ ...newDoctor, experience: e.target.value })}
                             placeholder="e.g., 10 years"
                             className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
                           />
@@ -2305,7 +2300,7 @@ export default function Consult() {
                           <input
                             type="text"
                             value={newDoctor.price}
-                            onChange={(e) => setNewDoctor({...newDoctor, price: e.target.value})}
+                            onChange={(e) => setNewDoctor({ ...newDoctor, price: e.target.value })}
                             placeholder="₹500"
                             className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
                           />
@@ -2316,7 +2311,7 @@ export default function Consult() {
                           if (newDoctor.name.trim() && newDoctor.specialty.trim()) {
                             setHospitalForm({
                               ...hospitalForm,
-                              doctors: [...hospitalForm.doctors, {...newDoctor}]
+                              doctors: [...hospitalForm.doctors, { ...newDoctor }]
                             });
                             setNewDoctor({
                               name: '',

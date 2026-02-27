@@ -163,7 +163,7 @@ export default function VerificationRequests() {
             </div>
 
             {filteredRequests.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-20 bg-white/40 backdrop-blur-md rounded-3xl border border-white/60 text-gray-400">
+                <div className="flex flex-col items-center justify-center py-20 bg-white/40 backdrop-blur-md rounded-3xl border border-gray-200 text-gray-400">
                     <ShieldCheck size={64} className="mb-4 opacity-10" />
                     <p className="font-bold uppercase tracking-widest text-sm text-center px-4">No matching verification requests</p>
                 </div>

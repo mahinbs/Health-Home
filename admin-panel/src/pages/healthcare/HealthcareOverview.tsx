@@ -131,7 +131,7 @@ export default function HealthcareOverview() {
                             {activeCaregivers.map((cg) => (
                                 <div key={cg.id} className="flex items-center justify-between p-3 rounded-lg border border-gray-100">
                                     <div className="flex items-center gap-3">
-                                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-medium">
+                                        <div className="h-10 w-10 rounded-full bg-white/40 flex items-center justify-center text-gray-600 font-medium">
                                             {cg.name.charAt(0)}
                                         </div>
                                         <div>

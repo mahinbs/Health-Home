@@ -162,7 +162,7 @@ export function DashboardLayout({ children, userName = "Professional", role, sid
                             <span className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-primary border-2 border-white" />
                         </button>
 
-                        <div className="h-10 w-[1px] bg-gray-200 hidden sm:block" />
+                        <div className="h-10 w-[1px] bg-white/40 hidden sm:block" />
 
                         <div className="flex items-center gap-3 pl-2 sm:pl-0">
                             <div className="text-right hidden sm:block">

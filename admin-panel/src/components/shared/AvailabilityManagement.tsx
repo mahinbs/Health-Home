@@ -90,7 +90,7 @@ export function AvailabilityManagement({
                                             <Globe size={12} className="text-primary" />
                                             Multi-City Practice
                                         </label>
-                                        <button className="w-full py-3 bg-white/40 border border-white/60 rounded-2xl text-sm font-bold text-gray-700 hover:bg-white/60 transition-colors">
+                                        <button className="w-full py-3 bg-white/40 border border-gray-200 rounded-2xl text-sm font-bold text-gray-700 hover:bg-white/60 transition-colors">
                                             + Add Practice City
                                         </button>
                                     </div>
@@ -133,7 +133,7 @@ export function AvailabilityManagement({
                                             "px-4 py-2.5 rounded-xl text-xs font-bold transition-all border",
                                             isSelected
                                                 ? "bg-primary text-white border-primary shadow-lg shadow-primary/20"
-                                                : "bg-white/40 text-gray-500 border-white/60 hover:bg-white/80"
+                                                : "bg-white/40 text-gray-500 border-gray-200 hover:bg-white/80"
                                         )}
                                     >
                                         {day.substring(0, 3)}
@@ -145,7 +145,7 @@ export function AvailabilityManagement({
                         <div className="space-y-4">
                             <h5 className="text-[10px] text-gray-400 font-bold uppercase tracking-widest ml-1 mb-4">Time Slot Configuration</h5>
                             {selectedDays.map(day => (
-                                <div key={day} className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-white/40 border border-white/60 rounded-2xl">
+                                <div key={day} className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-white/40 border border-gray-200 rounded-2xl">
                                     <span className="w-24 text-sm font-bold text-gray-900">{day}</span>
                                     <div className="flex-1 flex items-center gap-3">
                                         <input type="time" defaultValue="09:00" className="px-3 py-2 text-sm bg-white/60 border border-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20" />
@@ -171,7 +171,7 @@ export function AvailabilityManagement({
 function ToggleOption({ icon: Icon, label, description, defaultChecked }: any) {
     const [checked, setChecked] = useState(defaultChecked);
     return (
-        <div className="flex items-center justify-between p-4 bg-white/40 border border-white/60 rounded-2xl cursor-pointer hover:bg-white/60 transition-colors" onClick={() => setChecked(!checked)}>
+        <div className="flex items-center justify-between p-4 bg-white/40 border border-gray-200 rounded-2xl cursor-pointer hover:bg-white/60 transition-colors" onClick={() => setChecked(!checked)}>
             <div className="flex items-center gap-3">
                 <div className={cn("p-2 rounded-xl transition-colors", checked ? "bg-primary/10 text-primary" : "bg-gray-100 text-gray-400")}>
                     <Icon size={18} />
@@ -181,7 +181,7 @@ function ToggleOption({ icon: Icon, label, description, defaultChecked }: any) {
                     <p className="text-[10px] text-gray-500 font-medium">{description}</p>
                 </div>
             </div>
-            <div className={cn("w-10 h-6 rounded-full p-1 transition-colors relative", checked ? "bg-primary" : "bg-gray-200")}>
+            <div className={cn("w-10 h-6 rounded-full p-1 transition-colors relative", checked ? "bg-primary" : "bg-white/40")}>
                 <motion.div
                     layout
                     className="w-4 h-4 rounded-full bg-white shadow-sm"
