@@ -41,6 +41,8 @@ export default function Login() {
         e.preventDefault();
         // Simulate login based on selected role
         login(email, selectedRole);
+
+        // Bypass verification check for now for frontend navigation
         navigate(`/${selectedRole}/overview`);
     };
 
@@ -80,7 +82,7 @@ export default function Login() {
                                 <h3 className="text-2xl font-black text-gray-900">1.2M+</h3>
                                 <p className="text-xs font-bold uppercase tracking-wider text-gray-400">Patients Managed</p>
                             </div>
-                            <div className="h-10 w-[1px] bg-gray-200" />
+                            <div className="h-10 w-[1px] bg-white/40" />
                             <div className="space-y-1">
                                 <h3 className="text-2xl font-black text-gray-900">15k+</h3>
                                 <p className="text-xs font-bold uppercase tracking-wider text-gray-400">Trusted Partners</p>

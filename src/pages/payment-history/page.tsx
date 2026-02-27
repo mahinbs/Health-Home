@@ -163,7 +163,7 @@ export default function PaymentHistory() {
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
       <AdsBanner />
       <TopNavigation title="Payment & Wallet" showCart={true} />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {/* Wallet Balance Card */}
         <Card className="p-6 bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 text-white mb-6 animate-scale-in shadow-2xl">
@@ -203,16 +203,14 @@ export default function PaymentHistory() {
               <Card key={method.id} className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                      method.type === 'upi' ? 'bg-blue-50' :
-                      method.type === 'card' ? 'bg-purple-50' :
-                      'bg-pink-50'
-                    }`}>
-                      <i className={`${
-                        method.type === 'upi' ? 'ri-phone-line text-blue-600' :
-                        method.type === 'card' ? 'ri-bank-card-line text-purple-600' :
-                        'ri-wallet-line text-pink-600'
-                      } text-xl`}></i>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${method.type === 'upi' ? 'bg-blue-50' :
+                        method.type === 'card' ? 'bg-purple-50' :
+                          'bg-pink-50'
+                      }`}>
+                      <i className={`${method.type === 'upi' ? 'ri-phone-line text-blue-600' :
+                          method.type === 'card' ? 'ri-bank-card-line text-purple-600' :
+                            'ri-wallet-line text-pink-600'
+                        } text-xl`}></i>
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900 text-sm">{method.name}</p>
@@ -269,11 +267,10 @@ export default function PaymentHistory() {
               <button
                 key={tab.id}
                 onClick={() => setFilter(tab.id as typeof filter)}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 ${
-                  filter === tab.id
+                className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 ${filter === tab.id
                     ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md scale-105'
                     : 'bg-white/95 text-gray-600 hover:bg-pink-50'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -341,7 +338,7 @@ export default function PaymentHistory() {
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Payment Details</h2>
               <button
                 onClick={() => setSelectedPayment(null)}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>
@@ -467,7 +464,7 @@ export default function PaymentHistory() {
                     <i className="ri-arrow-left-line mr-2"></i>
                     <span className="text-sm">Back</span>
                   </button>
-                  
+
                   {paymentMethodType === 'upi' && (
                     <div className="space-y-4">
                       <div>

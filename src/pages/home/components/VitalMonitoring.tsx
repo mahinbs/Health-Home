@@ -51,21 +51,19 @@ export default function VitalMonitoring() {
     <>
       <div className="px-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-3">Vital Monitoring</h2>
-        
+
         <div className="grid grid-cols-2 gap-2 sm:gap-3">
           {/* Blood Pressure Card */}
-          <Card 
+          <Card
             className={`p-3 sm:p-4 cursor-pointer overflow-hidden min-w-0 ${bpData.status === 'high' ? 'border-2 border-red-300 bg-red-50/50' : ''}`}
             onClick={() => openHealthLocker('bp')}
           >
             <div className="flex items-start justify-between gap-1 min-w-0">
               <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 overflow-hidden">
-                <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  bpData.status === 'high' ? 'bg-red-100' : 'bg-emerald-50'
-                }`}>
-                  <i className={`ri-pulse-fill text-lg sm:text-2xl ${
-                    bpData.status === 'high' ? 'text-red-600' : 'text-emerald-600'
-                  }`}></i>
+                <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${bpData.status === 'high' ? 'bg-red-100' : 'bg-emerald-50'
+                  }`}>
+                  <i className={`ri-pulse-fill text-lg sm:text-2xl ${bpData.status === 'high' ? 'text-red-600' : 'text-emerald-600'
+                    }`}></i>
                 </div>
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
@@ -90,7 +88,7 @@ export default function VitalMonitoring() {
                 <i className="ri-arrow-right-s-line text-gray-400 text-sm sm:text-base"></i>
               </div>
             </div>
-            <button 
+            <button
               onClick={(e) => { e.stopPropagation(); openHealthLocker('bp'); }}
               className="mt-2 sm:mt-3 text-[10px] sm:text-xs text-blue-600 font-medium flex items-center gap-1"
             >
@@ -100,18 +98,16 @@ export default function VitalMonitoring() {
           </Card>
 
           {/* Blood Sugar Card */}
-          <Card 
+          <Card
             className={`p-3 sm:p-4 cursor-pointer overflow-hidden min-w-0 ${sugarData.status === 'high' ? 'border-2 border-red-300 bg-red-50/50' : ''}`}
             onClick={() => openHealthLocker('sugar')}
           >
             <div className="flex items-start justify-between gap-1 min-w-0">
               <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 overflow-hidden">
-                <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  sugarData.status === 'high' ? 'bg-red-100' : 'bg-blue-50'
-                }`}>
-                  <i className={`ri-drop-fill text-lg sm:text-2xl ${
-                    sugarData.status === 'high' ? 'text-red-600' : 'text-blue-600'
-                  }`}></i>
+                <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${sugarData.status === 'high' ? 'bg-red-100' : 'bg-blue-50'
+                  }`}>
+                  <i className={`ri-drop-fill text-lg sm:text-2xl ${sugarData.status === 'high' ? 'text-red-600' : 'text-blue-600'
+                    }`}></i>
                 </div>
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <div className="flex items-center gap-1.5 mb-0.5 flex-wrap">
@@ -136,7 +132,7 @@ export default function VitalMonitoring() {
                 <i className="ri-arrow-right-s-line text-gray-400 text-sm sm:text-base"></i>
               </div>
             </div>
-            <button 
+            <button
               onClick={(e) => { e.stopPropagation(); openHealthLocker('sugar'); }}
               className="mt-2 sm:mt-3 text-[10px] sm:text-xs text-blue-600 font-medium flex items-center gap-1"
             >
@@ -155,9 +151,9 @@ export default function VitalMonitoring() {
               <h2 className="text-lg sm:text-xl font-bold text-gray-900 truncate pr-2">
                 {selectedVital === 'bp' ? 'Blood Pressure' : 'Blood Sugar'} History
               </h2>
-              <button 
+              <button
                 onClick={closeHealthLocker}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600 text-lg"></i>
               </button>
@@ -169,23 +165,20 @@ export default function VitalMonitoring() {
                   <Card key={index} className="p-3 sm:p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                          entry.status === 'high' ? 'bg-red-100' : 'bg-emerald-50'
-                        }`}>
-                          <i className={`ri-pulse-fill ${
-                            entry.status === 'high' ? 'text-red-600' : 'text-emerald-600'
-                          }`}></i>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${entry.status === 'high' ? 'bg-red-100' : 'bg-emerald-50'
+                          }`}>
+                          <i className={`ri-pulse-fill ${entry.status === 'high' ? 'text-red-600' : 'text-emerald-600'
+                            }`}></i>
                         </div>
                         <div>
                           <p className="font-bold text-gray-900">{entry.value}</p>
                           <p className="text-xs text-gray-600">{entry.date} • {entry.time}</p>
                         </div>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        entry.status === 'high' 
-                          ? 'bg-red-100 text-red-700' 
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${entry.status === 'high'
+                          ? 'bg-red-100 text-red-700'
                           : 'bg-emerald-100 text-emerald-700'
-                      }`}>
+                        }`}>
                         {entry.status === 'high' ? 'High' : 'Normal'}
                       </span>
                     </div>
@@ -196,12 +189,10 @@ export default function VitalMonitoring() {
                   <Card key={index} className="p-3 sm:p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                          entry.status === 'high' ? 'bg-red-100' : 'bg-blue-50'
-                        }`}>
-                          <i className={`ri-drop-fill ${
-                            entry.status === 'high' ? 'text-red-600' : 'text-blue-600'
-                          }`}></i>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${entry.status === 'high' ? 'bg-red-100' : 'bg-blue-50'
+                          }`}>
+                          <i className={`ri-drop-fill ${entry.status === 'high' ? 'text-red-600' : 'text-blue-600'
+                            }`}></i>
                         </div>
                         <div>
                           <p className="font-bold text-gray-900">{entry.value}</p>
@@ -209,11 +200,10 @@ export default function VitalMonitoring() {
                           <p className="text-xs text-gray-500">{entry.type}</p>
                         </div>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        entry.status === 'high' 
-                          ? 'bg-red-100 text-red-700' 
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${entry.status === 'high'
+                          ? 'bg-red-100 text-red-700'
                           : 'bg-blue-100 text-blue-700'
-                      }`}>
+                        }`}>
                         {entry.status === 'high' ? 'High' : 'Normal'}
                       </span>
                     </div>

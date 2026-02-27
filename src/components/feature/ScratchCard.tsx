@@ -159,7 +159,7 @@ export default function ScratchCard({ isOpen, onClose, reward }: ScratchCardProp
             </button>
             <button
               onClick={onClose}
-              className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+              className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-white/40 transition-colors"
             >
               Add to Wallet
             </button>
@@ -169,7 +169,7 @@ export default function ScratchCard({ isOpen, onClose, reward }: ScratchCardProp
         {!revealed && (
           <button
             onClick={onClose}
-            className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+            className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-white/40 transition-colors"
           >
             Close
           </button>

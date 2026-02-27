@@ -36,7 +36,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             email,
             name: email.split('@')[0],
             role: roleMapping[roleId] || UserRole.DOCTOR,
-            verificationStatus: roleId === 'doctor' ? 'pending' : 'not_started' // Simulated initial status
+            verificationStatus: 'pending' // Default to pending for simulation, only admin can approve
         };
         setUser(newUser);
         localStorage.setItem('user', JSON.stringify(newUser));

@@ -11,7 +11,7 @@ import {
     FileSignature,
     XCircle
 } from 'lucide-react';
-import { Button } from '../../components/ui/Button';
+import { Button, cn } from '../../components/ui/Button';
 import { toast } from 'sonner';
 import { useAuth } from '../../context/AuthContext';
 
@@ -23,12 +23,17 @@ const REQUIRED_DOCUMENTS = [
     { id: 'gst', title: 'GST Number (Optional)', icon: FileText, description: 'If applicable for your entity' },
 ];
 
-export default function Verification() {
+interface VerificationProps {
+    onComplete?: () => void;
+    isSignupFlow?: boolean;
+}
+
+export default function Verification({ onComplete, isSignupFlow = false }: VerificationProps) {
     const { user, updateVerificationStatus } = useAuth();
     const [uploadedDocs, setUploadedDocs] = useState<Record<string, File | null>>({});
 
-    // Status is now derived from AuthContext
-    const status = user?.verificationStatus || 'not_started';
+    // Status is now derived from AuthContext or fixed if in signup flow
+    const status = isSignupFlow ? 'not_started' : (user?.verificationStatus || 'not_started');
 
     const handleFileChange = (id: string, file: File | null) => {
         setUploadedDocs(prev => ({ ...prev, [id]: file }));
@@ -44,7 +49,11 @@ export default function Verification() {
             return;
         }
 
-        updateVerificationStatus('pending');
+        if (isSignupFlow) {
+            onComplete?.();
+        } else {
+            updateVerificationStatus('pending');
+        }
         toast.success("Verification documents submitted successfully!");
     };
 
@@ -104,12 +113,17 @@ export default function Verification() {
 
     return (
         <div className="max-w-4xl mx-auto space-y-10 py-6">
-            <div className="space-y-2">
-                <h1 className="text-4xl font-black text-gray-900 tracking-tight">Professional Verification</h1>
-                <p className="text-gray-500 font-medium">Upload necessary documents to activate your profile on the marketplace.</p>
-            </div>
+            {!isSignupFlow && (
+                <div className="space-y-2">
+                    <h1 className="text-4xl font-black text-gray-900 tracking-tight">Professional Verification</h1>
+                    <p className="text-gray-500 font-medium">Upload necessary documents to activate your profile on the marketplace.</p>
+                </div>
+            )}
 
-            <div className="bg-white/40 backdrop-blur-xl border border-white rounded-[40px] p-8 lg:p-12 shadow-2xl shadow-primary/5">
+            <div className={cn(
+                "bg-white/40 backdrop-blur-xl border border-white rounded-[40px] shadow-2xl shadow-primary/5",
+                isSignupFlow ? "p-4 border-none shadow-none bg-transparent backdrop-blur-none" : "p-8 lg:p-12"
+            )}>
                 <form onSubmit={handleSubmit} className="space-y-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {REQUIRED_DOCUMENTS.map((doc) => (

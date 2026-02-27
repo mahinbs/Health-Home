@@ -14,7 +14,7 @@ export default function LabOverview() {
                     <h1 className="text-3xl font-black text-gray-900 tracking-tight">Lab Analytics</h1>
                     <p className="text-gray-500 font-medium">Real-time performance metrics for your diagnostic center.</p>
                 </div>
-                <div className="flex items-center gap-3 bg-white/40 backdrop-blur-md border border-white/60 p-2 rounded-2xl shadow-sm">
+                <div className="flex items-center gap-3 bg-white/40 backdrop-blur-md border border-gray-200 p-2 rounded-2xl shadow-sm">
                     <button className="px-4 py-2 rounded-xl bg-white text-gray-900 font-bold text-xs shadow-sm shadow-black/5 transition-all hover:scale-[1.02]">Daily</button>
                     <button className="px-4 py-2 rounded-xl text-gray-400 font-bold text-xs hover:text-gray-900 transition-colors">Weekly</button>
                     <button className="px-4 py-2 rounded-xl text-gray-400 font-bold text-xs hover:text-gray-900 transition-colors">Monthly</button>
@@ -60,7 +60,7 @@ export default function LabOverview() {
                         <h3 className="text-xl font-bold text-gray-900">Recent Test Bookings</h3>
                         <button className="text-xs font-black text-primary uppercase tracking-widest hover:underline">View All</button>
                     </div>
-                    <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-[40px] overflow-hidden shadow-sm">
+                    <div className="bg-white/40 backdrop-blur-xl border border-gray-200 rounded-[40px] overflow-hidden shadow-sm">
                         <div className="divide-y divide-white/20">
                             <RecentTestItem
                                 patient="Robert Fox"

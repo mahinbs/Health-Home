@@ -40,7 +40,7 @@ export default function Availability() {
                 {/* Left Column: Days & Types */}
                 <div className="lg:col-span-1 space-y-8">
                     {/* Working Days */}
-                    <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-[32px] p-8 shadow-sm">
+                    <div className="bg-white/40 backdrop-blur-xl border border-gray-200 rounded-[32px] p-8 shadow-sm">
                         <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
                             <CalendarIcon size={20} className="text-primary" />
                             Working Days
@@ -59,7 +59,7 @@ export default function Availability() {
                     </div>
 
                     {/* Consultation Types */}
-                    <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-[32px] p-8 shadow-sm">
+                    <div className="bg-white/40 backdrop-blur-xl border border-gray-200 rounded-[32px] p-8 shadow-sm">
                         <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
                             <Globe size={20} className="text-primary" />
                             Consultation Types
@@ -87,7 +87,7 @@ export default function Availability() {
                     </div>
 
                     {/* Service Radius */}
-                    <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-[32px] p-8 shadow-sm">
+                    <div className="bg-white/40 backdrop-blur-xl border border-gray-200 rounded-[32px] p-8 shadow-sm">
                         <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
                             <MapPin size={20} className="text-primary" />
                             Service Radius
@@ -104,7 +104,7 @@ export default function Availability() {
                                 min="1"
                                 max="50"
                                 defaultValue="15"
-                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                                className="w-full h-2 bg-white/40 rounded-lg appearance-none cursor-pointer accent-primary"
                             />
                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">
                                 Patients within 15km will see you as a "Home Visit" provider
@@ -115,7 +115,7 @@ export default function Availability() {
 
                 {/* Right Column: Time Slots */}
                 <div className="lg:col-span-2 space-y-8">
-                    <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-[40px] p-8 lg:p-10 shadow-sm relative overflow-hidden">
+                    <div className="bg-white/40 backdrop-blur-xl border border-gray-200 rounded-[40px] p-8 lg:p-10 shadow-sm relative overflow-hidden">
                         <div className="flex items-center justify-between mb-8">
                             <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                                 <Clock size={24} className="text-primary" />
@@ -149,15 +149,15 @@ function TypeToggle({ icon: Icon, label, active, onToggle }: any) {
     return (
         <div
             onClick={onToggle}
-            className={`p-4 rounded-2xl border-2 flex items-center justify-between cursor-pointer transition-all ${active ? 'border-primary bg-primary/5' : 'border-gray-50 bg-white/50 opacity-60'}`}
+            className={`p-4 rounded-2xl border-2 flex items-center justify-between cursor-pointer transition-all ${active ? 'border-primary bg-primary/5' : 'border-gray-50 bg-gray-300'}`}
         >
             <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${active ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'}`}>
+                <div className={`p-2 rounded-lg ${active ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600'}`}>
                     <Icon size={18} />
                 </div>
                 <span className="font-bold text-sm text-gray-900">{label}</span>
             </div>
-            <div className={`w-10 h-6 rounded-full relative transition-colors ${active ? 'bg-primary' : 'bg-gray-200'}`}>
+            <div className={`w-10 h-6 rounded-full relative transition-colors ${active ? 'bg-primary' : 'bg-white/40'}`}>
                 <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${active ? 'left-5' : 'left-1'}`} />
             </div>
         </div>

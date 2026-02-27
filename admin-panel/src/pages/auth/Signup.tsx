@@ -13,8 +13,9 @@ import {
     FlaskConical,
     Heart,
     Accessibility,
-    CheckCircle2
+    ShieldCheck
 } from 'lucide-react';
+import Verification from '../common/Verification';
 
 // Exclude admin from signup
 const roles = [
@@ -38,7 +39,7 @@ export default function Signup() {
         password: ''
     });
     const [otp, setOtp] = useState(['', '', '', '', '', '']); // 6-digit OTP
-    const [step, setStep] = useState<'form' | 'otp' | 'success'>('form');
+    const [step, setStep] = useState<'form' | 'otp' | 'verification' | 'success'>('form');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -69,7 +70,7 @@ export default function Signup() {
         const enteredOtp = otp.join('');
         if (enteredOtp.length === 6) {
             // Simulate verification
-            setStep('success');
+            setStep('verification');
             toast.success("Account verified successfully!");
         } else {
             toast.error("Please enter a valid 6-digit OTP");
@@ -80,12 +81,12 @@ export default function Signup() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#FDF2F7] p-6 font-sans">
                 <div className="bg-white/70 backdrop-blur-xl border border-white rounded-[40px] p-10 lg:p-16 max-w-lg w-full text-center shadow-2xl shadow-primary/5">
-                    <div className="mx-auto w-24 h-24 mb-6 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                        <CheckCircle2 size={48} />
+                    <div className="mx-auto w-24 h-24 mb-6 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                        <ShieldCheck size={48} />
                     </div>
-                    <h2 className="text-3xl font-black text-gray-900 mb-4">Application Received</h2>
+                    <h2 className="text-3xl font-black text-gray-900 mb-4">KYC Verification Pending</h2>
                     <p className="text-gray-500 font-medium leading-relaxed mb-8">
-                        Thank you for applying to join the Health@Home network as a <span className="text-primary font-bold">{roles.find(r => r.id === selectedRole)?.title}</span>. Your account is currently pending admin approval. You will receive an email once your professional profile is verified.
+                        Thank you for applying to join the Health@Home network as a <span className="text-primary font-bold">{roles.find(r => r.id === selectedRole)?.title}</span>. Your professional documents are being reviewed by our compliance team. This typically takes 24-48 hours. You will be notified via email once approved.
                     </p>
                     <Button onClick={() => navigate('/login')} className="w-full h-14 rounded-2xl bg-primary hover:bg-primary-600 text-white font-black text-sm tracking-widest uppercase shadow-xl transition-all hover:scale-[1.02] active:scale-95">
                         Return to Login
@@ -136,42 +137,52 @@ export default function Signup() {
                 >
                     <div className="bg-white/70 backdrop-blur-xl border border-white rounded-[40px] p-8 lg:p-12 shadow-2xl shadow-primary/5">
                         <div className="mb-8">
-                            <h2 className="text-2xl font-black text-gray-900 mb-2">Partner Application</h2>
-                            <p className="text-gray-500 text-sm font-medium">Select your role and provide your professional details</p>
+                            <h2 className="text-2xl font-black text-gray-900 mb-2">
+                                {step === 'verification' ? 'Professional Verification' : 'Partner Application'}
+                            </h2>
+                            <p className="text-gray-500 text-sm font-medium">
+                                {step === 'verification'
+                                    ? 'Upload necessary documents to activate your profile'
+                                    : 'Select your role and provide your professional details'}
+                            </p>
                         </div>
 
-                        {/* Role Selection Grid */}
-                        <div className="grid grid-cols-4 lg:grid-cols-4 gap-3 mb-8 max-h-[160px] overflow-y-auto no-scrollbar p-1">
-                            {roles.map((role) => {
-                                const Icon = role.icon;
-                                const isSelected = selectedRole === role.id;
-                                return (
-                                    <button
-                                        type="button"
-                                        key={role.id}
-                                        onClick={() => setSelectedRole(role.id)}
-                                        className={`group relative flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 border-2 ${isSelected
-                                            ? 'border-primary bg-primary/5 shadow-md shadow-primary/5 scale-[1.05]'
-                                            : 'border-transparent bg-gray-50/50 hover:bg-gray-100/50'
-                                            }`}
-                                    >
-                                        <div className={`p-2 rounded-xl mb-1.5 transition-transform duration-300 group-hover:scale-110 ${isSelected ? 'bg-primary text-white shadow-lg shadow-primary/20' : role.color}`}>
-                                            <Icon size={16} />
-                                        </div>
-                                        <span className={`text-[9px] font-black uppercase tracking-tighter ${isSelected ? 'text-primary' : 'text-gray-500'}`}>
-                                            {role.title}
-                                        </span>
-                                        {isSelected && (
-                                            <motion.div layoutId="signup-role-indicator" className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-primary text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-                                                <div className="w-1 h-1 bg-white rounded-full" />
-                                            </motion.div>
-                                        )}
-                                    </button>
-                                );
-                            })}
-                        </div>
+                        {step !== 'verification' && step !== 'otp' && (
+                            /* Role Selection Grid */
+                            <div className="grid grid-cols-4 lg:grid-cols-4 gap-3 mb-8 max-h-[160px] overflow-y-auto no-scrollbar p-1">
+                                {roles.map((role) => {
+                                    const Icon = role.icon;
+                                    const isSelected = selectedRole === role.id;
+                                    return (
+                                        <button
+                                            type="button"
+                                            key={role.id}
+                                            onClick={() => setSelectedRole(role.id)}
+                                            className={`group relative flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 border-2 ${isSelected
+                                                ? 'border-primary bg-primary/5 shadow-md shadow-primary/5 scale-[1.05]'
+                                                : 'border-transparent bg-gray-50/50 hover:bg-gray-100/50'
+                                                }`}
+                                        >
+                                            <div className={`p-2 rounded-xl mb-1.5 transition-transform duration-300 group-hover:scale-110 ${isSelected ? 'bg-primary text-white shadow-lg shadow-primary/20' : role.color}`}>
+                                                <Icon size={16} />
+                                            </div>
+                                            <span className={`text-[9px] font-black uppercase tracking-tighter ${isSelected ? 'text-primary' : 'text-gray-500'}`}>
+                                                {role.title}
+                                            </span>
+                                            {isSelected && (
+                                                <motion.div layoutId="signup-role-indicator" className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-primary text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                                                    <div className="w-1 h-1 bg-white rounded-full" />
+                                                </motion.div>
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        )}
 
-                        {step === 'form' ? (
+                        {step === 'verification' ? (
+                            <Verification isSignupFlow onComplete={() => setStep('success')} />
+                        ) : step === 'form' ? (
                             <form onSubmit={handleSignup} className="space-y-5">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div className="space-y-1.5">
@@ -279,7 +290,7 @@ export default function Signup() {
                         </div>
                     </div>
                 </motion.div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

@@ -35,11 +35,11 @@ export default function Cart() {
   const handlePaymentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Navigate to success page
-    navigate('/payment-success', { 
-      state: { 
+    navigate('/payment-success', {
+      state: {
         orderTotal: getTotal(),
-        itemsCount: items.length 
-      } 
+        itemsCount: items.length
+      }
     });
     clearCart();
   };
@@ -52,7 +52,7 @@ export default function Cart() {
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
       <AdsBanner />
       <TopNavigation title="Shopping Cart" showCart={false} />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-20 sm:pb-24 px-4">
         {items.length === 0 ? (
           <Card className="p-8 text-center animate-scale-in">
@@ -91,14 +91,14 @@ export default function Cart() {
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors"
                           >
                             <i className="ri-subtract-line text-gray-600"></i>
                           </button>
                           <span className="w-8 text-center font-semibold">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors"
                           >
                             <i className="ri-add-line text-gray-600"></i>
                           </button>
@@ -157,7 +157,7 @@ export default function Cart() {
                         type="text"
                         required
                         value={paymentData.address}
-                        onChange={(e) => setPaymentData({...paymentData, address: e.target.value})}
+                        onChange={(e) => setPaymentData({ ...paymentData, address: e.target.value })}
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                         placeholder="Enter your address"
                       />
@@ -169,7 +169,7 @@ export default function Cart() {
                           type="text"
                           required
                           value={paymentData.city}
-                          onChange={(e) => setPaymentData({...paymentData, city: e.target.value})}
+                          onChange={(e) => setPaymentData({ ...paymentData, city: e.target.value })}
                           className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                           placeholder="City"
                         />
@@ -180,7 +180,7 @@ export default function Cart() {
                           type="text"
                           required
                           value={paymentData.pincode}
-                          onChange={(e) => setPaymentData({...paymentData, pincode: e.target.value})}
+                          onChange={(e) => setPaymentData({ ...paymentData, pincode: e.target.value })}
                           className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                           placeholder="Pincode"
                         />
@@ -192,7 +192,7 @@ export default function Cart() {
                         type="text"
                         required
                         value={paymentData.state}
-                        onChange={(e) => setPaymentData({...paymentData, state: e.target.value})}
+                        onChange={(e) => setPaymentData({ ...paymentData, state: e.target.value })}
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                         placeholder="State"
                       />
@@ -207,7 +207,7 @@ export default function Cart() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">Payment Method</label>
                       <select
                         value={paymentData.paymentMethod}
-                        onChange={(e) => setPaymentData({...paymentData, paymentMethod: e.target.value})}
+                        onChange={(e) => setPaymentData({ ...paymentData, paymentMethod: e.target.value })}
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                       >
                         <option value="card">Credit/Debit Card</option>
@@ -224,7 +224,7 @@ export default function Cart() {
                             type="text"
                             required
                             value={paymentData.cardNumber}
-                            onChange={(e) => setPaymentData({...paymentData, cardNumber: e.target.value})}
+                            onChange={(e) => setPaymentData({ ...paymentData, cardNumber: e.target.value })}
                             className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                             placeholder="1234 5678 9012 3456"
                             maxLength={19}
@@ -236,7 +236,7 @@ export default function Cart() {
                             type="text"
                             required
                             value={paymentData.cardName}
-                            onChange={(e) => setPaymentData({...paymentData, cardName: e.target.value})}
+                            onChange={(e) => setPaymentData({ ...paymentData, cardName: e.target.value })}
                             className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                             placeholder="John Doe"
                           />
@@ -248,7 +248,7 @@ export default function Cart() {
                               type="text"
                               required
                               value={paymentData.expiryDate}
-                              onChange={(e) => setPaymentData({...paymentData, expiryDate: e.target.value})}
+                              onChange={(e) => setPaymentData({ ...paymentData, expiryDate: e.target.value })}
                               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                               placeholder="MM/YY"
                               maxLength={5}
@@ -260,7 +260,7 @@ export default function Cart() {
                               type="text"
                               required
                               value={paymentData.cvv}
-                              onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
+                              onChange={(e) => setPaymentData({ ...paymentData, cvv: e.target.value })}
                               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                               placeholder="123"
                               maxLength={3}

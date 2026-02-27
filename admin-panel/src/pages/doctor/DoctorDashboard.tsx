@@ -9,12 +9,10 @@ import {
     FileText,
     DollarSign,
     Star,
-    Tag,
-    ShieldCheck
+    Tag
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
-import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import Availability from './Availability';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
@@ -28,7 +26,6 @@ const DOCTOR_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Appointments', path: '/doctor/appointments' },
     { icon: Clock, label: 'Availability', path: '/doctor/availability' },
     { icon: Tag, label: 'Services & Fees', path: '/doctor/services' },
-    { icon: ShieldCheck, label: 'Verification', path: '/doctor/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/doctor/earnings' },
     { icon: Star, label: 'Reviews', path: '/doctor/reviews' },
     { icon: UserCircle, label: 'Profile', path: '/doctor/profile' },
@@ -64,7 +61,6 @@ export default function DoctorDashboard() {
                 <Route path="overview" element={<DoctorOverview />} />
                 <Route path="appointments" element={<BookingManagement bookings={MOCK_BOOKINGS} />} />
                 <Route path="availability" element={<Availability />} />
-                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}
@@ -86,7 +82,7 @@ function DoctorOverview() {
         <div className="space-y-10">
             <DashboardOverview />
 
-            <div className="bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-sm">
+            <div className="bg-white/40 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-sm">
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h4 className="text-lg font-bold text-gray-900">Medical Specialty Services</h4>

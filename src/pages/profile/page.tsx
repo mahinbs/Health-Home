@@ -109,7 +109,7 @@ export default function Profile() {
     <div className="min-h-screen bg-gradient-to-b from-[#FFE9E4] to-[#E4F7E9]">
       <AdsBanner />
       <TopNavigation title="Profile" />
-      
+
       <div className="pt-[120px] sm:pt-[130px] md:pt-[140px] pb-24">
         {/* Profile Header */}
         <div className="px-4 pb-6">
@@ -152,9 +152,9 @@ export default function Profile() {
                 <span className="text-xs text-gray-600">Linked with Google</span>
               </div>
             )}
-            <Button 
-              className="mt-4" 
-              size="sm" 
+            <Button
+              className="mt-4"
+              size="sm"
               variant="outline"
               onClick={() => setShowEditProfile(true)}
             >
@@ -301,9 +301,9 @@ export default function Profile() {
         {/* Profile Options */}
         <div className="px-4 space-y-3">
           {profileOptions.filter(opt => opt.id !== 'connections').map((option, index) => (
-            <Card 
-              key={option.id} 
-              className="p-4 hover:border-pink-200 cursor-pointer animate-scale-in" 
+            <Card
+              key={option.id}
+              className="p-4 hover:border-pink-200 cursor-pointer animate-scale-in"
               onClick={() => {
                 if (option.id === 'connections') {
                   // Show connections feature in modal or separate view
@@ -339,8 +339,8 @@ export default function Profile() {
 
         {/* Logout */}
         <div className="px-4 mt-8">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="w-full text-red-600 border-red-300 hover:bg-red-50 hover:border-red-400"
             onClick={() => console.log('Logout')}
           >
@@ -356,9 +356,9 @@ export default function Profile() {
           <div className="bg-white rounded-t-3xl w-full max-h-[calc(100vh-2rem)] sm:max-h-[90vh] flex flex-col animate-slide-up">
             <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between z-10">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Edit Profile</h2>
-              <button 
+              <button
                 onClick={() => setShowEditProfile(false)}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-white/40 transition-colors flex-shrink-0"
               >
                 <i className="ri-close-line text-gray-600"></i>
               </button>
@@ -370,7 +370,7 @@ export default function Profile() {
                 <input
                   type="text"
                   value={profileData.name}
-                  onChange={(e) => setProfileData({...profileData, name: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
                   className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                 />
               </div>
@@ -380,7 +380,7 @@ export default function Profile() {
                 <input
                   type="email"
                   value={profileData.email}
-                  onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
                   className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                 />
               </div>
@@ -390,7 +390,7 @@ export default function Profile() {
                 <input
                   type="tel"
                   value={profileData.phone}
-                  onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
                   className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                 />
               </div>
@@ -399,7 +399,7 @@ export default function Profile() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
                 <textarea
                   value={profileData.address}
-                  onChange={(e) => setProfileData({...profileData, address: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
                   rows={3}
                   className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300 resize-none"
                 />
@@ -410,7 +410,7 @@ export default function Profile() {
                 <input
                   type="date"
                   value={profileData.dateOfBirth}
-                  onChange={(e) => setProfileData({...profileData, dateOfBirth: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, dateOfBirth: e.target.value })}
                   className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                 />
               </div>
@@ -419,7 +419,7 @@ export default function Profile() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
                 <select
                   value={profileData.gender}
-                  onChange={(e) => setProfileData({...profileData, gender: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, gender: e.target.value })}
                   className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                 >
                   <option value="Female">Female</option>
@@ -438,7 +438,7 @@ export default function Profile() {
                       const height = parseFloat(e.target.value);
                       const weight = profileData.weight;
                       const bmi = weight / ((height / 100) ** 2);
-                      setProfileData({...profileData, height, bmi: parseFloat(bmi.toFixed(1))});
+                      setProfileData({ ...profileData, height, bmi: parseFloat(bmi.toFixed(1)) });
                     }}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                   />
@@ -452,7 +452,7 @@ export default function Profile() {
                       const weight = parseFloat(e.target.value);
                       const height = profileData.height;
                       const bmi = weight / ((height / 100) ** 2);
-                      setProfileData({...profileData, weight, bmi: parseFloat(bmi.toFixed(1))});
+                      setProfileData({ ...profileData, weight, bmi: parseFloat(bmi.toFixed(1)) });
                     }}
                     className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                   />
@@ -461,13 +461,12 @@ export default function Profile() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">BMI: {profileData.bmi}</label>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full ${
-                      profileData.bmi < 18.5 ? 'bg-blue-500' :
-                      profileData.bmi < 25 ? 'bg-green-500' :
-                      profileData.bmi < 30 ? 'bg-yellow-500' : 'bg-red-500'
-                    }`}
+                <div className="w-full bg-white/40 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full ${profileData.bmi < 18.5 ? 'bg-blue-500' :
+                        profileData.bmi < 25 ? 'bg-green-500' :
+                          profileData.bmi < 30 ? 'bg-yellow-500' : 'bg-red-500'
+                      }`}
                     style={{ width: `${Math.min((profileData.bmi / 40) * 100, 100)}%` }}
                   ></div>
                 </div>
@@ -478,23 +477,21 @@ export default function Profile() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => setProfileData({...profileData, lifestyle: 'sedentary'})}
-                    className={`p-3 rounded-xl border ${
-                      profileData.lifestyle === 'sedentary'
+                    onClick={() => setProfileData({ ...profileData, lifestyle: 'sedentary' })}
+                    className={`p-3 rounded-xl border ${profileData.lifestyle === 'sedentary'
                         ? 'bg-pink-500 text-white border-pink-500'
                         : 'bg-white border-gray-200'
-                    }`}
+                      }`}
                   >
                     Sedentary
                   </button>
                   <button
                     type="button"
-                    onClick={() => setProfileData({...profileData, lifestyle: 'active'})}
-                    className={`p-3 rounded-xl border ${
-                      profileData.lifestyle === 'active'
+                    onClick={() => setProfileData({ ...profileData, lifestyle: 'active' })}
+                    className={`p-3 rounded-xl border ${profileData.lifestyle === 'active'
                         ? 'bg-pink-500 text-white border-pink-500'
                         : 'bg-white border-gray-200'
-                    }`}
+                      }`}
                   >
                     Active
                   </button>
@@ -534,12 +531,11 @@ export default function Profile() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Link Google Account</label>
                 <button
                   type="button"
-                  onClick={() => setProfileData({...profileData, googleLinked: !profileData.googleLinked})}
-                  className={`w-full p-3 rounded-xl border ${
-                    profileData.googleLinked
+                  onClick={() => setProfileData({ ...profileData, googleLinked: !profileData.googleLinked })}
+                  className={`w-full p-3 rounded-xl border ${profileData.googleLinked
                       ? 'bg-blue-50 border-blue-300 text-blue-700'
                       : 'bg-white border-gray-200 text-gray-700'
-                  }`}
+                    }`}
                 >
                   <i className="ri-google-fill mr-2"></i>
                   {profileData.googleLinked ? 'Linked with Google' : 'Link Google Account'}
@@ -549,31 +545,29 @@ export default function Profile() {
               {/* Health Records Section */}
               <div className="pt-4 border-t border-gray-200">
                 <h3 className="text-sm font-semibold text-gray-900 mb-3">Health Records</h3>
-                
+
                 {/* Record Type Selection */}
                 <div className="mb-3">
                   <label className="block text-xs font-medium text-gray-700 mb-2">Record Type</label>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
-                      onClick={() => setNewHealthRecord({...newHealthRecord, type: 'text'})}
-                      className={`p-2 rounded-lg border text-xs ${
-                        newHealthRecord.type === 'text'
+                      onClick={() => setNewHealthRecord({ ...newHealthRecord, type: 'text' })}
+                      className={`p-2 rounded-lg border text-xs ${newHealthRecord.type === 'text'
                           ? 'bg-pink-500 text-white border-pink-500'
                           : 'bg-white border-gray-200'
-                      }`}
+                        }`}
                     >
                       <i className="ri-file-text-line mr-1"></i>
                       Text Entry
                     </button>
                     <button
                       type="button"
-                      onClick={() => setNewHealthRecord({...newHealthRecord, type: 'file'})}
-                      className={`p-2 rounded-lg border text-xs ${
-                        newHealthRecord.type === 'file'
+                      onClick={() => setNewHealthRecord({ ...newHealthRecord, type: 'file' })}
+                      className={`p-2 rounded-lg border text-xs ${newHealthRecord.type === 'file'
                           ? 'bg-pink-500 text-white border-pink-500'
                           : 'bg-white border-gray-200'
-                      }`}
+                        }`}
                     >
                       <i className="ri-file-upload-line mr-1"></i>
                       Upload File
@@ -589,7 +583,7 @@ export default function Profile() {
                       <input
                         type="text"
                         value={newHealthRecord.name}
-                        onChange={(e) => setNewHealthRecord({...newHealthRecord, name: e.target.value})}
+                        onChange={(e) => setNewHealthRecord({ ...newHealthRecord, name: e.target.value })}
                         placeholder="e.g., Blood Test Report"
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                       />
@@ -599,7 +593,7 @@ export default function Profile() {
                       <input
                         type="date"
                         value={newHealthRecord.date}
-                        onChange={(e) => setNewHealthRecord({...newHealthRecord, date: e.target.value})}
+                        onChange={(e) => setNewHealthRecord({ ...newHealthRecord, date: e.target.value })}
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                       />
                     </div>
@@ -607,7 +601,7 @@ export default function Profile() {
                       <label className="block text-xs font-medium text-gray-700 mb-2">Record Details *</label>
                       <textarea
                         value={newHealthRecord.textContent}
-                        onChange={(e) => setNewHealthRecord({...newHealthRecord, textContent: e.target.value})}
+                        onChange={(e) => setNewHealthRecord({ ...newHealthRecord, textContent: e.target.value })}
                         placeholder="Enter test results, symptoms, diagnosis, or any health-related information..."
                         rows={5}
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300 resize-none"
@@ -620,7 +614,7 @@ export default function Profile() {
                           alert('Please fill in all required fields');
                           return;
                         }
-                        
+
                         // Analyze text content for medical issues
                         const textLower = newHealthRecord.textContent.toLowerCase();
                         let detectedIssues: string[] = [];
@@ -665,7 +659,7 @@ export default function Profile() {
                           date: newHealthRecord.date,
                           result: detectedIssues.length > 0 ? detectedIssues[0] : 'Normal',
                           value: newHealthRecord.textContent.substring(0, 100) + '...',
-                          recommendation: detectedIssues.length > 0 
+                          recommendation: detectedIssues.length > 0
                             ? `Based on your record, we recommend consulting with a ${suggestedDocs[0]?.specialty || 'specialist'}`
                             : 'No immediate concerns detected',
                           fileUrl: null,
@@ -673,7 +667,7 @@ export default function Profile() {
                         };
 
                         setHealthRecords([...healthRecords, newRecord]);
-                        
+
                         if (suggestedDocs.length > 0) {
                           setSuggestedDoctors(suggestedDocs);
                         }
@@ -707,7 +701,7 @@ export default function Profile() {
                       <input
                         type="text"
                         value={newHealthRecord.name}
-                        onChange={(e) => setNewHealthRecord({...newHealthRecord, name: e.target.value})}
+                        onChange={(e) => setNewHealthRecord({ ...newHealthRecord, name: e.target.value })}
                         placeholder="e.g., Blood Test Report"
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                       />
@@ -717,7 +711,7 @@ export default function Profile() {
                       <input
                         type="date"
                         value={newHealthRecord.date}
-                        onChange={(e) => setNewHealthRecord({...newHealthRecord, date: e.target.value})}
+                        onChange={(e) => setNewHealthRecord({ ...newHealthRecord, date: e.target.value })}
                         className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50 focus:border-pink-300"
                       />
                     </div>
@@ -730,7 +724,7 @@ export default function Profile() {
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              setNewHealthRecord({...newHealthRecord, file});
+                              setNewHealthRecord({ ...newHealthRecord, file });
                               const reader = new FileReader();
                               reader.onload = (event) => {
                                 const fileUrl = event.target?.result as string;
@@ -802,7 +796,7 @@ export default function Profile() {
                           date: newHealthRecord.date,
                           result: 'Pending Review',
                           value: '',
-                          recommendation: suggestedDocs.length > 0 
+                          recommendation: suggestedDocs.length > 0
                             ? `Based on your report, we recommend consulting with ${suggestedDocs[0].specialty}`
                             : 'Please consult with a healthcare professional',
                           fileUrl: newHealthRecord.fileUrl,

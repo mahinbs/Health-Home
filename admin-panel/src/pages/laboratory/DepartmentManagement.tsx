@@ -89,7 +89,7 @@ export default function DepartmentManagement() {
                         <div
                             key={dept.id}
                             onClick={() => setSelectedDept(dept)}
-                            className={`p-6 rounded-[32px] border-2 cursor-pointer transition-all duration-300 group ${selectedDept?.id === dept.id ? 'border-primary bg-primary/5 shadow-xl shadow-primary/5' : 'border-white/60 bg-white/40 hover:border-primary/20'}`}
+                            className={`p-6 rounded-[32px] border-2 cursor-pointer transition-all duration-300 group ${selectedDept?.id === dept.id ? 'border-primary bg-primary/5 shadow-xl shadow-primary/5' : 'border-gray-200 bg-white/40 hover:border-primary/20'}`}
                         >
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
@@ -115,7 +115,7 @@ export default function DepartmentManagement() {
                 {/* Test List for Selected Department */}
                 <div className="lg:col-span-2">
                     {selectedDept ? (
-                        <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-[40px] p-8 shadow-sm h-full">
+                        <div className="bg-white/40 backdrop-blur-xl border border-gray-200 rounded-[40px] p-8 shadow-sm h-full">
                             <div className="flex items-center justify-between mb-8">
                                 <div className="flex items-center gap-4">
                                     <div className="p-3 rounded-xl bg-primary text-white">
@@ -165,7 +165,7 @@ export default function DepartmentManagement() {
                             </div>
                         </div>
                     ) : (
-                        <div className="h-full min-h-[400px] flex flex-col items-center justify-center bg-white/40 backdrop-blur-xl border border-white/60 rounded-[40px] text-gray-400 border-dashed">
+                        <div className="h-full min-h-[400px] flex flex-col items-center justify-center bg-white/40 backdrop-blur-xl border border-gray-200 rounded-[40px] text-gray-400 border-dashed">
                             <ChevronRight size={48} className="mb-4 opacity-10" />
                             <p className="font-bold uppercase tracking-widest text-sm">Select a department to view tests</p>
                         </div>

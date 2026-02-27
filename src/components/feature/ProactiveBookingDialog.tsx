@@ -44,7 +44,7 @@ export default function ProactiveBookingDialog({
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+            className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors"
           >
             <i className="ri-close-line text-gray-600"></i>
           </button>
@@ -58,22 +58,19 @@ export default function ProactiveBookingDialog({
               <button
                 key={service.id}
                 onClick={() => setSelectedService(service)}
-                className={`w-full p-4 rounded-xl border-2 transition-all duration-300 text-left ${
-                  selectedService?.id === service.id
+                className={`w-full p-4 rounded-xl border-2 transition-all duration-300 text-left ${selectedService?.id === service.id
                     ? 'border-pink-500 bg-pink-50 shadow-md'
                     : 'border-gray-200 bg-white hover:border-pink-300'
-                }`}
+                  }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3 flex-1">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      selectedService?.id === service.id
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${selectedService?.id === service.id
                         ? 'bg-pink-500'
                         : 'bg-gray-100'
-                    }`}>
-                      <i className={`${service.icon} ${
-                        selectedService?.id === service.id ? 'text-white' : 'text-gray-600'
-                      } text-lg`}></i>
+                      }`}>
+                      <i className={`${service.icon} ${selectedService?.id === service.id ? 'text-white' : 'text-gray-600'
+                        } text-lg`}></i>
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-900 text-sm mb-1">{service.name}</h3>
@@ -107,7 +104,7 @@ export default function ProactiveBookingDialog({
                 onNo();
                 onClose();
               }}
-              className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+              className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-white/40 transition-colors"
             >
               No, Continue
             </button>
