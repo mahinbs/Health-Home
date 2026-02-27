@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
+import { useAuth } from '../../context/AuthContext';
 import {
     Stethoscope,
     Building2,
@@ -27,8 +28,11 @@ const roles = [
     { id: 'hospital', title: 'Hospital', icon: Building2, color: 'text-purple-500 bg-purple-50' },
 ];
 
+
+
 export default function Login() {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [selectedRole, setSelectedRole] = useState(roles[1].id); // Default to Doctor
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -36,6 +40,7 @@ export default function Login() {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         // Simulate login based on selected role
+        login(email, selectedRole);
         navigate(`/${selectedRole}/overview`);
     };
 

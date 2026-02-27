@@ -8,10 +8,12 @@ import {
     DollarSign,
     Star,
     Tag,
-    PersonStanding
+    PersonStanding,
+    ShieldCheck
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
+import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
@@ -25,6 +27,7 @@ const PHYSIO_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Bookings', path: '/physiotherapist/bookings' },
     { icon: Clock, label: 'Availability', path: '/physiotherapist/availability' },
     { icon: Tag, label: 'Therapies & Fees', path: '/physiotherapist/services' },
+    { icon: ShieldCheck, label: 'Verification', path: '/physiotherapist/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/physiotherapist/earnings' },
     { icon: Star, label: 'Reviews', path: '/physiotherapist/reviews' },
     { icon: UserCircle, label: 'Profile', path: '/physiotherapist/profile' },
@@ -58,6 +61,7 @@ export default function PhysiotherapistDashboard() {
                 <Route path="availability" element={
                     <AvailabilityManagement showMultiCity={false} showHomeToggle={true} showServiceRadius={true} />
                 } />
+                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}

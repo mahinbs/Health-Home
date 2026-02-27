@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, LogOut, X, Bell, User as UserIcon } from 'lucide-react';
+import { Menu, LogOut, X, Bell, User as UserIcon, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../ui/Button';
 import { UserRole } from '../../types/auth';
+import { useAuth } from '../../context/AuthContext';
 
 interface SidebarItem {
     icon: any;
@@ -24,8 +25,10 @@ export function DashboardLayout({ children, userName = "Professional", role, sid
     const navigate = useNavigate();
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+    const { logout } = useAuth();
 
     const handleSignOut = () => {
+        logout();
         navigate('/login');
     };
 
@@ -175,7 +178,43 @@ export function DashboardLayout({ children, userName = "Professional", role, sid
 
                 {/* Dashboard Content */}
                 <main className="flex-1 overflow-y-auto p-6 lg:p-10 no-scrollbar">
-                    <div className="max-w-7xl mx-auto">
+                    <div className="max-w-7xl mx-auto space-y-6">
+                        {/* Verification Notice */}
+                        {role !== UserRole.ADMIN && useAuth().user?.verificationStatus !== 'approved' && (
+                            <div className={`p-4 rounded-2xl flex items-center justify-between border ${useAuth().user?.verificationStatus === 'pending'
+                                ? 'bg-orange-50 border-orange-100 text-orange-800'
+                                : useAuth().user?.verificationStatus === 'rejected'
+                                    ? 'bg-rose-50 border-rose-100 text-rose-800'
+                                    : 'bg-primary/5 border-primary/10 text-primary'
+                                }`}>
+                                <div className="flex items-center gap-3">
+                                    <ShieldCheck size={20} />
+                                    <div>
+                                        <p className="text-sm font-bold leading-none">
+                                            {useAuth().user?.verificationStatus === 'pending'
+                                                ? 'Account Verification in Progress'
+                                                : useAuth().user?.verificationStatus === 'rejected'
+                                                    ? 'Verification Rejected'
+                                                    : 'Verify Your Professional Profile'}
+                                        </p>
+                                        <p className="text-[10px] font-semibold opacity-80 mt-1">
+                                            {useAuth().user?.verificationStatus === 'pending'
+                                                ? 'Complete verification is required to be visible to patients.'
+                                                : useAuth().user?.verificationStatus === 'rejected'
+                                                    ? 'Please review and re-submit your documents.'
+                                                    : 'Submit your certificates to activate your account.'}
+                                        </p>
+                                    </div>
+                                </div>
+                                <Link
+                                    to={`/${role.toLowerCase().replace('_', '-')}/verification`}
+                                    className="px-4 py-2 rounded-xl bg-white/50 hover:bg-white text-[10px] font-black uppercase tracking-widest transition-all"
+                                >
+                                    {useAuth().user?.verificationStatus === 'not_started' ? 'Verify Now' : 'Check Status'}
+                                </Link>
+                            </div>
+                        )}
+
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}

@@ -10,10 +10,12 @@ import {
     Clock,
     DollarSign,
     Star,
-    Tag
+    Tag,
+    ShieldCheck
 } from 'lucide-react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { DashboardOverview } from '../../components/shared/DashboardOverview';
+import Verification from '../common/Verification';
 import { BookingManagement, Booking } from '../../components/shared/BookingManagement';
 import { AvailabilityManagement } from '../../components/shared/AvailabilityManagement';
 import { ProfileManagement } from '../../components/shared/ProfileManagement';
@@ -28,6 +30,7 @@ const MO_SIDEBAR_ITEMS = [
     { icon: Calendar, label: 'Bookings', path: '/medical-officer/bookings' },
     { icon: Clock, label: 'Availability', path: '/medical-officer/availability' },
     { icon: Tag, label: 'Procedures & Fees', path: '/medical-officer/services' },
+    { icon: ShieldCheck, label: 'Verification', path: '/medical-officer/verification' },
     { icon: DollarSign, label: 'Earnings', path: '/medical-officer/earnings' },
     { icon: Star, label: 'Reviews', path: '/medical-officer/reviews' },
     { icon: UserCircle, label: 'Profile', path: '/medical-officer/profile' },
@@ -63,6 +66,7 @@ export default function MedicalOfficerDashboard() {
                 <Route path="availability" element={
                     <AvailabilityManagement showMultiCity={false} showHomeToggle={true} showServiceRadius={true} />
                 } />
+                <Route path="verification" element={<Verification />} />
                 <Route path="services" element={
                     <ServicePricingManagement
                         services={MOCK_SERVICES}

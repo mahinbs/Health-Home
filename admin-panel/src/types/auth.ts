@@ -15,6 +15,7 @@ export interface User {
     email: string;
     name: string;
     role: UserRole;
+    verificationStatus: 'not_started' | 'pending' | 'approved' | 'rejected';
 }
 
 export interface AuthState {
